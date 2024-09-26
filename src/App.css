@@ -2,5 +2,7 @@
     --ATUGreen: #115740;
     --ATUGold: #FFCD00;
 
-    --form-text-color: #777;
+    --font-color-primary: #333;
+
+    --form-text-color: var(--font-color-primary);
 }
