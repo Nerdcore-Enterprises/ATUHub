@@ -14,6 +14,9 @@
 2. Run **`npm install`**.
 3. Done. It should open in your default browser.
 
+# TailwindCSS
+Please refer to [Tailwind Documentation](https://tailwindcss.com) for more information.
+
 > *To view the app on a device, open Inspect Element `(F12 or CTRL + SHIFT + I)`, and select toogle the device toolbar.*
 
 &nbsp;
