@@ -30,6 +30,8 @@ function App() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Submit form data to backend (database)
     };
 
     const togglePasswordVisibility = () => {

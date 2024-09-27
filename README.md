@@ -16,6 +16,9 @@
 
 > *To view the app on a device, open Inspect Element `(F12 or CTRL + SHIFT + I)`, and select toogle the device toolbar.*
 
+# Tailwind
+Refer to the [TailwindCSS documentation](https://tailwindcss.com) for help.
+
 &nbsp;
 ### If you have any issues, please refer to the [Issues](https://github.com/Nerdcore-Enterprises/ATUHub/issues) tab.
 &nbsp;
