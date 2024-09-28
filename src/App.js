@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+
+// Stylesheet
 import './App.css';
 
 // Images
@@ -7,7 +10,21 @@ import logo from './assets/logos/vertical.png';
 import hide from './assets/icons/hide.png'
 import show from './assets/icons/show.png'
 
+// Pages
+import HomePage from './pages/Home';
+
 function App() {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<SignUpSignInPage />} />
+                <Route path="/home" element={<HomePage />} />
+            </Routes>
+        </Router>
+    );
+}
+
+function SignUpSignInPage() {
     const [isSignup, setIsSignup] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -15,6 +32,8 @@ function App() {
     const [password, setPassword] = useState('');
     const [formFilled, setFormFilled] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isSignup) {
@@ -32,6 +51,8 @@ function App() {
         e.preventDefault();
 
         // Submit form data to backend (database)
+
+        navigate('/home');
     };
 
     const togglePasswordVisibility = () => {
@@ -43,10 +64,10 @@ function App() {
             <img src={background} alt="Background" className="absolute w-screen h-screen object-cover" />
 
             <div className="relative flex flex-col items-center justify-center h-full">
-                <div className="p-8 rounded-lg max-w-md w-full bg-opacity-90">
-                    <img src={logo} alt="ATUHub" className="mx-auto w-64 h-auto" />
+                <div className="px-8 rounded-lg md:w-auto w-full bg-opacity-90">
+                    <img src={logo} alt="ATUHub" className="mx-auto w-48 h-auto" />
 
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className="flex flex-col">
                         {isSignup && (
                             <>
                                 <input
@@ -54,14 +75,14 @@ function App() {
                                     placeholder="First Name"
                                     value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
-                                    className="w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                    className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
                                 />
                                 <input
                                     type="text"
                                     placeholder="Last Name"
                                     value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
-                                    className="w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                    className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
                                 />
                             </>
                         )}
@@ -72,7 +93,7 @@ function App() {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
                             />
 
                             <div className="relative">
@@ -81,7 +102,7 @@ function App() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                    className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
                                 />
                                 <button
                                     type="button"
@@ -89,9 +110,9 @@ function App() {
                                     onClick={togglePasswordVisibility}
                                 >
                                     {showPassword ? (
-                                        <img src={hide} alt="Show Password" height={28} width={28}/>
+                                        <img src={hide} alt="Show Password" height={28} width={28} />
                                     ) : (
-                                        <img src={show} alt="Show Password" height={28} width={28}/>
+                                        <img src={show} alt="Show Password" height={28} width={28} />
                                     )}
                                 </button>
                             </div>

@@ -6,3 +6,12 @@
 
     --form-text-color: var(--font-color-primary);
 }
+
+.background-fixed {
+    background-image: url('./assets/Background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    width: 100vw;
+    height: 100vh;
+}
