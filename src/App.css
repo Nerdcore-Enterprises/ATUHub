@@ -7,6 +7,10 @@
     --form-text-color: var(--font-color-primary);
 }
 
+html {
+    background-color: var(--ATUGreen);
+}
+
 .background-fixed {
     background-image: url('./assets/Background.jpg');
     background-size: cover;

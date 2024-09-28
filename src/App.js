@@ -6,7 +6,7 @@ import './App.css';
 
 // Images
 import background from './assets/Background.jpg';
-import logo from './assets/logos/vertical.png';
+import logo from './assets/logos/ATUHub-Vertical-1024.png';
 import hide from './assets/icons/hide.png'
 import show from './assets/icons/show.png'
 

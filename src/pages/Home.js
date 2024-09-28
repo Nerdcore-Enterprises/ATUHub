@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Images
-import logo from '../assets/logos/vertical.png';
+import logo from '../assets/logos/ATUHub-Vertical-1024.png';
 
 function AboutPage() {
     return (
