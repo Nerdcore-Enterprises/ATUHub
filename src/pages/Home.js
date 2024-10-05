@@ -1,5 +1,9 @@
 import React from 'react';
 
+// Stylesheet
+import '../App.css';
+import '../index.css';
+
 // Images
 import logo from '../assets/logos/ATUHub-Vertical-1024.png';
 

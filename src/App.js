@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 
 // Stylesheet
 import './App.css';
+import './index.css';
 
 // Images
 import background from './assets/Background.jpg';
@@ -60,10 +61,10 @@ function SignUpSignInPage() {
     };
 
     return (
-        <div className="relative w-screen h-screen font-sans">
-            <img src={background} alt="Background" className="absolute w-screen h-screen object-cover" />
+        <div className="relative w-screen h-screen font-sans m-0">
+            <img src={background} alt="Background" className="absolute w-screen h-screen object-cover top-0 left-0 z-0" />
 
-            <div className="relative flex flex-col items-center justify-center h-full">
+            <div className="relative flex flex-col items-center justify-center h-full z-10">
                 <div className="px-8 rounded-lg md:w-auto w-full bg-opacity-90">
                     <img src={logo} alt="ATUHub" className="mx-auto w-48 h-auto" />
 
@@ -75,14 +76,14 @@ function SignUpSignInPage() {
                                     placeholder="First Name"
                                     value={firstName}
                                     onChange={(e) => setFirstName(e.target.value)}
-                                    className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                    className="md:w-72 w-full px-6 py-3 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] text-sm"
                                 />
                                 <input
                                     type="text"
                                     placeholder="Last Name"
                                     value={lastName}
                                     onChange={(e) => setLastName(e.target.value)}
-                                    className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                    className="md:w-72 w-full px-6 py-3 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] text-sm"
                                 />
                             </>
                         )}
@@ -93,7 +94,7 @@ function SignUpSignInPage() {
                                 placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                className="md:w-72 w-full px-6 py-3 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] text-sm"
                             />
 
                             <div className="relative">
@@ -102,7 +103,7 @@ function SignUpSignInPage() {
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="md:w-96 w-full px-6 py-4 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)]"
+                                    className="md:w-72 w-full px-6 py-3 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] text-sm"
                                 />
                                 <button
                                     type="button"
@@ -110,9 +111,9 @@ function SignUpSignInPage() {
                                     onClick={togglePasswordVisibility}
                                 >
                                     {showPassword ? (
-                                        <img src={hide} alt="Show Password" height={28} width={28} />
+                                        <img src={hide} alt="Show Password" height={20} width={20} />
                                     ) : (
-                                        <img src={show} alt="Show Password" height={28} width={28} />
+                                        <img src={show} alt="Show Password" height={20} width={20} />
                                     )}
                                 </button>
                             </div>
@@ -120,14 +121,14 @@ function SignUpSignInPage() {
 
                         <div className="flex flex-col space-y-4 justify-between">
                             <button
-                                className={`${formFilled ? 'bg-[var(--ATUGreen)] text-white cursor-pointer' : 'bg-[#11574044] text-[#ffffff44] cursor-not-allowed'} text-lg font-bold py-4 rounded-full drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] transition-colors duration-300`}
+                                className={`${formFilled ? 'bg-[var(--ATUGreen)] text-white cursor-pointer' : 'bg-[#22222222] text-[#ffffff77] cursor-not-allowed'} text-md font-bold py-4 rounded-full drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] transition-colors duration-500`}
                                 type="submit"
                                 disabled={!formFilled}
                             >
                                 {isSignup ? "Sign up" : "Sign in"}
                             </button>
                             <button
-                                className="w-fit px-4 self-center text-white text-lg font-bold rounded-full drop-shadow-[0_3px_2px_rgba(0,0,0,0.8)]"
+                                className="w-fit px-4 self-center text-white text-sm font-bold rounded-full drop-shadow-[0_3px_2px_rgba(0,0,0,0.8)]"
                                 type="button"
                                 onClick={toggleForm}
                             >
