@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';
 
 // Images
-import background from './assets/Background.jpg';
-import logo from './assets/logos/ATUHub-Vertical-1024.png';
-import hide from './assets/icons/hide.png'
-import show from './assets/icons/show.png'
+import background from '.././assets/Background.jpg';
+import logo from '.././assets/logos/ATUHub-Vertical-1024.png';
+import hide from '.././assets/icons/hide.png'
+import show from '.././assets/icons/show.png'
 
-// Pages
-import HomePage from './pages/Home';
-
-function LoginPage() {
+export default function LoginPage() {
     const [isSignup, setIsSignup] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -127,5 +125,3 @@ function LoginPage() {
         </div>
     );
 }
-
-export default LoginPage;

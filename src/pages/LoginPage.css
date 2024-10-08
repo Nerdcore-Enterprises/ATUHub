@@ -22,7 +22,7 @@ html, body {
 }
 
 .background-fixed {
-    background-image: url('./assets/Background.jpg');
+    background-image: url('.././assets/Background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
