@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import './LoginPage.css';
 
 // Images
-import background from './assets/Background.jpg';
-import logo from './assets/logos/vertical.png';
-import hide from './assets/icons/hide.png'
-import show from './assets/icons/show.png'
+import background from '../.././assets/Background.jpg';
+import logo from '../.././assets/logos/vertical.png';
+import hide from '../.././assets/icons/hide.png'
+import show from '../.././assets/icons/show.png'
 
-function App() {
+function LoginPage() {
     const [isSignup, setIsSignup] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -121,4 +121,4 @@ function App() {
     );
 }
 
-export default App;
+export default LoginPage;
