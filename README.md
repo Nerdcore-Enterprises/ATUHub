@@ -1,11 +1,6 @@
 # ATUHub
 (*description in progress*)
 
-## Latest Update
-- Added a splash screen for andriod (not sure if it fully works).
-- Fixed some styling on the pages (font size, etc.)
-- Tried removing the ablity to scroll on some pages, although for some reason you still can.
-
 ## Steps for cloning repository
 ### Visual Studio Code
 1. Open a new window.

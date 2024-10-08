@@ -7,8 +7,18 @@
     --form-text-color: var(--font-color-primary);
 }
 
-html {
+html, body {
     background-color: var(--ATUGreen);
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#root {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .background-fixed {
