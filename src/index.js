@@ -2,7 +2,7 @@ import React from 'react';
 import * as ReactDOM from "react-dom/client";
 import { RouterProvider } from 'react-router-dom';
 import './index.css';
-import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import routes from './routes';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
