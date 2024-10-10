@@ -1,0 +1,19 @@
+.opened {
+    left: 0px;
+    transition: left 250ms ease-out;
+}
+
+.closed {
+    left: -100vw;
+    transition: left 250ms ease-out;
+}
+
+.sidebar{
+    filter: drop-shadow(5px 0 50px black);
+    top: 0px;
+}
+
+h1{
+    font-size: 20pt;
+    font-weight: bold;
+}
