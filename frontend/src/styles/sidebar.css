@@ -1,11 +1,11 @@
 .opened {
     left: 0px;
-    transition: left 250ms ease-out;
+    transition: left 300ms ease-out;
 }
 
 .closed {
     left: -100vw;
-    transition: left 250ms ease-out;
+    transition: left 300ms ease-in;
 }
 
 .sidebar{

@@ -1,10 +1,13 @@
+import { Routes, Route } from "react-router-dom";
+
+// Pages
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
-import { Routes, Route } from "react-router-dom";
 import WeatherPage from "./pages/WeatherPage";
 import JobsPage from "./pages/JobsPage";
-import TransportationPage from "./pages/TransportationPage.js";
+import TransportationPage from "./pages/TransportationPage";
 import DineOnCampusPage from "./pages/DineOnCampusPage";
+import NotFoundPage from "./pages/not-found";
 
 const routes = (
     <Routes>
@@ -14,6 +17,7 @@ const routes = (
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/transportation" element={<TransportationPage />} />
         <Route path="/dineoncampus" element={<DineOnCampusPage />} />
+        <Route path="*" element={<NotFoundPage />} />
     </Routes>
 )
 
