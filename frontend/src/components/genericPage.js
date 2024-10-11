@@ -1,7 +1,7 @@
 import logo from '../assets/logos/ATUHub-Vertical-1024.png';
 
 //stylesheet
-import './generic_page.css'
+import '../styles/index.css'
 
 export default function GenericPage(content){
     return (

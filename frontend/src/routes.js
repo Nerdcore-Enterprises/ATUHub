@@ -1,10 +1,9 @@
-import { createBrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import { Routes, Route } from "react-router-dom";
 import WeatherPage from "./pages/WeatherPage";
 import JobsPage from "./pages/JobsPage";
-import TransportationPage from "./pages/TransportationPage";
+import TransportationPage from "./pages/TransportationPage.js";
 import DineOnCampusPage from "./pages/DineOnCampusPage";
 
 const routes = (

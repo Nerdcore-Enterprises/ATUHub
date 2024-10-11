@@ -1,12 +1,13 @@
 import React from 'react';
-import Widget from '../components/widget';
-import GenericPage from '../components/generic_page';
+import Widget from '../components/homeWidget';
+import GenericPage from '../components/genericPage';
 
 export default function WeatherPage() {
     return (
         <>
-            {new GenericPage(<>
-                    {new Widget(<><h1 className="text-xl">weather here</h1></>)}
+            {new GenericPage(
+                <>
+                    {new Widget(<p className="text-xl">Weather</p>)}
                 </>
             )}
         </>
