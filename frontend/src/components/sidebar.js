@@ -35,7 +35,7 @@ export default function Sidebar() {
                 <button onClick={() => handleNav('dineoncampus')} className="w-full text-left">
                     {new NavWidget(<><FontAwesomeIcon icon={faUtensils} className="py-4 w-16"/><p>DineOnCampus</p></>, 'p-4 rounded-full shadow-[0_0_1vh_rgba(0,0,0,0.5)]')}
                 </button>
-                <button onClick={() => handleNav('transporation')} className="w-full text-left">
+                <button onClick={() => handleNav('transportation')} className="w-full text-left">
                     {new NavWidget(<><FontAwesomeIcon icon={faCar} className="py-4 w-16"/><p>Transportation</p></>, 'p-4 rounded-full shadow-[0_0_1vh_rgba(0,0,0,0.5)]')}
                 </button>
                 <button onClick={() => handleNav('jobs')} className="w-full text-left">
