@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
 // Icons
 import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -24,8 +24,8 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className={(isSidebarOpen ? 'opened' : 'closed') + " sidebar h-screen absolute w-4/5 bg-zinc-300 space-y-4 p-4 shadow-[0_0_5vh_rgba(0,0,0,0.7)]"}>
-                <img src={logo} alt="ATUHub" className="m-auto w-11/12 max-w-screen-md invert cursor-pointer" onClick={() => handleNav('home/')}></img>
+            <div className={(isSidebarOpen ? 'opened' : 'closed') + " sidebar h-screen absolute max-w-80 bg-zinc-300 space-y-4 p-4 shadow-[0_0_5vh_rgba(0,0,0,0.7)]"}>
+                <img src={logo} alt="ATUHub" className="m-auto w-64 max-w-screen-md invert cursor-pointer" onClick={() => handleNav('home/')}></img>
 
                 <div className="bg-zinc-600 h-1 mt-auto rounded-full"></div>
 

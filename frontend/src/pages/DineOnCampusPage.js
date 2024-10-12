@@ -1,15 +1,30 @@
-import React from 'react';
-import Widget from '../components/homeWidget';
+import React, { useEffect, useState } from 'react';
+import { fetchHours } from '../scripts/DineOnCampus';
+
+import Header from '../components/header';
+import Widget from '../components/DineOnCampus/PageWidget';
 import GenericPage from '../components/genericPage';
 
 export default function DineOnCampusPage() {
+    const [locationsHours, setLocationsHours] = useState([]);
+    const [earliestStart, setEarliestStart] = useState(null);
+    const [latestEnd, setLatestEnd] = useState(null);
+
+    useEffect(() => {
+        const loadHours = async () => {
+            const { earliestStart, latestEnd, locationsHours } = await fetchHours();
+            setEarliestStart(earliestStart);
+            setLatestEnd(latestEnd);
+            setLocationsHours(locationsHours);
+        };
+
+        loadHours();
+    }, []);
+
     return (
-        <>
-            {new GenericPage(
-                <>
-                    {new Widget(<p className="text-xl rounded-full w-full h-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] p-4">DineOnCampus</p>)}
-                </>
-            )}
-        </>
+        <GenericPage>
+            <Header title="DineOnCampus" />
+            <Widget locations={locationsHours} earliestStart={earliestStart} latestEnd={latestEnd} />
+        </GenericPage>
     );
 }
