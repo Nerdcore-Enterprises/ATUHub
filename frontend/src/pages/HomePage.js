@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchHours } from '../scripts/DineOnCampus';
+import { fetchHours } from '../scripts/dineoncampus';
 
 import Widget from '../components/homeWidget';
 import GenericPage from '../components/genericPage';

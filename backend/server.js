@@ -1,9 +1,23 @@
 import express from 'express';
 import fetch from 'node-fetch';
 import cors from 'cors';
+import os from 'os';
+
+function getLocalIp() {
+    const interfaces = os.networkInterfaces();
+    for (const interfaceName in interfaces) {
+        for (const net of interfaces[interfaceName]) {
+            if (net.family === 'IPv4' && !net.internal) {
+                return net.address;
+            }
+        }
+    }
+    return '127.0.0.1';
+}
 
 const app = express();
 const PORT = 5000;
+const clientIp = getLocalIp();
 
 console.clear();
 
@@ -43,6 +57,6 @@ app.get('/api/hours', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(PORT, clientIp, () => {
+    console.log(`Server is running on http://${clientIp}:${PORT}`);
 });

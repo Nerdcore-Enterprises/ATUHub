@@ -1,58 +1,62 @@
 export const fetchHours = async () => {
     try {
-        const response = await fetch('http://localhost:5000/api/hours');
+        const response = await fetch('http://10.102.9.213:5000/api/hours');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
 
         const data = await response.json();
-        console.log('Hours Data:', JSON.stringify(data, null, 2));
-
         const now = new Date();
-        const currentTime = now.getHours() * 60 + now.getMinutes();
+        const currentTimeInMinutes = now.getHours() * 60 + now.getMinutes();
 
         const updatedLocations = data.map(location => {
             const todayHours = location.today.hours;
-            const isOpen = todayHours.length > 0 && !location.today.closed;
+            let isOpen = false;
+            let openingTimeInMinutes = null;
+            let closingTimeInMinutes = null;
+            let statusMessage = 'Closed';
 
-            let closingTime = '';
-            if (isOpen) {
-                const lastHours = todayHours[todayHours.length - 1];
-                const closeHour = lastHours.end_hour;
-                const closeMinutes = lastHours.end_minutes;
-                const closingTimeInMinutes = closeHour * 60 + closeMinutes;
-                const timeLeft = closingTimeInMinutes - currentTime;
+            if (todayHours.length > 0 && !location.today.closed) {
+                const openingHours = todayHours[0];
+                const closingHours = todayHours[todayHours.length - 1];
+                
+                openingTimeInMinutes = openingHours.start_hour * 60 + openingHours.start_minutes;
+                closingTimeInMinutes = closingHours.end_hour * 60 + closingHours.end_minutes;
 
-                if (timeLeft > 0) {
-                    const hoursLeft = Math.floor(timeLeft / 60);
-                    const minutesLeft = timeLeft % 60;
-                    closingTime = `${hoursLeft} hours and ${minutesLeft} minutes left until closing`;
-                } else {
-                    closingTime = 'Closed today';
+                if (currentTimeInMinutes >= openingTimeInMinutes && currentTimeInMinutes < closingTimeInMinutes) {
+                    isOpen = true;
+                    statusMessage = 'Open';
+                } else if (currentTimeInMinutes < openingTimeInMinutes && openingTimeInMinutes - currentTimeInMinutes <= 60) {
+                    const minutesToOpen = openingTimeInMinutes - currentTimeInMinutes;
+                    statusMessage = `Opening in ${minutesToOpen} minutes`;
+                } else if (currentTimeInMinutes >= closingTimeInMinutes - 60 && currentTimeInMinutes < closingTimeInMinutes) {
+                    const minutesToClose = closingTimeInMinutes - currentTimeInMinutes;
+                    statusMessage = `Closing in ${minutesToClose} minutes`;
                 }
             }
 
             const cleanedName = location.name
-                .replace(/We Proudly Serve/i, '')
+                .replace(/'We Proudly Serve'/i, '')
                 .replace(/- Baz Tech/i, '')
                 .replace(/- Hull/i, '')
                 .trim();
 
             return {
                 name: cleanedName,
-                closingTime: isOpen ? closingTime : 'Closed today',
-                isOpen: isOpen,
+                statusMessage,
+                isOpen,
+                openingTimeInMinutes,
+                closingTimeInMinutes,
                 todayHours,
             };
         });
 
+        // Calculate earliest and latest hours for the widget header
         let earliestStartHour = null;
         let latestEndHour = null;
 
         updatedLocations.forEach(location => {
-            const todayHours = location.todayHours;
-
-            todayHours.forEach(hour => {
+            location.todayHours.forEach(hour => {
                 const startHourInMinutes = hour.start_hour * 60 + hour.start_minutes;
                 const endHourInMinutes = hour.end_hour * 60 + hour.end_minutes;
 
@@ -70,7 +74,7 @@ export const fetchHours = async () => {
             const hours = Math.floor(timeInMinutes / 60);
             const minutes = timeInMinutes % 60;
             const period = hours >= 12 ? 'PM' : 'AM';
-            const formattedHour = hours % 12 === 0 ? 12 : hours % 12; // convert 0 to 12
+            const formattedHour = hours % 12 === 0 ? 12 : hours % 12;
             const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
             return `${formattedHour}:${formattedMinutes} ${period}`;
         };

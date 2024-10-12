@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchHours } from '../scripts/DineOnCampus';
+import { fetchHours } from '../scripts/dineoncampus';
 
 import Header from '../components/header';
 import Widget from '../components/DineOnCampus/PageWidget';
