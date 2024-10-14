@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchHours } from '../scripts/dineoncampus';
+import { fetchHours } from '../scripts/DineOnCampus';
 
 import Header from '../components/header';
 import Widget from '../components/DineOnCampus/PageWidget';
@@ -24,6 +24,7 @@ export default function DineOnCampusPage() {
     return (
         <GenericPage>
             <Header title="DineOnCampus" />
+            <Widget locations={locationsHours} earliestStart={earliestStart} latestEnd={latestEnd} />
             <Widget locations={locationsHours} earliestStart={earliestStart} latestEnd={latestEnd} />
         </GenericPage>
     );
