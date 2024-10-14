@@ -2,7 +2,9 @@ import React from 'react';
 import Widget from '../components/homeWidget';
 import GenericPage from '../components/genericPage';
 import WeatherAPI from '../scripts/weather';
+import WeatherListItem from '../components/weatherListItem';
 import { useState, useEffect } from 'react';
+import '../styles/weather.css'
 
 export default function WeatherPage() {
     const [data, setData] = useState(null)
@@ -33,16 +35,26 @@ export default function WeatherPage() {
                         </div>
                     </div>
                         {new Widget(
-                            <ul>
-                                {data.periods.map(period => {
+                            <>
+                            <h1>This Weeks Forecast</h1>
+                            <ul className='inline-flex overflow-hidden w-full overflow-x-auto weather-scroll'>
+                                {data.periods.map((period, index) => {
+                                    if (index % 2 === 1) return;
                                     return (
-                                        <li>{period.name} {period.temperature} {period.startTime} {period.endTime} {period.shortForecast}</li>
+                                        <>
+                                            {new WeatherListItem(period.name, period.temperature, data.periods[index+1].temperature, period.shortForecast)}
+                                        </>
+                                        // <li>{period.name} {period.temperature} {period.startTime} {period.endTime} {period.shortForecast}</li>
                                     );
                                 })}
                             </ul>
-                        )}
+                            </>
+                        , "p-4")}
                         {new Widget(
-                            <img src={data.radar}></img>
+                            <>
+                                <img src={data.radar}></img>
+                                radar goes here LOL
+                            </>
                         )}
                 </>
                 }
