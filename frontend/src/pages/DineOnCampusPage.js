@@ -25,7 +25,6 @@ export default function DineOnCampusPage() {
         <GenericPage>
             <Header title="DineOnCampus" />
             <Widget locations={locationsHours} earliestStart={earliestStart} latestEnd={latestEnd} />
-            <Widget locations={locationsHours} earliestStart={earliestStart} latestEnd={latestEnd} />
         </GenericPage>
     );
 }
