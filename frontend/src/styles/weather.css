@@ -1,6 +1,5 @@
-::-webkit-scrollbar{
-    /* //display:none; */
-}
 .weather-scroll{
-    box-shadow: inset -5px 0 20px 0px black;
+    background: linear-gradient(to left,rgb(200,200,200), transparent 20%);
+    scrollbar-color: #FFCD00 #333333;
+    scrollbar-width: thin;
 }
