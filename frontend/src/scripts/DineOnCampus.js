@@ -1,9 +1,6 @@
 export const fetchHours = async () => {
     try {
-        const response = await fetch('http://10.102.9.213:5000/api/hours');
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
+        const response = await fetch('http://10.102.9.213:5000/api/hours');// TODO!!! Make sure the IP address is automatically correct
 
         const data = await response.json();
         const now = new Date();
@@ -37,8 +34,6 @@ export const fetchHours = async () => {
 
             const cleanedName = location.name
                 .replace(/'We Proudly Serve'/i, '')
-                .replace(/- Baz Tech/i, '')
-                .replace(/- Hull/i, '')
                 .trim();
 
             return {
@@ -51,7 +46,6 @@ export const fetchHours = async () => {
             };
         });
 
-        // Calculate earliest and latest hours for the widget header
         let earliestStartHour = null;
         let latestEndHour = null;
 
@@ -79,8 +73,8 @@ export const fetchHours = async () => {
             return `${formattedHour}:${formattedMinutes} ${period}`;
         };
 
-        const earliestStartTime = earliestStartHour !== null ? formatTime(earliestStartHour) : 'N/A';
-        const latestEndTime = latestEndHour !== null ? formatTime(latestEndHour) : 'N/A';
+        const earliestStartTime = earliestStartHour !== null ? formatTime(earliestStartHour) : null;
+        const latestEndTime = latestEndHour !== null ? formatTime(latestEndHour) : null;
 
         return {
             earliestStart: earliestStartTime,

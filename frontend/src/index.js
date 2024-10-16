@@ -2,6 +2,7 @@ import { BrowserRouter, useLocation } from 'react-router-dom';
 
 import React from 'react';
 import * as ReactDOM from "react-dom/client";
+import './styles/default.css'
 import './styles/index.css';
 import routes from './routes';
 import Sidebar from './components/sidebar';

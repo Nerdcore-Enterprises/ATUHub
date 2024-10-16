@@ -1,8 +1,5 @@
 import logo from '../assets/logos/ATUHub-Vertical-1024.png';
 
-//stylesheet
-import '../styles/index.css';
-
 export default function GenericPage({ children }) {
     return (
         <div className="background-fixed relative w-screen h-screen font-sans">
