@@ -57,6 +57,33 @@ app.get('/api/hours', async (req, res) => {
     }
 });
 
+app.get('/api/chambers/menu', async (req, res) => {
+    try {
+        const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
+
+        const url = `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods?platform=0&date=${today}`;
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            console.error(`Error: Received status ${response.status} from API`);
+            return res.status(response.status).send('Error fetching Chambers menu data');
+        }
+
+        const menuData = await response.json();
+
+        const categorizedMenu = menuData.menu.periods.categories.map(category => ({
+            category: category.name,
+            items: category.items.map(item => item.name),
+        }));
+
+        res.json(categorizedMenu);
+    } catch (error) {
+        console.error('Error fetching Chambers menu data', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.listen(PORT, clientIp, () => {
     console.log(`Server is running on http://${clientIp}:${PORT}`);
 });

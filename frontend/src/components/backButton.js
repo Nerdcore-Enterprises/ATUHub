@@ -13,7 +13,7 @@ export default function BackButton() {
     };
 
     return (
-        <button onClick={handleBackClick} className="bg-white rounded-full p-4 w-16 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+        <button onClick={handleBackClick} className="bg-white rounded-full text-xl px-6 py-4 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
             <FontAwesomeIcon icon={faChevronLeft} />
         </button>
     );

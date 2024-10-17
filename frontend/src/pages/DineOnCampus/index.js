@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { fetchHours } from '../scripts/DineOnCampus';
+import { fetchHours } from '../../scripts/DineOnCampus';
 
-import Header from '../components/header';
-import Widget from '../components/DineOnCampus/PageWidget';
-import GenericPage from '../components/genericPage';
+import Header from '../../components/header';
+import Widget from '../../components/DineOnCampus/PageWidget';
+import GenericPage from '../../components/genericPage';
 
 export default function DineOnCampusPage() {
     const [chambersHours, setChambersHours] = useState([]);

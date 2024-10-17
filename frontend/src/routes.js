@@ -6,7 +6,8 @@ import LoginPage from "./pages/LoginPage";
 import WeatherPage from "./pages/WeatherPage";
 import JobsPage from "./pages/JobsPage";
 import TransportationPage from "./pages/TransportationPage";
-import DineOnCampusPage from "./pages/DineOnCampusPage";
+import DineOnCampusPage from "./pages/DineOnCampus/index";
+import DineOnCampusMenuPage from "./pages/DineOnCampus/menu";
 import NotFoundPage from "./pages/not-found";
 
 const routes = (
@@ -17,6 +18,7 @@ const routes = (
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/transportation" element={<TransportationPage />} />
         <Route path="/dineoncampus" element={<DineOnCampusPage />} />
+        <Route path="/dineoncampus/menu" element={<DineOnCampusMenuPage />} />
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
 )

@@ -90,3 +90,21 @@ export const fetchHours = async () => {
         };
     }
 };
+
+export const fetchChambersMenu = async () => {
+    try {
+        const response = await fetch('http://10.102.9.213:5000/api/chambers/menu');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const menuData = await response.json();
+
+        console.log(JSON.stringify(menuData, null, 2));
+
+        return menuData;
+    } catch (error) {
+        console.error('Error fetching Chambers menu:', error);
+        return [];
+    }
+};
