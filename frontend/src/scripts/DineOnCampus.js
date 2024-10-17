@@ -1,6 +1,6 @@
 export const fetchHours = async () => {
     try {
-        const response = await fetch('http://10.102.9.213:5000/api/hours');// TODO!!! Make sure the IP address is automatically correct
+        const response = await fetch('http://10.102.9.213:5000/api/hours');
 
         const data = await response.json();
         const now = new Date();
@@ -16,7 +16,7 @@ export const fetchHours = async () => {
             if (todayHours.length > 0 && !location.today.closed) {
                 const openingHours = todayHours[0];
                 const closingHours = todayHours[todayHours.length - 1];
-                
+
                 openingTimeInMinutes = openingHours.start_hour * 60 + openingHours.start_minutes;
                 closingTimeInMinutes = closingHours.end_hour * 60 + closingHours.end_minutes;
 
@@ -91,7 +91,7 @@ export const fetchHours = async () => {
     }
 };
 
-export const fetchChambersMenu = async () => {
+export const fetchMenu = async () => {
     try {
         const response = await fetch('http://10.102.9.213:5000/api/chambers/menu');
         if (!response.ok) {
