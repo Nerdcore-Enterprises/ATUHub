@@ -100,8 +100,6 @@ export const fetchMenu = async () => {
 
         const menuData = await response.json();
 
-        console.log(JSON.stringify(menuData, null, 2));
-
         return menuData;
     } catch (error) {
         console.error('Error fetching Chambers menu:', error);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchMenu } from '../../scripts/DineOnCampus';
 import Header from '../../components/header';
 import GenericPage from '../../components/genericPage';
-import MenuWidget from '../../components/DineOnCampus/MenuWidget';
+import DineOnCampusMenuWidget from '../../components/DineOnCampus/MenuWidget';
 
 export default function DineOnCampusMenuPage() {
     const [menu, setMenu] = useState([]);
@@ -20,10 +20,7 @@ export default function DineOnCampusMenuPage() {
         <GenericPage>
             <Header title="What's on the Menu" />
             <div className="space-y-4">
-                <MenuWidget
-                    menuPeriods={menu || []} // Ensure menu is always an array
-                    title="Today's Menu"
-                />
+                <DineOnCampusMenuWidget menuPeriods={menu} title="Menu" />
             </div>
         </GenericPage>
     );
