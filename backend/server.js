@@ -2,6 +2,7 @@ import express from 'express';
 import fetch from 'node-fetch';
 import cors from 'cors';
 import os from 'os';
+import mysql from 'mysql2/promise';
 
 function getLocalIp() {
     const interfaces = os.networkInterfaces();
@@ -22,6 +23,23 @@ const clientIp = getLocalIp();
 console.clear();
 
 app.use(cors());
+
+(async () => {
+    try {
+        const db = await mysql.createConnection({
+            host: '10.60.168.136',
+            user: 'dylan',
+            password: 'notdyln',
+            database: 'atuhub',
+            port: 3306
+        });
+
+        console.log("Connected to the database!");
+
+    } catch (err) {
+        console.error('Error connecting to the database:', err);
+    }
+})();
 
 app.get('/api/hours', async (req, res) => {
     try {
