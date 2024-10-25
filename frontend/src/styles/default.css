@@ -5,6 +5,8 @@
     --font-color-primary: #333;
 
     --form-text-color: var(--font-color-primary);
+
+    --shadow-primary: "0_0_0.5vh_rgba(0,0,0,0.5)";
 }
 
 html, body {
@@ -12,8 +14,14 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    position: fixed;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 #root {

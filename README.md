@@ -18,7 +18,7 @@
 ## Steps for running the app locally on your phone:
 1. Make sure you have a Wi-Fi adapter installed on your host machine.
 2. In Windows 11, navigate to your **`Network & internet`** settings -> **`Mobile hotspot`** -> *`Configure`*.
-3. On your phone, navigate to the IP address given in the terminal.
+3. On your phone, navigate to the network IP address given in the terminal.
 4. Done. It should update dynamically when changes are made in VSC.
 
 ## Tailwind

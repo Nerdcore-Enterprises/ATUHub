@@ -1,0 +1,19 @@
+{
+    "name": "atuhub",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.21.1",
+        "mysql": "^2.18.1",
+        "mysql2": "^3.11.3",
+        "node-fetch": "^3.3.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.7"
+    }
+}

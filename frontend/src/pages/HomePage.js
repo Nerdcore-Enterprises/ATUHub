@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { fetchHours } from '../scripts/DineOnCampus';
+
 import Widget from '../components/homeWidget';
 import GenericPage from '../components/genericPage';
+import DineOnCampusWidget from '../components/DineOnCampus/HomePageWidget';
 
 export default function HomePage() {
+    const [earliestStart, setEarliestStart] = useState(null);
+    const [latestEnd, setLatestEnd] = useState(null);
+
+    useEffect(() => {
+        const loadHours = async () => {
+            const { earliestStart, latestEnd } = await fetchHours();
+            setEarliestStart(earliestStart);
+            setLatestEnd(latestEnd);
+        };
+
+        loadHours();
+    }, []);
+
     return (
-        <>
-            {new GenericPage(
-                <>
-                    {new Widget(<p className="text-sm rounded-full w-full h-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] p-4">some small text here</p>)}
-                </>
-            )}
-        </>
+        <GenericPage>
+            <Widget title="🎉 Welcome to ATUHub 🎉" />
+            <DineOnCampusWidget earliestStart={earliestStart} latestEnd={latestEnd} />
+        </GenericPage>
     );
 }
