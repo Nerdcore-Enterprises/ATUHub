@@ -41,6 +41,26 @@ app.use(cors());
     }
 })();
 
+app.get('/api/get-users', async (req, res) => {
+    try {
+        const connection = await mysql.createConnection({
+            host: '10.60.168.136',
+            user: 'dylan',
+            password: 'notdyln',
+            database: 'atuhub',
+            port: 3306
+        });
+
+        const [rows] = await connection.execute('SELECT * FROM users_table;');
+
+        res.json(rows);
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.get('/api/hours', async (req, res) => {
     try {
         const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
