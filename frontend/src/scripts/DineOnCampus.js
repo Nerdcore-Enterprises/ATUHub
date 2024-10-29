@@ -1,6 +1,6 @@
 export const fetchHours = async () => {
     try {
-        const response = await fetch('http://10.102.9.213:5000/api/hours');
+        const response = await fetch('http://localhost:5000/api/hours');
 
         const data = await response.json();
         const now = new Date();
@@ -93,7 +93,7 @@ export const fetchHours = async () => {
 
 export const fetchMenu = async () => {
     try {
-        const response = await fetch('http://10.102.9.213:5000/api/chambers/menu');
+        const response = await fetch('http://localhost:5000/api/chambers/menu');
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

@@ -23,6 +23,7 @@ const clientIp = getLocalIp();
 console.clear();
 
 app.use(cors());
+app.use(express.json());
 
 (async () => {
     try {
@@ -43,6 +44,8 @@ app.use(cors());
 
 app.post('/api/signup', async (req, res) => {
     try {
+        console.log('Signup Called!');
+
         const db = await mysql.createConnection({
             host: 'localhost',
             user: 'root',
@@ -54,7 +57,7 @@ app.post('/api/signup', async (req, res) => {
         const { firstName, lastName, username, password } = req.body;
 
         const [existingUser] = await db.execute(
-            'SELECT * FROM user_table WHERE email = ?',
+            'SELECT * FROM user_table WHERE username = ?',
             [username]
         );
 
@@ -63,7 +66,7 @@ app.post('/api/signup', async (req, res) => {
         }
 
         const [result] = await db.execute(
-            'INSERT INTO user_table (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
+            'INSERT INTO user_table (firstName, lastName, username, password) VALUES (?, ?, ?, ?)',
             [firstName, lastName, username, password]
         );
 
@@ -76,6 +79,8 @@ app.post('/api/signup', async (req, res) => {
 
 app.get('/api/login', async (req, res) => {
     try {
+        console.log('Login Called!');
+
         const db = await mysql.createConnection({
             host: 'localhost',
             user: 'root',
@@ -239,6 +244,6 @@ app.get('/api/chambers/menu', async (req, res) => {
     }
 });
 
-app.listen(PORT, clientIp, () => {
-    console.log(`Server is running on http://${clientIp}:${PORT}`);
+app.listen(PORT, 'localhost', () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

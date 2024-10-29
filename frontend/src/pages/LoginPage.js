@@ -21,11 +21,11 @@ export default function LoginPage() {
 
     useEffect(() => {
         if (isSignup) {
-            setFormFilled(firstName !== '' && lastName !== '' && email !== '' && password !== '');
+            setFormFilled(firstName !== '' && lastName !== '' && username !== '' && password !== '');
         } else {
             setFormFilled(username !== '' && password !== '');
         }
-    }, [isSignup, firstName, lastName, email, password]);
+    }, [isSignup, firstName, lastName, username, password]);
 
     const toggleForm = () => {
         setIsSignup(!isSignup);
@@ -33,10 +33,8 @@ export default function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const endpoint = isSignup ? '/api/signup' : '/api/login';
-        const payload = isSignup
-            ? { name: `${firstName} ${lastName}`, username, password }
-            : { username, password };
+        const endpoint = isSignup ? 'http://localhost:5000/api/signup' : 'http://localhost:5000/api/login';
+        const payload = isSignup ? { firstName, lastName, username, password } : { username, password };
 
         try {
             const response = await fetch(endpoint, {
