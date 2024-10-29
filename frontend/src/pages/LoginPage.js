@@ -12,7 +12,7 @@ export default function LoginPage() {
     const [isSignup, setIsSignup] = useState(false);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [formFilled, setFormFilled] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -23,7 +23,7 @@ export default function LoginPage() {
         if (isSignup) {
             setFormFilled(firstName !== '' && lastName !== '' && email !== '' && password !== '');
         } else {
-            setFormFilled(email !== '' && password !== '');
+            setFormFilled(username !== '' && password !== '');
         }
     }, [isSignup, firstName, lastName, email, password]);
 
@@ -31,12 +31,29 @@ export default function LoginPage() {
         setIsSignup(!isSignup);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        const endpoint = isSignup ? '/api/signup' : '/api/login';
+        const payload = isSignup
+            ? { name: `${firstName} ${lastName}`, username, password }
+            : { username, password };
 
-        // Submit form data to backend (database)
-
-        navigate('/home');
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const data = await response.json();
+            if (data.success) {
+                navigate('/home');
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again.');
+        }
     };
 
     const togglePasswordVisibility = () => {
@@ -73,10 +90,10 @@ export default function LoginPage() {
 
                         <div className="mb-8">
                             <input
-                                type="email"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                type="username"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                                 className="md:w-72 w-full px-6 py-3 rounded-full my-2 drop-shadow-[0_3px_2px_rgba(0,0,0,0.7)] text-sm"
                             />
 

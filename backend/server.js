@@ -27,9 +27,9 @@ app.use(cors());
 (async () => {
     try {
         const db = await mysql.createConnection({
-            host: '10.60.168.136',
-            user: 'dylan',
-            password: 'notdyln',
+            host: 'localhost',
+            user: 'root',
+            password: '',
             database: 'atuhub',
             port: 3306
         });
@@ -41,20 +41,60 @@ app.use(cors());
     }
 })();
 
-app.get('/api/get-users', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
     try {
-        const connection = await mysql.createConnection({
-            host: '10.60.168.136',
-            user: 'dylan',
-            password: 'notdyln',
+        const db = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
             database: 'atuhub',
             port: 3306
         });
 
-        const [rows] = await connection.execute('SELECT * FROM users_table;');
+        const { firstName, lastName, username, password } = req.body;
 
-        res.json(rows);
-        
+        const [existingUser] = await db.execute(
+            'SELECT * FROM user_table WHERE email = ?',
+            [username]
+        );
+
+        if (existingUser.length > 0) {
+            return res.status(400).json({ success: false, message: 'Username already exists' });
+        }
+
+        const [result] = await db.execute(
+            'INSERT INTO user_table (firstName, lastName, email, password) VALUES (?, ?, ?, ?)',
+            [firstName, lastName, username, password]
+        );
+
+        res.json({ success: true, message: 'User created successfully', userId: result.insertId });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.get('/api/login', async (req, res) => {
+    try {
+        const db = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '',
+            database: 'atuhub',
+            port: 3306
+        });
+
+        const { username, password } = req.body;
+        const [rows] = await db.execute(
+            'SELECT * FROM user_table WHERE username = ? AND password = ?',
+            [username, password]
+        );
+
+        if (rows.length > 0) {
+            res.json({ success: true, message: 'Login successful', userId: rows[0].user_id });
+        } else {
+            res.json(401).json({ success: false, message: 'Invalid email or password' });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
