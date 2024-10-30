@@ -24,3 +24,5 @@
 
 *server.cert
 *server.key
+
+*.env

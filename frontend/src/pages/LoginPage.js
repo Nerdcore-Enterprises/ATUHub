@@ -33,7 +33,7 @@ export default function LoginPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const endpoint = isSignup ? 'http://localhost:5000/api/signup' : 'http://localhost:5000/api/login';
+        const endpoint = isSignup ? '/api/signup' : '/api/login';
         const payload = isSignup ? { firstName, lastName, username, password } : { username, password };
 
         try {
@@ -50,7 +50,7 @@ export default function LoginPage() {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred. Please try again.');
+            alert('An error occurred. Please try again later.');
         }
     };
 
