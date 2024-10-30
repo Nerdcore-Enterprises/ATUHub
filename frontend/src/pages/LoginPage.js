@@ -42,7 +42,9 @@ export default function LoginPage() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
+
             const data = await response.json();
+
             if (data.success) {
                 navigate('/home');
             } else {

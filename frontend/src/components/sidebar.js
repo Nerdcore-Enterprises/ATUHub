@@ -2,7 +2,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
 
-// Icons
 import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import '../styles/sidebar.css';

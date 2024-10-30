@@ -45,7 +45,7 @@ app.use(express.json());
 app.post('/api/signup', async (req, res) => {
     try {
         console.log('Signup Called');
-        
+
         const db = await mysql.createConnection({
             host: 'localhost',
             user: 'root',
@@ -62,7 +62,7 @@ app.post('/api/signup', async (req, res) => {
         );
 
         if (existingUser.length > 0) {
-            console.warn(`Username ${username} already exists.`)
+            console.warn(`Username ${username} already exists.`);
             return res.status(400).json({ success: false, message: 'Username already exists' });
         }
 
@@ -78,9 +78,9 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
-app.get('/api/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
     try {
-        console.log('Login Called!');
+        console.log('Login Called');
 
         const db = await mysql.createConnection({
             host: 'localhost',
@@ -91,6 +91,10 @@ app.get('/api/login', async (req, res) => {
         });
 
         const { username, password } = req.body;
+        
+        if (!username || !password) {
+            return res.status(400).json({ success: false, message: 'Username and Password are required'})
+        }
         const [rows] = await db.execute(
             'SELECT * FROM user_table WHERE username = ? AND password = ?',
             [username, password]
@@ -99,7 +103,8 @@ app.get('/api/login', async (req, res) => {
         if (rows.length > 0) {
             res.json({ success: true, message: 'Login successful', userId: rows[0].user_id });
         } else {
-            res.json(401).json({ success: false, message: 'Invalid email or password' });
+            console.warn(`Invalid username or password`);
+            return res.json(401).json({ success: false, message: 'Invalid username or password' });
         }
     } catch (error) {
         console.error(error);
