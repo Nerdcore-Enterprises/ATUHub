@@ -1,24 +1,16 @@
+import cors from 'cors';
+import dotenv from 'dotenv';
 import express from 'express';
 import fetch from 'node-fetch';
-import cors from 'cors';
-import os from 'os';
+import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise';
 
-function getLocalIp() {
-    const interfaces = os.networkInterfaces();
-    for (const interfaceName in interfaces) {
-        for (const net of interfaces[interfaceName]) {
-            if (net.family === 'IPv4' && !net.internal) {
-                return net.address;
-            }
-        }
-    }
-    return '127.0.0.1';
-}
+dotenv.config();
 
 const app = express();
 const PORT = 5000;
-const clientIp = getLocalIp();
+
+const JWT_KEY = process.env.JWT_KEY;
 
 console.clear();
 
@@ -71,7 +63,9 @@ app.post('/api/signup', async (req, res) => {
             [firstName, lastName, username, password]
         );
 
-        res.json({ success: true, message: 'User created successfully', userId: result.insertId });
+        const token = jwt.sign({ userId: result.insertId }, JWT_KEY, { expiresIn: '1h' });
+
+        res.json({ success: true, message: 'User created successfully', token });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -101,7 +95,9 @@ app.post('/api/login', async (req, res) => {
         );
 
         if (rows.length > 0) {
-            res.json({ success: true, message: 'Login successful', userId: rows[0].user_id });
+            console.log(`${username} logged in successfully`);
+            const token = jwt.sign({ userId: rows[0].user_id }, JWT_KEY, { expiresIn: '1h' });
+            return res.json({ success: true, message: 'Login successful', token });
         } else {
             console.warn(`Invalid username or password`);
             return res.json(401).json({ success: false, message: 'Invalid username or password' });
