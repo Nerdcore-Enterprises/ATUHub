@@ -47,6 +47,8 @@ export default function LoginPage() {
 
             if (data.success) {
                 localStorage.setItem('token', data.token);
+                localStorage.setItem('username', username);
+
                 navigate('/home');
             } else {
                 alert(data.message);

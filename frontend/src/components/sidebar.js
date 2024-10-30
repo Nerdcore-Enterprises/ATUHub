@@ -12,6 +12,8 @@ export default function Sidebar() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const navigate = useNavigate();
 
+    const username = localStorage.getItem('username');
+
     const handleMenu = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -46,10 +48,21 @@ export default function Sidebar() {
                         <div className="bg-zinc-600 h-1 mt-auto rounded-full"></div>
                         <div className="flex space-x-4">
                             <div className="flex-grow">
-                                {new NavWidget(<><FontAwesomeIcon icon={faUser} className="py-4 w-16"/><p>Username</p></>, 'p-4 rounded-full w-auto shadow-[0_0_1vh_rgba(0,0,0,0.5)]')}
+                                {new NavWidget(
+                                    <button onClick={() => handleNav('account')} className="flex flex-row items-center w-full text-left">
+                                        <FontAwesomeIcon icon={faUser} className="py-4 w-16" />
+                                        <p>{username || 'Profile'}</p>
+                                    </button>,
+                                    'p-4 rounded-full shadow-[0_0_1vh_rgba(0,0,0,0.5)]'
+                                )}
                             </div>
                             <div className="w-fit">
-                                {new NavWidget(<><FontAwesomeIcon icon={faGear} className="py-4 w-14"/></>, 'p-2 rounded-full shadow-[0_0_1vh_rgba(0,0,0,0.5)]')}
+                                {new NavWidget(
+                                    <>
+                                        <FontAwesomeIcon icon={faGear} className="py-4 w-14"/>
+                                    </>,
+                                    'p-2 rounded-full shadow-[0_0_1vh_rgba(0,0,0,0.5)]'
+                                )}
                             </div>
                         </div>
                     </div>

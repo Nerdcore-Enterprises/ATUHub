@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 // Pages
 import HomePage from "./pages/HomePage";
+import AccountPage from "./pages/AccountPage";
 import LoginPage from "./pages/LoginPage";
 import WeatherPage from "./pages/WeatherPage";
 import JobsPage from "./pages/JobsPage";
@@ -14,6 +15,7 @@ const routes = (
     <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/account" element={<AccountPage />} />
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/transportation" element={<TransportationPage />} />
@@ -21,6 +23,6 @@ const routes = (
         <Route path="/dineoncampus/menu" element={<DineOnCampusMenuPage />} />
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
-)
+);
 
 export default routes;
