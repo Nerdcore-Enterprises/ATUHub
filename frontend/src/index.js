@@ -6,6 +6,8 @@ import './styles/default.css'
 import './styles/index.css';
 import routes from './routes';
 import Sidebar from './components/sidebar';
+import reportWebVitals from './reportWebVitals';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 function App() {
     const location = useLocation();
@@ -19,8 +21,12 @@ function App() {
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
     <BrowserRouter>
         <App />
     </BrowserRouter>
 );
+
+serviceWorkerRegistration.register();
+reportWebVitals();
