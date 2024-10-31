@@ -147,7 +147,10 @@ app.get('/api/weather/radar', async (req, res) => {
         const timestamp = new Date().getTime();
         const radarUrl = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?${timestamp}`;
         
-        res.redirect(radarUrl);
+        const response = await axios.get(radarUrl, { responseType: 'arraybuffer' });
+
+        res.set('Content-Type', 'image/gif');
+        res.send(response.data);
     } catch (error) {
         console.error('Error fetching radar:', error);
         res.status(500).send('Internal Server Error');
