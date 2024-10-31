@@ -144,8 +144,8 @@ app.get('/api/hours', async (req, res) => {
 
 app.get('/api/weather/radar', async (req, res) => {
     try {
-        const timestamp = Date.now();
-        const radarUrl = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?_=${timestamp}`;
+        const timestamp = new Date().getTime();
+        const radarUrl = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?${timestamp}`;
         
         res.redirect(radarUrl);
     } catch (error) {
