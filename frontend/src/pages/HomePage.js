@@ -3,7 +3,8 @@ import { fetchHours } from '../scripts/DineOnCampus';
 
 import Widget from '../components/homeWidget';
 import GenericPage from '../components/genericPage';
-import DineOnCampusWidget from '../components/DineOnCampus/HomePageWidget';
+import DineOnCampusWidget from '../components/DineOnCampus/DineOnCampusWidget';
+import WeatherWidget from '../components/Weather/WeatherWidget';
 
 export default function HomePage() {
     const [earliestStart, setEarliestStart] = useState(null);
@@ -23,6 +24,7 @@ export default function HomePage() {
         <GenericPage>
             <Widget title="🎉 Welcome to ATUHub 🎉" />
             <DineOnCampusWidget earliestStart={earliestStart} latestEnd={latestEnd} />
+            <WeatherWidget />
         </GenericPage>
     );
 }
