@@ -12,7 +12,7 @@ export default function DineOnCampusWidget({ locations, earliestStart, latestEnd
     const isChambers = locations.some(location => location.name.includes("Chamber's"));
 
     return (
-        <div className="flex flex-col items-center space-y-2 bg-white rounded-[2rem] p-4 w-full h-fit shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+        <div className="flex flex-col items-left space-y-2 bg-white rounded-[2rem] px-5 py-4 w-full h-fit shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
             <h2 className="font-bold text-2xl">{title}</h2>
             <div className="font-normal text-lg p-2">
                 {earliestStart && latestEnd ? (
