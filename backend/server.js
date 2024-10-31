@@ -145,7 +145,7 @@ app.get('/api/hours', async (req, res) => {
 app.get('/api/weather/radar', async (req, res) => {
     try {
         const timestamp = new Date().getTime();
-        const url = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif`;
+        const url = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?${timestamp}`;
         
         const response = await fetch(url);
 
@@ -153,10 +153,10 @@ app.get('/api/weather/radar', async (req, res) => {
             throw new Error('Network response was not ok');
         }
         
-        const imageBuffer = await response.buffer();
+        const imageBuffer = await response.arrayBuffer();
 
         res.set('Content-Type', 'image/gif');
-        res.send(imageBuffer);
+        res.send(Buffer.from(imageBuffer));
     } catch (error) {
         console.error('Error fetching radar:', error);
         res.status(500).send('Internal Server Error');
