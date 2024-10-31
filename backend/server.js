@@ -142,6 +142,18 @@ app.get('/api/hours', async (req, res) => {
     }
 });
 
+app.get('/api/weather/radar', async (req, res) => {
+    try {
+        const timestamp = Date.now();
+        const radarUrl = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?_=${timestamp}`;
+        
+        res.redirect(radarUrl);
+    } catch (error) {
+        console.error('Error fetching radar:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.get('/api/chambers/menu', async (req, res) => {
     try {
         const fetchMenuForDate = async (date) => {
