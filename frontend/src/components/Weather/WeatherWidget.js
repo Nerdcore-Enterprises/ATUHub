@@ -47,7 +47,7 @@ export default function CurrentWeatherWidget() {
                             <p className="max-w-48 text-base">{currentWeather.shortForecast}</p>
                         </div>
                     </div>
-                    <button onClick={() => handleNav('../dineoncampus')} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                    <button onClick={() => handleNav('../weather')} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                         View More
                     </button>
                 </div>
