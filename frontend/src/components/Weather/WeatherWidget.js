@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faCloudRain, faSun, faCloudBolt } from '@fortawesome/free-solid-svg-icons';
+import Widget from '../homeWidget';
 import WeatherAPI from '../../scripts/weather';
 
 export default function CurrentWeatherWidget() {
@@ -31,7 +32,7 @@ export default function CurrentWeatherWidget() {
     };
 
     return (
-        <div className="flex flex-col bg-white rounded-[2rem] pt-6 px-2 w-full h-fit shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+        <Widget>
             {currentWeather ? (
                 <>
                     <div className="flex flex-row items-center mb-4 mx-6">
@@ -55,6 +56,6 @@ export default function CurrentWeatherWidget() {
             ) : (
                 <p className="text-zinc-500 font-bold">Loading...</p>
             )}
-        </div>
+        </Widget>
     );
 }
