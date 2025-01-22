@@ -11,7 +11,7 @@ export default function DineOnCampusWidget({ earliestStart, latestEnd }) {
 
     return (
         <Widget>
-            <div className="flex flex-row items-center mb-4 mx-6">
+            <div className="flex flex-row items-center my-4 mx-6">
                 <img src={logo} alt="DineOnCampus" className="w-8 h-auto" />
                 <p className="text-3xl font-semibold ml-auto text-center">
                     Dine on Campus
