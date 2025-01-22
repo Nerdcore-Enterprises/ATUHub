@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import GenericPage from '../components/genericPage';
 import Header from '../components/weatherHeader';
 import WeeklyWeatherWidget from '../components/Weather/WeeklyWeather';
-import RadarWidget from '../components/Weather/radar';
+import RadarWidget from '../components/Weather/RadarWidget';
 import WeatherAPI from '../scripts/weather';
 
 import { faCloud, faCloudRain, faSun, faCloudBolt } from "@fortawesome/free-solid-svg-icons";

@@ -85,9 +85,9 @@ app.post('/api/login', async (req, res) => {
         });
 
         const { username, password } = req.body;
-        
+
         if (!username || !password) {
-            return res.status(400).json({ success: false, message: 'Username and Password are required'})
+            return res.status(400).json({ success: false, message: 'Username and Password are required' })
         }
         const [rows] = await db.execute(
             'SELECT * FROM user_table WHERE username = ? AND password = ?',
@@ -146,13 +146,13 @@ app.get('/api/weather/radar', async (req, res) => {
     try {
         const timestamp = new Date().getTime();
         const url = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?${timestamp}`;
-        
+
         const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        
+
         const imageBuffer = await response.arrayBuffer();
 
         res.set('Content-Type', 'image/gif');
@@ -181,7 +181,7 @@ app.get('/api/chambers/menu', async (req, res) => {
                 }
 
                 const menuData = await response.json();
-                
+
                 if (!menuData.menu || !menuData.menu.periods) {
                     console.warn(`No valid periods found for ${date} from ${url}`);
                     return null;
