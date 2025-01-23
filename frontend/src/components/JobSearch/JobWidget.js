@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Widget from "../homeWidget";
 
-export default function JobWidget({jobData}){
+export default function JobWidget({jobData, onClick}){
     const [tagData, setTagData] = useState([]);
 
     const dateDifference = () => {
@@ -39,7 +39,7 @@ export default function JobWidget({jobData}){
                 </div>
                     <div className="flex flex-row">
                         <p className="align-middle w-1/2 mt-auto mb-auto">Posted {dateDifference()} days ago</p>
-                        <button onClick={() => {}} className="bg-[var(--ATUGreen)] ml-auto w-1/2 rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                        <button onClick={() => onClick()} className="bg-[var(--ATUGreen)] ml-auto w-1/2 rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                             View
                         </button>
                     </div>

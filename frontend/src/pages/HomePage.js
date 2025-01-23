@@ -25,7 +25,7 @@ export default function HomePage() {
             <Widget>
                 <h1 className='font-normal text-lg px-6 py-4 w-full text-center'>🎉 Welcome to ATUHub 🎉</h1>
             </Widget>
-            <div className='w-full lg:flex'>
+            <div className='w-full lg:flex gap-6'>
                 <DineOnCampusWidget earliestStart={earliestStart} latestEnd={latestEnd} />
                 <WeatherWidget />
             </div>
