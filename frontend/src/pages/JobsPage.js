@@ -5,9 +5,18 @@ import GenericPage from '../components/genericPage';
 import JobWidget from '../components/JobSearch/JobWidget';
 import Widget from '../components/homeWidget';
 import ResponsiveFullWidget from '../components/JobSearch/ResponsiveFullWidget';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faFilter } from '@fortawesome/free-solid-svg-icons';
 
 export default function JobsPage() {
     const [jobIndex, setJobIndex] = useState(-1);
+
+    const currentFilters = [
+        'current',
+        'filters',
+        'here'
+    ]
 
     const testJobData = [
         {
@@ -43,8 +52,39 @@ export default function JobsPage() {
     return (
         <GenericPage>
             <Header title="Jobs" />
-            <div className='w-full flex flex-row'>
-                <div className='p-4 justify-center w-full lg:w-1/2 '>
+            {/* SEARCH */}
+            <Widget>
+                <div className='flex px-5 justify-center'>
+                    <div className='content-center cursor-pointer' onClick={() => {console.log("search code here")}}>
+                        <FontAwesomeIcon
+                            icon={faSearch}
+                            size='lg'
+                        />
+                    </div>
+                    <input
+                        className='py-2 px-4 flex-1 text-lg'
+                        type='input'
+                        placeholder='Search'
+                    />
+                    <div className='content-center cursor-pointer' onClick={() => {console.log("filter code here")}}>
+                        <FontAwesomeIcon
+                            icon={faFilter}
+                            size='lg'
+                        />
+                    </div>
+                </div>
+            </Widget>
+            {/* FILTERS */}
+            <div className="flex space-x-4 rounded-b-[1rem] overflow-visible">
+                {currentFilters.map((filter, index) => (
+                    <div key={index} className="flex flex-col items-center">
+                        <Widget>{filter}</Widget>
+                    </div>
+                ))}
+            </div>
+            <div className='w-full flex flex-row gap-5'>
+                {/* JOB LIST */}
+                <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%] '>
                     {
                         testJobData.map((data, index) => {
                             return (
@@ -53,19 +93,20 @@ export default function JobsPage() {
                         })
                     }
                 </div>
-                <div className='p-4 justify-center w-0 lg:w-1/2'>
+                {/* JOB INFORMATION */}
+                {/* <div className='justify-center w-0 lg:w-1/2'> */}
                     <ResponsiveFullWidget onClose={() => setJobIndex(-1)} visible={jobIndex >= 0}>
-                        <div className=" my-4 mx-6 h-[80vh] ">
+                        <div className=" mb-4 mt-2 mx-10 h-[80vh] ">
                             {jobIndex >= 0 &&
                             <>
-                                <div className='h-[90%] overflow-auto pb-10'>
+                                <div className='h-[85%] overflow-auto pb-10'>
                                     <p className="text-3xl font-semibold mb-3">
                                         {testJobData[jobIndex].name}
                                     </p>
                                     <p>{testJobData[jobIndex].desc}</p>
                                 </div>
                                 <hr className='mb-4'></hr>
-                                <div className='h-[10%]'>
+                                <div className='h-[15%]'>
                                     <button onClick={() => {}} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
                                         Apply
                                     </button>
@@ -74,7 +115,7 @@ export default function JobsPage() {
                             }
                         </div>
                     </ResponsiveFullWidget>
-                </div>
+                {/* </div> */}
             </div>
         </GenericPage>
     );

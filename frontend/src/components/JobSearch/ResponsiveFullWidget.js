@@ -1,11 +1,43 @@
+
+import { useState, useEffect } from "react";
+import GenericModal from "../GenericModal/GenericModal";
+import "./ResponsiveFullWidget.css"
+
 export default function ResponsiveFullWidget({ children, onClose, visible }) {
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+    
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 1024);
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, [])
+    
+
+    const handleModalClick = (event) => {
+        event.stopPropagation();
+    }
+
     return (
         <>
-            <div className={"fixed top-[50vh] left-[50vw] w-[80vw] h-[80vh] translate-y-[-50%] translate-x-[-50%]  lg:static  lg:translate-y-[0%] lg:translate-x-[0%] lg:w-full" + (visible ? " block " : " hidden ") +" lg:block"}>
-                <div className={"mx-auto fixed flex flex-col bg-white rounded-[2rem] px-2  shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] mt-2 p-2 w-[100%] h-[100%] lg:w-full lg:h-full lg:static lg:block m-20 lg:m-0"}>
-                    {children}
+        {
+            !isMobile &&
+                <div className={"static lg:w-full block bg-transparent"} onClick={onClose}>
+                    <div className={"flex flex-col bg-white rounded-[2rem] px-2 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] mt-2 p-2 w-full h-full m-0"} onClick={handleModalClick}>
+                        <button className="absolute right-7 top-5 text-3xl font-semibold lg:hidden" onClick={onClose}>X</button>
+                        {children}
+                    </div>
                 </div>
-            </div>
+        }
+        {
+            isMobile &&
+                <GenericModal visible={visible} onClose={onClose}>
+                    {children}
+                </GenericModal>
+        }
         </>
     );
 }
