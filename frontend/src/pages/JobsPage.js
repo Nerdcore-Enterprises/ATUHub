@@ -8,9 +8,11 @@ import ResponsiveFullWidget from '../components/JobSearch/ResponsiveFullWidget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
+import GenericModal from '../components/GenericModal/GenericModal';
 
 export default function JobsPage() {
     const [jobIndex, setJobIndex] = useState(-1);
+    const [applyVisible, setApplyVisible] = useState(false);
 
     const currentFilters = [
         'current',
@@ -26,6 +28,10 @@ export default function JobsPage() {
             pay: 99,
             time: "Full Time",
             postedTime: new Date("2025-01-01"),
+            applyExternally: false,
+            requirements: ["resume", "cover letter"],
+            contact: "johndoe@email.com",
+            link: "https://google.com"
         },
         {
             name: "Burger Bros",
@@ -34,6 +40,10 @@ export default function JobsPage() {
             pay: 99,
             time: "Full Time",
             postedTime: new Date("2025-01-01"),
+            applyExternally: true,
+            requirements: ["resume"],
+            contact: "burber@email.com",
+            link: "https://google.com"
         },
         {
             name: "Uhhhhhhhhhhh, shop?",
@@ -42,6 +52,10 @@ export default function JobsPage() {
             pay: 99,
             time: "Full Time",
             postedTime: new Date("2025-01-01"),
+            applyExternally: false,
+            requirements: ["cover letter"],
+            contact: "uhhhhh@email.com",
+            link: "https://google.com"
         }
     ]
 
@@ -96,21 +110,57 @@ export default function JobsPage() {
                 {/* JOB INFORMATION */}
                 {/* <div className='justify-center w-0 lg:w-1/2'> */}
                     <ResponsiveFullWidget onClose={() => setJobIndex(-1)} visible={jobIndex >= 0}>
-                        <div className=" mb-4 mt-2 mx-10 h-[80vh] ">
+                        <div className=" mb-4 mt-2 mx-10 h-[100%] flex flex-col">
                             {jobIndex >= 0 &&
                             <>
-                                <div className='h-[85%] overflow-auto pb-10'>
+                                <div className='grow overflow-auto pb-10'>
                                     <p className="text-3xl font-semibold mb-3">
                                         {testJobData[jobIndex].name}
                                     </p>
-                                    <p>{testJobData[jobIndex].desc}</p>
+                                    <p className='lg:max-h-[50rem] lg:min-h-[50rem]'>{testJobData[jobIndex].desc}</p>
                                 </div>
                                 <hr className='mb-4'></hr>
-                                <div className='h-[15%]'>
-                                    <button onClick={() => {}} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
-                                        Apply
-                                    </button>
+                                <div className='h-fit py-2'>
+                                    {testJobData[jobIndex].applyExternally &&
+                                        <a href={testJobData[jobIndex].link}>
+                                            <button className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
+                                                Apply Externally
+                                            </button>
+                                        </a>
+                                    }
+                                    {!testJobData[jobIndex].applyExternally &&
+                                        <button onClick={() => {setApplyVisible(true)}} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
+                                            Apply Information
+                                        </button>
+                                    }
                                 </div>
+                                {/* Apply info modal */}
+                                <GenericModal
+                                    visible={applyVisible}
+                                    onClose={() => {setApplyVisible(false)}}
+                                    fitContent={true}
+                                >
+                                    <h1 className='text-center'>Contact to Apply</h1>
+                                    <br/>
+                                    <div className='px-4 py-2 flex flex-row w-full justify-evenly gap-10'>
+                                        <div>
+                                            <h1 className='text-center'>Contact:</h1> 
+                                            <br/>                          
+                                            <a href={"mailto:" + testJobData[jobIndex].contact} className='underline text-blue-500 text-2xl' >{testJobData[jobIndex].contact}</a>
+                                        </div>
+                                        <div>
+                                            <h1 className='text-center'>Requirements:</h1>
+                                            <br/>
+                                            <ul>
+                                                {testJobData[jobIndex].requirements.map((requirement, key) => {
+                                                    return (
+                                                        <li key={key}>{requirement}</li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </GenericModal>
                             </>
                             }
                         </div>
