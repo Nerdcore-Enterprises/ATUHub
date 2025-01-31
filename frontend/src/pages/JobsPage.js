@@ -13,6 +13,7 @@ import GenericModal from '../components/GenericModal/GenericModal';
 export default function JobsPage() {
     const [jobIndex, setJobIndex] = useState(-1);
     const [applyVisible, setApplyVisible] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const currentFilters = [
         'current',
@@ -79,6 +80,7 @@ export default function JobsPage() {
                         className='py-2 px-4 flex-1 text-lg'
                         type='input'
                         placeholder='Search'
+                        onChange={(e) => {setSearchQuery(e.target.value)}}
                     />
                     <div className='content-center cursor-pointer' onClick={() => {console.log("filter code here")}}>
                         <FontAwesomeIcon
@@ -101,9 +103,11 @@ export default function JobsPage() {
                 <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%] '>
                     {
                         testJobData.map((data, index) => {
-                            return (
-                                <JobWidget key={index} jobData={data} onClick={() => onJobClick(index)}/>
-                            );
+                            if (data.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                return(
+                                    <JobWidget key={index} jobData={data} onClick={() => onJobClick(index)}/>
+                                );
+                            return (<></>);
                         })
                     }
                 </div>
