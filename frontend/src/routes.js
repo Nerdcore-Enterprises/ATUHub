@@ -10,6 +10,7 @@ import TransportationPage from "./pages/TransportationPage";
 import DineOnCampusPage from "./pages/DineOnCampus/index";
 import DineOnCampusMenuPage from "./pages/DineOnCampus/menu";
 import NotFoundPage from "./pages/not-found";
+import PickDriverPage from "./pages/PickDriverPage";
 
 const routes = (
     <Routes>
@@ -19,6 +20,7 @@ const routes = (
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/transportation" element={<TransportationPage />} />
+        <Route path="/transportation/driver" element={<PickDriverPage />} />
         <Route path="/dineoncampus" element={<DineOnCampusPage />} />
         <Route path="/dineoncampus/menu" element={<DineOnCampusMenuPage />} />
         <Route path="*" element={<NotFoundPage />} />
