@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Widget from "../homeWidget";
 
 export default function JobWidget({jobData, onClick}){
@@ -12,16 +12,16 @@ export default function JobWidget({jobData, onClick}){
         return Math.floor(diffInMs / msPerDay);
     }
 
-    const fetchTags = () => {
+    const fetchTags = useCallback(() => {
         let output = [];
         output.push("$" + jobData.pay + " per hour");
         output.push(jobData.time);
         return output;
-    }
+    }, [jobData]);
 
     useEffect(() => {
         setTagData(fetchTags());
-    }, []);
+    }, [fetchTags]);
 
     return(
         <Widget>
