@@ -286,3 +286,21 @@ app.listen(PORT, '0.0.0.0', () => {
 //         res.status(500).send('Internal Server Error');
 //     }
 // });
+
+app.get('/api/jobs', async (req, res) => {
+    try {
+        console.log('Jobs Called');
+        
+        const jobs = await pool.request()
+            .query('SELECT * FROM Job');
+
+        if (jobs.length <= 0) {
+            return res.status(400).json({ success: false, message: 'No Jobs Found' });
+        }
+
+        res.json({ success: true, message: 'Jobs Fetched Successfully', jobs: jobs.recordset });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});

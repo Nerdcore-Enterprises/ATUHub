@@ -7,15 +7,16 @@ export default function JobWidget({jobData, onClick}){
     const dateDifference = () => {
         const currentDate = new Date();
 
-        const diffInMs = currentDate.getTime() - jobData.postedTime.getTime();
+        const postedDate = new Date(jobData.CreatedAt);
+        const diffInMs = currentDate.getTime() - postedDate.getTime();
         const msPerDay = 1000 * 60 * 60 * 24;
         return Math.floor(diffInMs / msPerDay);
     }
 
     const fetchTags = useCallback(() => {
         let output = [];
-        output.push("$" + jobData.pay + " per hour");
-        output.push(jobData.time);
+        output.push("$" + jobData.Salary + " per hour");
+        output.push(jobData.Type);
         return output;
     }, [jobData]);
 
@@ -27,9 +28,9 @@ export default function JobWidget({jobData, onClick}){
         <Widget>
             <div className="my-4 mx-6">
                 <p className="text-3xl font-semibold mb-3">
-                    {jobData.name}
+                    {jobData.Name}
                 </p>
-                <p>{jobData.address}</p>
+                <p>{jobData.Address}</p>
                 <div className="flex space-x-4 rounded-b-[1rem] overflow-x-auto weather-scroll">
                     {tagData.map((tag, index) => (
                         <div key={index} className="bg-[#333333] text-white rounded-[2rem] flex flex-col items-center2 pr-4 pl-4 pt-2 pb-2">
