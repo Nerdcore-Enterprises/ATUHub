@@ -257,3 +257,32 @@ app.get('/api/chambers/menu', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
+
+// app.get('/api/jobs', async (req, res) => {
+//     try {
+//         console.log('Jobs Fetched');
+
+//         const db = await mysql.createConnection({
+//             host: 'localhost',
+//             user: 'root',
+//             password: '',
+//             database: 'atuhub',
+//             port: 3306
+//         });
+
+//         const [rows] = await db.execute(
+//             'SELECT * FROM Job',[]
+//         );
+
+//         if (rows.length > 0) {
+//             console.log(`Jobs fetched Successfully`);
+//             return res.json({ success: true, message: "Jobs fetched Successfully", jobs: jobs });
+//         } else {
+//             console.warn(`Jobs failed to fetch`);
+//             return res.json(401).json({ success: false, message: 'Jobs failed to fetch' });
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
