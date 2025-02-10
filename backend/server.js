@@ -4,6 +4,7 @@ import express from 'express';
 import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise';
+import sql from 'mssql';
 
 dotenv.config();
 
@@ -17,53 +18,46 @@ console.clear();
 app.use(cors());
 app.use(express.json());
 
+const config = {
+    user: 'nerdcore',
+    password: 'Student01',
+    server: '10.60.169.251',
+    database: 'atuhub',
+    trustServerCertificate: true
+};
+
+let pool;
 (async () => {
     try {
-        const db = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'atuhub',
-            port: 3306
-        });
-
-        console.log("Connected to the database!");
-
+        pool = await sql.connect(config);
+        console.log("Connected to SQL Server!");
     } catch (err) {
-        console.error('Error connecting to the database:', err);
+        console.error('Error connecting to SQL Server:', err);
     }
 })();
 
 app.post('/api/signup', async (req, res) => {
     try {
         console.log('Signup Called');
-
-        const db = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'atuhub',
-            port: 3306
-        });
-
         const { firstName, lastName, username, password } = req.body;
+        
+        const existingUser = await pool.request()
+            .input('username', sql.VarChar, username)
+            .query('SELECT * FROM [User] WHERE username = @username');
 
-        const [existingUser] = await db.execute(
-            'SELECT * FROM user_table WHERE username = ?',
-            [username]
-        );
-
-        if (existingUser.length > 0) {
-            console.warn(`Username ${username} already exists.`);
+        if (existingUser.recordset.length > 0) {
             return res.status(400).json({ success: false, message: 'Username already exists' });
         }
 
-        const [result] = await db.execute(
-            'INSERT INTO user_table (firstName, lastName, username, password) VALUES (?, ?, ?, ?)',
-            [firstName, lastName, username, password]
-        );
+        const result = await pool.request()
+            .input('firstName', sql.VarChar, firstName)
+            .input('lastName', sql.VarChar, lastName)
+            .input('username', sql.VarChar, username)
+            .input('password', sql.VarChar, password)
+            .query('INSERT INTO [User] (firstName, lastName, username, password) VALUES (@firstName, @lastName, @username, @password); SELECT SCOPE_IDENTITY() AS insertId');
 
-        const token = jwt.sign({ userId: result.insertId }, JWT_KEY, { expiresIn: '1h' });
+        const insertId = result.recordset[0]?.insertId;
+        const token = jwt.sign({ userId: insertId }, JWT_KEY, { expiresIn: '1h' });
 
         res.json({ success: true, message: 'User created successfully', token });
     } catch (error) {
@@ -75,32 +69,25 @@ app.post('/api/signup', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         console.log('Login Called');
-
-        const db = await mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: '',
-            database: 'atuhub',
-            port: 3306
-        });
-
         const { username, password } = req.body;
         
         if (!username || !password) {
-            return res.status(400).json({ success: false, message: 'Username and Password are required'})
+            return res.status(400).json({ success: false, message: 'Username and Password are required' });
         }
-        const [rows] = await db.execute(
-            'SELECT * FROM user_table WHERE username = ? AND password = ?',
-            [username, password]
-        );
+        
+        const result = await pool.request()
+            .input('username', sql.VarChar, username)
+            .input('password', sql.VarChar, password)
+            .query('SELECT * FROM [User] WHERE username = @username AND password = @password');
 
-        if (rows.length > 0) {
+        if (result.recordset.length > 0) {
+            const user = result.recordset[0];
             console.log(`${username} logged in successfully`);
-            const token = jwt.sign({ userId: rows[0].user_id }, JWT_KEY, { expiresIn: '1h' });
+            const token = jwt.sign({ userId: user.user_id || user.id }, JWT_KEY, { expiresIn: '1h' });
             return res.json({ success: true, message: 'Login successful', token });
         } else {
             console.warn(`Invalid username or password`);
-            return res.json(401).json({ success: false, message: 'Invalid username or password' });
+            return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
     } catch (error) {
         console.error(error);
