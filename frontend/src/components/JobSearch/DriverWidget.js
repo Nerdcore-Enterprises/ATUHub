@@ -8,8 +8,8 @@ export default function DriverWidget({driverData, onClick}){
 
     const getStars = () => {
         let output = []
-        let numEmptyStars = 5 - driverData.stars ;
-        for (var i = 0; i < driverData.stars; i++){
+        let numEmptyStars = 5 - driverData.rating ;
+        for (var i = 0; i < driverData.rating; i++){
             output.push(
                 <FontAwesomeIcon icon={faStar} color="#FFCD00" size="2x" className="mr-4"/>
             );
@@ -26,7 +26,7 @@ export default function DriverWidget({driverData, onClick}){
         <Widget>
             <div className="my-4 mx-6">
                 <p className="text-3xl font-semibold mb-3">
-                    {driverData.name}
+                    {driverData.firstName + " " + driverData.lastName}
                 </p>
                 <div className="flex">
                 {

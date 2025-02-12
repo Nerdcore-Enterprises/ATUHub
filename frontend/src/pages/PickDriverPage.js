@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GenericPage from "../components/genericPage";
 import Header from "../components/header";
 import Widget from "../components/homeWidget";
@@ -9,26 +9,26 @@ import DriverWidget from "../components/JobSearch/DriverWidget";
 
 export default function PickDriverPage(){
     const [driverIndex, setDriverIndex] = useState(-1);
+    const [drivers, setDrivers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [applyVisible, setApplyVisible] = useState(false);
 
-    const testDriversData = [
-        {
-            name: "some driver",
-            stars: 4,
-            desc: "some information about the driver here"
-        },
-        {
-            name: "bad driver",
-            stars: 1,
-            desc: "some information about the driver here"
-        },
-        {
-            name: "great driver",
-            stars: 5,
-            desc: "some information about the driver here"
+    const fetchDriverData = async() => {
+        try {
+            const response = await fetch('/api/drivers-names');
+            const data = await response.json();
+            if (data){
+                console.log(data);
+                setDrivers(data.drivers);
+            }
+        } catch {
+            console.error("Failed to fetch drivers")
         }
-    ]
+    }
+
+    useEffect(() => {
+        fetchDriverData();
+    }, [])
 
     const onDriverClick = (newIndex) => {
         setDriverIndex(newIndex);
@@ -54,17 +54,20 @@ export default function PickDriverPage(){
                         />
                     </div>
                 </Widget>.
+                {
+                    drivers.length > 0 &&
                 <div className='w-full flex flex-row gap-5'>
                     {/* DRIVER LIST */}
                         <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%] '>
                             {
-                                testDriversData.map((data, index) => {
-                                    if (data.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                drivers.map((data, index) => {
+                                    let name = data.firstName.toLowerCase() + " " + data.lastName.toLowerCase();
+                                    if (name.includes(searchQuery.toLowerCase()))
                                         return(
-                                            <DriverWidget key={index} driverData={data} onClick={() => onDriverClick(index)}/>
-                                        );
-                                    return (<></>);
-                                })
+                                    <DriverWidget key={index} driverData={data} onClick={() => onDriverClick(index)}/>
+                                );
+                                return (<></>);
+                            })
                             }
                         </div>
                     {/* DRIVER INFORMATION */}
@@ -74,57 +77,49 @@ export default function PickDriverPage(){
                         <>
                             <div className='grow overflow-auto pb-10'>
                                 <p className="text-3xl font-semibold mb-3">
-                                    {testDriversData[driverIndex].name}
+                                    {drivers[driverIndex].firstName + " " + drivers[driverIndex].lastName}
                                 </p>
-                                <p className='lg:max-h-[50rem] lg:min-h-[50rem]'>{testDriversData[driverIndex].desc}</p>
+                                {/* <p className='lg:max-h-[50rem] lg:min-h-[50rem]'>{drivers[driverIndex].desc}</p> */}
                             </div>
                             <hr className='mb-4'></hr>
                             <div className='h-fit py-2'>
-                                {testDriversData[driverIndex].applyExternally &&
-                                    <a href={testDriversData[driverIndex].link}>
-                                        <button className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
-                                            Apply Externally
-                                        </button>
-                                    </a>
-                                }
-                                {!testDriversData[driverIndex].applyExternally &&
-                                    <button onClick={() => {setApplyVisible(true)}} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
-                                        Select Driver
-                                    </button>
-                                }
+                                <button onClick={() => {setApplyVisible(true)}} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
+                                    Select Driver
+                                </button>
                             </div>
                             {/* Apply info modal */}
                             {/* <GenericModal
                                 visible={applyVisible}
                                 onClose={() => {setApplyVisible(false)}}
                                 fitContent={true}
-                            >
+                                >
                                 <h1 className='text-center'>Contact to Apply</h1>
                                 <br/>
                                 <div className='px-4 py-2 flex flex-row w-full justify-evenly gap-10'>
-                                    <div>
-                                        <h1 className='text-center'>Contact:</h1> 
-                                        <br/>                          
-                                        <a href={"mailto:" + testJobData[jobIndex].contact} className='underline text-blue-500 text-2xl' >{testJobData[jobIndex].contact}</a>
-                                    </div>
-                                    <div>
-                                        <h1 className='text-center'>Requirements:</h1>
-                                        <br/>
-                                        <ul>
-                                            {testJobData[jobIndex].requirements.map((requirement, key) => {
-                                                return (
-                                                    <li key={key}>{requirement}</li>
-                                                );
-                                            })}
-                                        </ul>
-                                    </div>
+                                <div>
+                                <h1 className='text-center'>Contact:</h1> 
+                                <br/>                          
+                                <a href={"mailto:" + testJobData[jobIndex].contact} className='underline text-blue-500 text-2xl' >{testJobData[jobIndex].contact}</a>
                                 </div>
-                            </GenericModal> */}
+                                <div>
+                                <h1 className='text-center'>Requirements:</h1>
+                                <br/>
+                                <ul>
+                                {testJobData[jobIndex].requirements.map((requirement, key) => {
+                                    return (
+                                        <li key={key}>{requirement}</li>
+                                        );
+                                        })}
+                                        </ul>
+                                        </div>
+                                        </div>
+                                        </GenericModal> */}
                         </>
                         }
                     </div>
                 </ResponsiveFullWidget>
             </div>
+            }
         </GenericPage>
     );
 }

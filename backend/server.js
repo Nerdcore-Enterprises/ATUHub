@@ -314,6 +314,7 @@ app.listen(PORT, '0.0.0.0', () => {
 //     }
 // });
 
+// Get all Jobs
 app.get('/api/jobs', async (req, res) => {
     try {
         console.log('Jobs Called');
@@ -326,6 +327,44 @@ app.get('/api/jobs', async (req, res) => {
         }
 
         res.json({ success: true, message: 'Jobs Fetched Successfully', jobs: jobs.recordset });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Get all Drivers
+app.get('/api/drivers', async (req, res) => {
+    try {
+        console.log('Drivers Called');
+        
+        const drivers = await pool.request()
+            .query('SELECT * FROM Driver');
+
+        if (drivers.length <= 0) {
+            return res.status(400).json({ success: false, message: 'No Drivers Found' });
+        }
+
+        res.json({ success: true, message: 'Drivers Fetched Successfully', drivers: drivers.recordset });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Get all Drivers with names
+app.get('/api/drivers-names', async (req, res) => {
+    try {
+        console.log('Drivers Names Called');
+        
+        const drivers = await pool.request()
+            .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.rating FROM Driver LEFT JOIN "User" ON "User".id = Driver.userid`);
+
+        if (drivers.length <= 0) {
+            return res.status(400).json({ success: false, message: 'No Drivers Found' });
+        }
+
+        res.json({ success: true, message: 'Drivers Fetched Successfully', drivers: drivers.recordset });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
