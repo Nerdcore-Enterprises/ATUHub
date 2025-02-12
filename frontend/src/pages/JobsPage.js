@@ -102,7 +102,7 @@ export default function JobsPage() {
                                         <p className="text-3xl font-semibold mb-3">
                                             {jobs[jobIndex].Name}
                                         </p>
-                                        <p className='lg:max-h-[50rem] lg:min-h-[50rem]'>{jobs[jobIndex].Description}</p>
+                                        <p>{jobs[jobIndex].Description}</p>
                                     </div>
                                     <hr className='mb-4'></hr>
                                     <div className='h-fit py-2'>

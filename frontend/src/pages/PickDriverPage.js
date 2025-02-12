@@ -79,7 +79,7 @@ export default function PickDriverPage(){
                                 <p className="text-3xl font-semibold mb-3">
                                     {drivers[driverIndex].firstName + " " + drivers[driverIndex].lastName}
                                 </p>
-                                {/* <p className='lg:max-h-[50rem] lg:min-h-[50rem]'>{drivers[driverIndex].desc}</p> */}
+                                {/* <p>{drivers[driverIndex].desc}</p> */}
                             </div>
                             <hr className='mb-4'></hr>
                             <div className='h-fit py-2'>

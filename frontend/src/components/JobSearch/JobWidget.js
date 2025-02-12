@@ -38,6 +38,7 @@ export default function JobWidget({jobData, onClick}){
                         </div>
                     ))}
                 </div>
+                <br></br>
                     <div className="flex flex-row">
                         <p className="align-middle w-1/2 mt-auto mb-auto">Posted {dateDifference()} days ago</p>
                         <button onClick={() => onClick()} className="bg-[var(--ATUGreen)] ml-auto w-1/2 rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">

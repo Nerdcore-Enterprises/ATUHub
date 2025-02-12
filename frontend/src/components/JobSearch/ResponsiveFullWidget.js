@@ -25,9 +25,10 @@ export default function ResponsiveFullWidget({ children, onClose, visible }) {
         <>
         {
             !isMobile &&
-                <div className={"flex flex-col bg-white rounded-[2rem] px-2 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] mt-2 p-2 w-full m-0"} onClick={handleModalClick}>
-                    <button className="absolute right-7 top-5 text-3xl font-semibold lg:hidden" onClick={onClose}>X</button>
-                    {children}
+                <div className={" sticky top-0 self-start w-full"} onClick={handleModalClick}>
+                    <div className={"bg-white rounded-[2rem] px-2 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] mt-2 p-2 w-full m-0 h-[98vh]"}>
+                        {children}
+                    </div>
                 </div>
         }
         {
