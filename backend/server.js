@@ -150,6 +150,33 @@ app.get('/api/weather/radar', async (req, res) => {
     }
 });
 
+app.get('/api/maptiler', async (req, res) => {
+    try {
+        const url = new URL(req.url, `http://${req.headers.host}`);
+        const path = url.searchParams.get('path');
+        const apiKey = process.env.MAPTILER_KEY;
+        const apiUrl = `https://api.maptiler.com/${path}?key=${apiKey}`;
+        
+        const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+            console.error(`MapTiler API returned status ${response.status}`);
+            return res.status(response.status).send('Error fetching maptiler data');
+        }
+        
+        const data = await response.json();
+        
+        if (!data.version) {
+            data.version = 8;
+        }
+        
+        return res.status(200).json(data);
+    } catch (error) {
+        console.error("Error in /api/maptiler:", error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 app.get('/api/chambers/menu', async (req, res) => {
     try {
         const fetchMenuForDate = async (date) => {

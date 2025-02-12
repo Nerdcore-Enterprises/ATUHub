@@ -1,62 +1,89 @@
 import { useEffect, useRef, useState } from 'react';
-import Map from 'ol/Map.js';
-import View from 'ol/View.js';
-import MousePosition from 'ol/control/MousePosition.js';
-import {defaults as defaultControls} from 'ol/control/defaults.js';
-import {createStringXY} from 'ol/coordinate.js';
-import TileLayer from 'ol/layer/Tile.js';
-import OSM from 'ol/source/OSM.js';
-import { fromLonLat } from "ol/proj";
-import './MapSelect.css'
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import './MapSelect.css';
 
-
-export default function MapSelect({onClick}){
+export default function MapSelect() {
+    const mapContainerRef = useRef(null);
+    const markerRef = useRef(null);
+    const [selectedCoords, setSelectedCoords] = useState(null);
     const mapRef = useRef(null);
-    const [currentCoords, setCurrentCoords] = useState(null)
-
-    const getCoords = () => {
-        let mouse_div = document.getElementsByClassName("custom-mouse-position")[0]
-        let coords = mouse_div.textContent.split(',')
-        coords[0] = parseFloat(coords[0])
-        coords[1] = parseFloat(coords[1])
-        setCurrentCoords(coords);
-    }
 
     useEffect(() => {
-        if (mapRef.current) {
-            const mousePositionControl = new MousePosition({
-                coordinateFormat: createStringXY(4),
-                projection: 'EPSG:4326',
-                // comment the following two lines to have the mouse position
-                // be placed within the map.
-                className: 'custom-mouse-position',
-                target: document.getElementById('mouse-position'),
-            });
+        let map;
+        const initializeMap = async () => {
+            try {
+                map = new maplibregl.Map({
+                    container: mapContainerRef.current,
+                    style: '/api/maptiler?path=maps/hybrid/style.json',
+                    center: [-96, 37.8],
+                    zoom: 3,
+                });
 
-            const map = new Map({
-                controls: defaultControls().extend([mousePositionControl]),
-                layers: [
-                    new TileLayer({
-                    source: new OSM(),
-                    }),
-                ],
-                target: 'map',
-                view: new View({
-                    center: fromLonLat([-93.1364, 35.2950]),
-                    zoom: 15,
-                }),
-            });
-            
-            return () => map.setTarget(null);
-        }
+                mapRef.current = map;
+
+                map.on('load', () => {
+                    map.addControl(new maplibregl.NavigationControl({ visualizePitch: true }));
+                    map.addControl(
+                        new maplibregl.GeolocateControl({
+                            positionOptions: { enableHighAccuracy: true },
+                            trackUserLocation: true,
+                        })
+                    );
+                    map.addControl(new maplibregl.FullscreenControl());
+
+                    const vectorSourceUrl = '/api/maptiler?path=tiles/terrain-rgb-v2/tiles.json';
+
+                    map.addSource('openmaptiles', {
+                        url: vectorSourceUrl,
+                        type: 'vector',
+                    });
+                });
+
+                map.on('click', (e) => {
+                    const { lng, lat } = e.lngLat;
+                    setSelectedCoords({ lng, lat });
+
+                    if (markerRef.current) {
+                        markerRef.current.setLngLat([lng, lat]);
+                    } else {
+                        markerRef.current = new maplibregl.Marker({ color: '#FF0000' })
+                            .setLngLat([lng, lat])
+                            .addTo(map);
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching or processing data:', error);
+            }
+        };
+
+        initializeMap();
+
+        return () => {
+            if (mapRef.current) {
+                mapRef.current.remove();
+            }
+        };
     }, []);
+
+    const handleSelectLocation = () => {
+        if (selectedCoords) {
+            console.log('Selected Coordinates:', selectedCoords);
+            alert(`Selected Coordinates:\nLng: ${selectedCoords.lng}\nLat: ${selectedCoords.lat}`);
+        } else {
+            alert('No location selected. Click on the map to select a location.');
+        }
+    };
 
     return (
         <>
-            <div className='map-container'>
-                <div ref={mapRef} id="map" className="map" onClick={(e) => {getCoords()}}></div>
+            <div className="flex flex-col justify-center items-center h-[82vh] gap-4 scrollbar-hide">
+                <div id="map" ref={mapContainerRef} className="w-full rounded-2xl" style={{ height: "100%" }} />
             </div>
-            <button onClick={onClick} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
+            <button
+                onClick={handleSelectLocation}
+                className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full"
+            >
                 Select Location
             </button>
         </>
