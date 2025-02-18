@@ -370,3 +370,40 @@ app.get('/api/drivers-names', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+// Send Email
+import NodeMailer from 'nodemailer'
+
+const transporter = NodeMailer.createTransport({
+    host: 'smtp.sendgrid.net',
+    port: 465,
+    auth: {
+        user: "apikey",
+        pass: process.env.SENDGRID_KEY
+    }
+});
+
+const mailOptions = {
+    from: 'atuhub@dylandover.dev',
+    to: 'nhowell3@atu.edu',
+    subject: 'test subject',
+    text: 'test body',
+    html: `<p>hi there</p>`
+};
+
+app.get('/api/email', async (req, res) => {
+    try {
+        await transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                return res.status(401).json({ success: false, message: error });
+            }
+        
+            console.log('Message sent: %s', info.messageId);
+            console.log('Preview URL: %s', NodeMailer.getTestMessageUrl(info));
+        });
+        return res.json({ success: true, message: 'Email Sent' });
+    } catch (error){
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
