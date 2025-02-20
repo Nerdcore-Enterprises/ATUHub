@@ -27,7 +27,6 @@ export default function JobsPage() {
             const response = await fetch('/api/jobs');
             const data = await response.json();
             if (data){
-                console.log(data);
                 setJobs(data.jobs);
             }
         } catch {

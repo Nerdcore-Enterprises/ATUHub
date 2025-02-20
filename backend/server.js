@@ -1,10 +1,10 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
-import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
 import sql from 'mssql';
-import NodeMailer from 'nodemailer'
+import fetch from 'node-fetch';
+import NodeMailer from 'nodemailer';
 
 dotenv.config();
 

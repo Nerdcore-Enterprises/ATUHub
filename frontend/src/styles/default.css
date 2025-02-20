@@ -9,6 +9,8 @@
     --shadow-primary: "0_0_0.5vh_rgba(0,0,0,0.5)";
 }
 
+progress::-webkit-progress-value { background: var(--ATUGold); }
+
 html, body {
     background-color: var(--ATUGreen);
     height: 100%;
