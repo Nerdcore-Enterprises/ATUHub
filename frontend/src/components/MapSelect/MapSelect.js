@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import './MapSelect.css';
 
 export default function MapSelect() {
     const mapContainerRef = useRef(null);

@@ -1,13 +1,13 @@
+// import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function DineOnCampusWidget({ locations, earliestStart, latestEnd, title }) {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const handleNav = (path) => {
-        navigate(path);
-    };
+    // const handleNav = (path) => {
+    //     navigate(path);
+    // };
 
     const isChambers = locations.some(location => location.name.includes("Chamber's"));
 
@@ -53,10 +53,10 @@ export default function DineOnCampusWidget({ locations, earliestStart, latestEnd
 
             {isChambers && (
                 <div className="flex justify-end w-full">
-                    <button onClick={() => handleNav('../dineoncampus/menu')} className="flex items-center bg-[var(--ATUGreen)] text-white text-xl rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] px-6 py-3">
+                    <a href="https://dineoncampus.com/arkansastech/whats-on-the-menu" target="_blank" rel="noopener noreferrer" className="flex items-center bg-[var(--ATUGreen)] text-white text-xl rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] px-6 py-3">
                         <p>View Menu</p>
-                        <FontAwesomeIcon icon={faUpRightFromSquare} className="ml-3"/>
-                    </button>
+                        <FontAwesomeIcon icon={faUpRightFromSquare} className="ml-3" />
+                    </a>
                 </div>
             )}
         </div>
