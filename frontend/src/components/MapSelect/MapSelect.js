@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { useNavigate } from 'react-router-dom';
 
-export default function MapSelect() {
+export default function MapSelect({nextPage}) {
     const mapContainerRef = useRef(null);
     const markerRef = useRef(null);
     const [selectedCoords, setSelectedCoords] = useState(null);
     const mapRef = useRef(null);
+    const navigate = useNavigate();
+
+    const handleNav = (path, props) => {
+        navigate(path, props);
+    };
 
     useEffect(() => {
         let map;
@@ -68,7 +74,8 @@ export default function MapSelect() {
     const handleSelectLocation = () => {
         if (selectedCoords) {
             console.log('Selected Coordinates:', selectedCoords);
-            alert(`Selected Coordinates:\nLng: ${selectedCoords.lng}\nLat: ${selectedCoords.lat}`);
+            handleNav(nextPage, {state: {lng: selectedCoords.lng, lat: selectedCoords.lat}});
+            // alert(`Selected Coordinates:\nLng: ${selectedCoords.lng}\nLat: ${selectedCoords.lat}`);
         } else {
             alert('No location selected. Click on the map to select a location.');
         }

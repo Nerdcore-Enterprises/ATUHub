@@ -5,11 +5,10 @@ import MapSelect from '../components/MapSelect/MapSelect';
 import { useNavigate } from 'react-router-dom';
 
 export default function TransportationPage() {
-    const navigate = useNavigate();
     return (
         <GenericPage>
             <Header title="Transportation" />
-            <MapSelect onClick={() => {navigate('driver')}}/>
+            <MapSelect nextPage='driver'/>
         </GenericPage>
     );
 }

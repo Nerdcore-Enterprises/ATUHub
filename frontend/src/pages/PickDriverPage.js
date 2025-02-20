@@ -6,12 +6,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, /*faFilter*/ } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../components/JobSearch/ResponsiveFullWidget";
 import DriverWidget from "../components/JobSearch/DriverWidget";
+import { useLocation } from "react-router-dom";
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
     const [drivers, setDrivers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
-    const [/*applyVisible*/, setApplyVisible] = useState(false);
+    const [applyVisible, setApplyVisible] = useState(false);
+
+    const location = useLocation();
+    const coords = location.state;
 
     const fetchDriverData = async () => {
         try {
@@ -21,6 +25,7 @@ export default function PickDriverPage() {
                 console.log(data);
                 setDrivers(data.drivers);
             }
+            console.log(coords);
         } catch {
             console.error("Failed to fetch drivers")
         }
