@@ -1,27 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMenu } from '../../scripts/DineOnCampus';
+import React, {/* useEffect, useState */ } from 'react';
 import Header from '../../components/header';
 import GenericPage from '../../components/genericPage';
-import DineOnCampusMenuWidget from '../../components/DineOnCampus/MenuWidget';
+import Alert from '../../components/Alert';
+// import DineOnCampusMenuWidget from '../../components/DineOnCampus/MenuWidget';
+// import { fetchMenu } from '../../scripts/DineOnCampus';
 
 export default function DineOnCampusMenuPage() {
-    const [menu, setMenu] = useState([]);
+    // const [menu, setMenu] = useState([]);
 
-    useEffect(() => {
-        const loadMenu = async () => {
-            const chambersMenu = await fetchMenu();
-            setMenu(chambersMenu);
-        };
+    // useEffect(() => {
+    //     const loadMenu = async () => {
+    //         const chambersMenu = await fetchMenu();
+    //         setMenu(chambersMenu);
+    //     };
 
-        loadMenu();
-    }, []);
+    //     loadMenu();
+    // }, []);
 
     return (
         <GenericPage>
             <Header title="What's on the Menu" />
-            <div className="space-y-4">
-                <DineOnCampusMenuWidget menuPeriods={menu} title="Menu" />
-            </div>
+            <Alert severity={'warning'} text={'Due to connection issues, this page is down until futher notice.'} />
+            {/* <div className="space-y-4">
+                <DineOnCampusMenuWidget menuPeriods={null} title="Menu" />
+            </div> */}
         </GenericPage>
     );
 }

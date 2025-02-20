@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import fetch from 'node-fetch';
 import jwt from 'jsonwebtoken';
-import mysql from 'mysql2/promise';
 import sql from 'mssql';
+import NodeMailer from 'nodemailer'
 
 dotenv.config();
 
@@ -36,11 +36,21 @@ let pool;
     }
 })();
 
+// 
+// Start Backend
+//
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running on http://0.0.0.0:${PORT}`);
+});
+
+//
+// Signup Route
+//
 app.post('/api/signup', async (req, res) => {
     try {
         console.log('Signup Called');
         const { firstName, lastName, username, password } = req.body;
-        
+
         const existingUser = await pool.request()
             .input('username', sql.VarChar, username)
             .query('SELECT * FROM [User] WHERE username = @username');
@@ -66,15 +76,18 @@ app.post('/api/signup', async (req, res) => {
     }
 });
 
+//
+// Login Route
+//
 app.post('/api/login', async (req, res) => {
     try {
         console.log('Login Called');
         const { username, password } = req.body;
-        
+
         if (!username || !password) {
             return res.status(400).json({ success: false, message: 'Username and Password are required' });
         }
-        
+
         const result = await pool.request()
             .input('username', sql.VarChar, username)
             .input('password', sql.VarChar, password)
@@ -95,6 +108,9 @@ app.post('/api/login', async (req, res) => {
     }
 });
 
+//
+// Dine on Campus Hours Route
+//
 app.get('/api/hours', async (req, res) => {
     try {
         const today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' });
@@ -104,7 +120,7 @@ app.get('/api/hours', async (req, res) => {
         const response = await fetch(url);
 
         if (!response.ok) {
-            console.error(`Error: Received status ${response.status} from API`);
+            console.error(`Received status ${response.status} from API, URL: ${url}`);
             return res.status(response.status).send('Error fetching hours data');
         }
 
@@ -129,17 +145,20 @@ app.get('/api/hours', async (req, res) => {
     }
 });
 
+//
+// NWS Radar Route
+//
 app.get('/api/weather/radar', async (req, res) => {
     try {
         const timestamp = new Date().getTime();
         const url = `https://radar.weather.gov/ridge/standard/KLZK_loop.gif?${timestamp}`;
-        
+
         const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        
+
         const imageBuffer = await response.arrayBuffer();
 
         res.set('Content-Type', 'image/gif');
@@ -150,26 +169,29 @@ app.get('/api/weather/radar', async (req, res) => {
     }
 });
 
+//
+// Maptiler Route
+//
 app.get('/api/maptiler', async (req, res) => {
     try {
         const url = new URL(req.url, `http://${req.headers.host}`);
         const path = url.searchParams.get('path');
         const apiKey = process.env.MAPTILER_KEY;
         const apiUrl = `https://api.maptiler.com/${path}?key=${apiKey}`;
-        
+
         const response = await fetch(apiUrl);
-        
+
         if (!response.ok) {
             console.error(`MapTiler API returned status ${response.status}`);
             return res.status(response.status).send('Error fetching maptiler data');
         }
-        
+
         const data = await response.json();
-        
+
         if (!data.version) {
             data.version = 8;
         }
-        
+
         return res.status(200).json(data);
     } catch (error) {
         console.error("Error in /api/maptiler:", error);
@@ -177,13 +199,19 @@ app.get('/api/maptiler', async (req, res) => {
     }
 });
 
+//
+// Dine on Campus Menu Route
+//
 app.get('/api/chambers/menu', async (req, res) => {
     try {
+        console.log('Fetching Chambers menu data');
+
         const fetchMenuForDate = async (date) => {
             const categoryLinks = [
-                `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/66bfa6a5e45d43075731b717?platform=0&date=${date}`,
-                `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/66bfa6a5e45d43075731b712?platform=0&date=${date}`,
-                `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/66bfa6a5e45d43075731b71f?platform=0&date=${date}`
+                // https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/677c9a6ae45d43060451c9f0?platform=0&date=2025-2-19
+                `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/677c9a6ae45d43060451c9f0?platform=0&date=${date}`,
+                `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/677c9a6ae45d43060451c9ec?platform=0&date=${date}`,
+                `https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/677c9a6ae45d43060451c9fe?platform=0&date=${date}`
             ];
 
             const menuDataArray = await Promise.all(categoryLinks.map(async (url) => {
@@ -195,7 +223,7 @@ app.get('/api/chambers/menu', async (req, res) => {
                 }
 
                 const menuData = await response.json();
-                
+
                 if (!menuData.menu || !menuData.menu.periods) {
                     console.warn(`No valid periods found for ${date} from ${url}`);
                     return null;
@@ -207,18 +235,30 @@ app.get('/api/chambers/menu', async (req, res) => {
             return menuDataArray.filter(data => data !== null);
         };
 
+        console.log('Fetching Chambers hours data');
+
         const fetchHoursForDate = async (date) => {
             const url = `https://api.dineoncampus.com/v1/locations/weekly_schedule?site_id=5751fd2490975b60e04891e8&date=${date}`;
             const response = await fetch(url);
 
             if (!response.ok) {
-                console.error(`Error fetching hours for ${date}`);
+                const errorText = await response.text();
+                console.error(`Error fetching hours for ${date}, URL: ${url}. Error: ${errorText}`);
                 return null;
             }
 
             const hoursData = await response.json();
-            return hoursData.the_locations.find(loc => loc.name === "Chamber's Dining Hall")?.week.find(day => day.date === date);
+            const chamberLocation = hoursData.the_locations.find(loc => loc.name === "Chamber's Dining Hall");
+
+            if (!chamberLocation) {
+                console.warn(`Chamber's Dining Hall not found for ${date}`);
+                return null;
+            }
+
+            return chamberLocation.week.find(day => day.date === date);
         };
+
+        console.log('Checking if Chambers is open');
 
         const isAfterClosing = (todayHours) => {
             const now = new Date();
@@ -230,6 +270,8 @@ app.get('/api/chambers/menu', async (req, res) => {
 
             return currentMinutes >= closingTime;
         };
+
+        console.log('Checking if Chambers is before opening');
 
         const isBeforeOpening = (todayHours) => {
             const now = new Date();
@@ -281,10 +323,6 @@ app.get('/api/chambers/menu', async (req, res) => {
     }
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on http://0.0.0.0:${PORT}`);
-});
-
 // app.get('/api/jobs', async (req, res) => {
 //     try {
 //         console.log('Jobs Fetched');
@@ -314,11 +352,13 @@ app.listen(PORT, '0.0.0.0', () => {
 //     }
 // });
 
-// Get all Jobs
+//
+// Jobs Route
+//
 app.get('/api/jobs', async (req, res) => {
     try {
         console.log('Jobs Called');
-        
+
         const jobs = await pool.request()
             .query('SELECT * FROM Job');
 
@@ -333,11 +373,13 @@ app.get('/api/jobs', async (req, res) => {
     }
 });
 
-// Get all Drivers
+//
+// Drivers Route
+//
 app.get('/api/drivers', async (req, res) => {
     try {
         console.log('Drivers Called');
-        
+
         const drivers = await pool.request()
             .query('SELECT * FROM Driver');
 
@@ -352,11 +394,13 @@ app.get('/api/drivers', async (req, res) => {
     }
 });
 
-// Get all Drivers with names
+//
+// Driver Name Route
+//
 app.get('/api/drivers-names', async (req, res) => {
     try {
         console.log('Drivers Names Called');
-        
+
         const drivers = await pool.request()
             .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.rating FROM Driver LEFT JOIN "User" ON "User".id = Driver.userid`);
 
@@ -371,9 +415,9 @@ app.get('/api/drivers-names', async (req, res) => {
     }
 });
 
-// Send Email
-import NodeMailer from 'nodemailer'
-
+//
+// Email Notifications Route
+//
 const transporter = NodeMailer.createTransport({
     host: 'smtp.sendgrid.net',
     port: 465,
@@ -393,16 +437,14 @@ const mailOptions = {
 
 app.get('/api/email', async (req, res) => {
     try {
-        await transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 return res.status(401).json({ success: false, message: error });
-            }
-        
-            console.log('Message sent: %s', info.messageId);
-            console.log('Preview URL: %s', NodeMailer.getTestMessageUrl(info));
+            };
         });
+
         return res.json({ success: true, message: 'Email Sent' });
-    } catch (error){
+    } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
     }
