@@ -1,27 +1,27 @@
 import Widget from "../homeWidget";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function DriverWidget({ driverData, onClick }) {
 
-    const getStars = () => {
-        let output = []
-        let numEmptyStars = 5 - driverData.rating;
+    // const getStars = () => {
+    //     let output = []
+    //     let numEmptyStars = 5 - driverData.rating;
 
-        for (var a = 0; a < driverData.rating; a++) {
-            output.push(
-                <FontAwesomeIcon icon={faStar} color="#FFCD00" size="2x" className="mr-4" />
-            );
-        }
+    //     for (var a = 0; a < driverData.rating; a++) {
+    //         output.push(
+    //             <FontAwesomeIcon icon={faStar} color="#FFCD00" size="2x" className="mr-4" />
+    //         );
+    //     }
 
-        for (var b = 0; b < numEmptyStars; b++) {
-            output.push(
-                <FontAwesomeIcon icon={faStar} color="#222" size="2x" className="mr-4" />
-            );
-        }
+    //     for (var b = 0; b < numEmptyStars; b++) {
+    //         output.push(
+    //             <FontAwesomeIcon icon={faStar} color="#222" size="2x" className="mr-4" />
+    //         );
+    //     }
 
-        return output;
-    }
+    //     return output;
+    // }
 
     return (
         <Widget>

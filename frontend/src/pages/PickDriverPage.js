@@ -1,25 +1,29 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../components/JobSearch/ResponsiveFullWidget";
-import DriverWidget from "../components/JobSearch/DriverWidget";
-import { useLocation } from "react-router-dom";
+import DriverWidget from "../components/Transportation/DriverWidget";
+// import { useLocation } from "react-router-dom";
 import GenericErrorPage from "../components/GenericErrorPage/GenericErrorPage";
 import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPage";
+import { useState, useEffect } from "react";
+import GenericPage from "../components/genericPage";
+import Header from '../components/header';
+import Widget from '../components/homeWidget';
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
     const [drivers, setDrivers] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const location = useLocation();
-    const coords = location.state;
+    // commented to remove eslint. This is how we get the coordinates from previous page. also uncomment import
+    // const location = useLocation();
+    // const coords = location.state; 
 
     const fetchDriverData = async () => {
         try {
             const response = await fetch('/api/drivers-names');
             const data = await response.json();
 
-            console.log(JSON.stringify(data, null, 2));
             setDrivers(data.drivers || []);
         } catch {
             console.error("Failed to fetch drivers");
@@ -103,37 +107,10 @@ export default function PickDriverPage() {
                                 </div>
                                 <hr className='mb-4'></hr>
                                 <div className='h-fit py-2'>
-                                    <button onClick={() => { setApplyVisible(true) }} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
+                                    <button onClick={() => {  }} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
                                         Select Driver
                                     </button>
                                 </div>
-                                {/* Apply info modal */}
-                                {/* <GenericModal
-                                        visible={applyVisible}
-                                        onClose={() => { setApplyVisible(false) }}
-                                        fitContent={true}
-                                    >
-                                        <h1 className='text-center'>Contact to Apply</h1>
-                                        <br />
-                                        <div className='px-4 py-2 flex flex-row w-full justify-evenly gap-10'>
-                                            <div>
-                                                <h1 className='text-center'>Contact:</h1>
-                                                <br />
-                                                <a href={"mailto:" + testJobData[jobIndex].contact} className='underline text-blue-500 text-2xl' >{testJobData[jobIndex].contact}</a>
-                                            </div>
-                                            <div>
-                                                <h1 className='text-center'>Requirements:</h1>
-                                                <br />
-                                                <ul>
-                                                    {testJobData[jobIndex].requirements.map((requirement, key) => {
-                                                        return (
-                                                            <li key={key}>{requirement}</li>
-                                                        );
-                                                    })}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </GenericModal> */}
                             </>
                         }
                     </div>
