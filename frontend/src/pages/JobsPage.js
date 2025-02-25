@@ -9,10 +9,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import GenericModal from '../components/GenericModal/GenericModal';
+import GenericErrorPage from '../components/GenericErrorPage/GenericErrorPage';
+import GenericLoadingPage from '../components/GenericErrorPage/GenericLoadingPage';
 
 export default function JobsPage() {
     const [jobIndex, setJobIndex] = useState(-1);
-    const [jobs, setJobs] = useState([]);
+    const [jobs, setJobs] = useState();
     const [applyVisible, setApplyVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -40,6 +42,18 @@ export default function JobsPage() {
 
     const onJobClick = (newIndex) => {
         setJobIndex(newIndex);
+    }
+
+    if (!jobs) {
+        return (
+            <GenericLoadingPage/>
+        )
+    }
+
+    else if (jobs.length === 0){
+        return (
+            <GenericErrorPage>No Jobs Found</GenericErrorPage>
+        )
     }
 
     return (

@@ -27,7 +27,5 @@ export default async function WeatherAPI() {
         console.error('Error: Forecast data is not available.');
     }
 
-    console.log(JSON.stringify(weatherData, null, 2));
-
     return weatherData;
 }
