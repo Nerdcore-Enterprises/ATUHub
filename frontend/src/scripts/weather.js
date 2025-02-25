@@ -1,7 +1,7 @@
 async function getAPIjson(url) {
     try {
         const response = await fetch(url);
-        
+
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
@@ -26,8 +26,6 @@ export default async function WeatherAPI() {
     } else {
         console.error('Error: Forecast data is not available.');
     }
-
-    console.log(JSON.stringify(weatherData, null, 2));
 
     return weatherData;
 }

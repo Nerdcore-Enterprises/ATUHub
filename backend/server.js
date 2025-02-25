@@ -94,18 +94,24 @@ app.post('/api/login', async (req, res) => {
 
         const result = await pool.request()
             .input('username', sql.VarChar, username)
-            .input('password', sql.VarChar, password)
-            .query('SELECT * FROM [User] WHERE username = @username AND password = @password');
+            .query('SELECT * FROM [User] WHERE username = @username');
 
-        if (result.recordset.length > 0) {
-            const user = result.recordset[0];
-            console.log(`${username} logged in successfully`);
-            const token = jwt.sign({ userId: user.user_id || user.id }, JWT_KEY, { expiresIn: '1h' });
-            return res.json({ success: true, message: 'Login successful', token });
-        } else {
+        if (result.recordset.length === 0) {
             console.warn(`Invalid username or password`);
             return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
+
+        const user = result.recordset[0];
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            console.warn(`Invalid username or password`);
+            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+        }
+
+        console.log(`${username} logged in successfully`);
+        const token = jwt.sign({ userId: user.user_id || user.id }, JWT_KEY, { expiresIn: '1h' });
+        return res.json({ success: true, message: 'Login successful', token });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -435,14 +441,14 @@ app.get('/api/drivers', async (req, res) => {
         const drivers = await pool.request()
             .query('SELECT * FROM Driver');
 
-        if (drivers.length <= 0) {
-            return res.status(400).json({ success: false, message: 'No Drivers Found' });
+        if (!drivers.recordset || drivers.recordset.length === 0) {
+            return res.json({ success: true, message: 'No Drivers Found', drivers: [] });
         }
 
         res.json({ success: true, message: 'Drivers Fetched Successfully', drivers: drivers.recordset });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ success: false, message: 'Internal Server Error', drivers: [] });
     }
 });
 
@@ -452,16 +458,18 @@ app.get('/api/drivers', async (req, res) => {
 app.get('/api/drivers-names', async (req, res) => {
     try {
         const drivers = await pool.request()
-            .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.rating FROM Driver LEFT JOIN "User" ON "User".id = Driver.userid`);
+            .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.rating 
+                   FROM Driver 
+                   LEFT JOIN "User" ON "User".id = Driver.userid`);
 
-        if (drivers.length <= 0) {
-            return res.status(400).json({ success: false, message: 'No Drivers Found' });
+        if (!drivers.recordset || drivers.recordset.length === 0) {
+            return res.json({ success: true, message: 'No Drivers Found', drivers: [] });
         }
 
         res.json({ success: true, message: 'Drivers Fetched Successfully', drivers: drivers.recordset });
     } catch (error) {
         console.error(error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ success: false, message: 'Internal Server Error', drivers: [] });
     }
 });
 

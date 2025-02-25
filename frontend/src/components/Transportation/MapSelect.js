@@ -3,7 +3,7 @@ import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useNavigate } from 'react-router-dom';
 
-export default function MapSelect({nextPage}) {
+export default function MapSelect({ nextPage }) {
     const mapContainerRef = useRef(null);
     const markerRef = useRef(null);
     const [selectedCoords, setSelectedCoords] = useState(null);
@@ -21,8 +21,8 @@ export default function MapSelect({nextPage}) {
                 map = new maplibregl.Map({
                     container: mapContainerRef.current,
                     style: '/api/maptiler?path=maps/hybrid/style.json',
-                    center: [-96, 37.8],
-                    zoom: 3,
+                    center: [-93.13, 35.28],
+                    zoom: 11,
                 });
 
                 mapRef.current = map;
@@ -74,7 +74,7 @@ export default function MapSelect({nextPage}) {
     const handleSelectLocation = () => {
         if (selectedCoords) {
             console.log('Selected Coordinates:', selectedCoords);
-            handleNav(nextPage, {state: {lng: selectedCoords.lng, lat: selectedCoords.lat}});
+            handleNav(nextPage, { state: { lng: selectedCoords.lng, lat: selectedCoords.lat } });
             // alert(`Selected Coordinates:\nLng: ${selectedCoords.lng}\nLat: ${selectedCoords.lat}`);
         } else {
             alert('No location selected. Click on the map to select a location.');
