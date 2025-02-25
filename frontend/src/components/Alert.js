@@ -1,17 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faTriangleExclamation, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faTriangleExclamation, faQuestion, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 export default function Alert({ severity, text }) {
     const alertStyle = {
         padding: '1em',
-        border: `1px solid ${severity === 'danger' ? 'red' : severity === 'warning' ? 'orange' : severity === 'info' ? 'blue' : 'grey'}`,
-        backgroundColor: severity === 'danger' ? '#f8d7da' : severity === 'warning' ? '#fff3cd' : severity === 'info' ? '#BBC' : 'black',
-        color: severity === 'danger' ? '#721c24' : severity === 'warning' ? '#856404' : severity === 'info' ? '#223' : '#383d41',
+        border: `1px solid ${severity === 'danger' ? 'red' : severity === 'warning' ? 'orange' : severity === 'info' ? 'blue' : severity === 'success' ? 'green' : 'grey'}`,
+        backgroundColor: severity === 'danger' ? '#FBB' : severity === 'warning' ? '#fff3cd' : severity === 'info' ? '#BBF' : severity === 'success' ? '#BFB' : '#F00',
+        color: severity === 'danger' ? '#300' : severity === 'warning' ? '#330' : severity === 'info' ? "#333" : severity === 'success' ? '#030' : '#999',
     };
 
     const iconStyle = {
-        icon: severity === 'danger' ? faTriangleExclamation : severity === 'warning' ? faTriangleExclamation : severity === 'info' ? faCircleInfo : faQuestion,
-        color: severity === 'danger' ? 'text-red-600' : severity === 'warning' ? 'text-orange-500' : 'text-blue-900',
+        icon: severity === 'danger' ? faTriangleExclamation : severity === 'warning' ? faTriangleExclamation : severity === 'info' ? faCircleInfo : severity === 'success' ? faCheck : faQuestion,
+        color: severity === 'danger' ? 'text-red-600' : severity === 'warning' ? 'text-orange-500' : severity === 'info' ? 'text-blue-800' : severity === 'success' ? 'text-green-800' : 'text-gray-800',
     }
 
     return (

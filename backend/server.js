@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
@@ -59,11 +60,14 @@ app.post('/api/signup', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Username already exists' });
         }
 
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
         const result = await pool.request()
             .input('firstName', sql.VarChar, firstName)
             .input('lastName', sql.VarChar, lastName)
             .input('username', sql.VarChar, username)
-            .input('password', sql.VarChar, password)
+            .input('password', sql.VarChar, hashedPassword)
             .query('INSERT INTO [User] (firstName, lastName, username, password) VALUES (@firstName, @lastName, @username, @password); SELECT SCOPE_IDENTITY() AS insertId');
 
         const insertId = result.recordset[0]?.insertId;
@@ -104,6 +108,67 @@ app.post('/api/login', async (req, res) => {
         }
     } catch (error) {
         console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Profile Fetch Route
+//
+app.get('/api/user/profile', async (req, res) => {
+    try {
+        console.log('Fetching user profile');
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, JWT_KEY);
+
+        const user = await pool.request()
+            .input('userId', sql.Int, decodedToken.userId)
+            .query('SELECT * FROM [User] WHERE id = @userId');
+
+        if (user.recordset.length <= 0) {
+            return res.status(400).json({ success: false, message: 'User not found' });
+        }
+
+        res.json(user.recordset[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Profile Put Route
+//
+app.put('/api/user/profile', async (req, res) => {
+    try {
+        console.log('Updating user profile');
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, JWT_KEY);
+        const { firstName, lastName, aboutMe, avatar } = req.body;
+
+        const avatarBuffer = avatar ? Buffer.from(avatar, 'base64') : null;
+
+        const request = pool.request()
+            .input('userId', sql.Int, decodedToken.userId)
+            .input('firstName', sql.VarChar, firstName)
+            .input('lastName', sql.VarChar, lastName)
+            .input('aboutMe', sql.VarChar, aboutMe);
+
+        if (avatarBuffer) {
+            request.input('avatar', sql.VarBinary, avatarBuffer);
+            await request.query(
+                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutMe = @aboutMe, avatar = @avatar WHERE id = @userId'
+            );
+        } else {
+            await request.query(
+                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutMe = @aboutMe WHERE id = @userId'
+            );
+        }
+
+        console.log("Profile updated successfully");
+        res.json({ success: true, message: 'Profile updated' });
+    } catch (error) {
+        console.error('Error updating profile:', error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -204,8 +269,6 @@ app.get('/api/maptiler', async (req, res) => {
 //
 app.get('/api/chambers/menu', async (req, res) => {
     try {
-        console.log('Fetching Chambers menu data');
-
         const fetchMenuForDate = async (date) => {
             const categoryLinks = [
                 // https://api.dineoncampus.com/v1/location/5b796d581178e90b837da302/periods/677c9a6ae45d43060451c9f0?platform=0&date=2025-2-19
@@ -234,9 +297,6 @@ app.get('/api/chambers/menu', async (req, res) => {
 
             return menuDataArray.filter(data => data !== null);
         };
-
-        console.log('Fetching Chambers hours data');
-
         const fetchHoursForDate = async (date) => {
             const url = `https://api.dineoncampus.com/v1/locations/weekly_schedule?site_id=5751fd2490975b60e04891e8&date=${date}`;
             const response = await fetch(url);
@@ -258,8 +318,6 @@ app.get('/api/chambers/menu', async (req, res) => {
             return chamberLocation.week.find(day => day.date === date);
         };
 
-        console.log('Checking if Chambers is open');
-
         const isAfterClosing = (todayHours) => {
             const now = new Date();
             const currentMinutes = now.getHours() * 60 + now.getMinutes();
@@ -270,8 +328,6 @@ app.get('/api/chambers/menu', async (req, res) => {
 
             return currentMinutes >= closingTime;
         };
-
-        console.log('Checking if Chambers is before opening');
 
         const isBeforeOpening = (todayHours) => {
             const now = new Date();
@@ -357,8 +413,6 @@ app.get('/api/chambers/menu', async (req, res) => {
 //
 app.get('/api/jobs', async (req, res) => {
     try {
-        console.log('Jobs Called');
-
         const jobs = await pool.request()
             .query('SELECT * FROM Job');
 
@@ -378,8 +432,6 @@ app.get('/api/jobs', async (req, res) => {
 //
 app.get('/api/drivers', async (req, res) => {
     try {
-        console.log('Drivers Called');
-
         const drivers = await pool.request()
             .query('SELECT * FROM Driver');
 
@@ -399,8 +451,6 @@ app.get('/api/drivers', async (req, res) => {
 //
 app.get('/api/drivers-names', async (req, res) => {
     try {
-        console.log('Drivers Names Called');
-
         const drivers = await pool.request()
             .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.rating FROM Driver LEFT JOIN "User" ON "User".id = Driver.userid`);
 
