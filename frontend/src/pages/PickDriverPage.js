@@ -66,6 +66,11 @@ export default function PickDriverPage() {
                     <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%] '>
                         {
                             drivers.map((data, index) => {
+                                console.log(data)
+                                if (!data.firstName && !data.lastName){
+                                    console.error("Driver missing missing input: ")
+                                    return (<></>)
+                                }
                                 let name = data.firstName.toLowerCase() + " " + data.lastName.toLowerCase();
                                 if (name.includes(searchQuery.toLowerCase()))
                                     return (

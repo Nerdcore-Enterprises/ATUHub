@@ -25,7 +25,7 @@ export default function DriverWidget({ driverData, onClick }) {
         return output;
     }
 
-    setTagData(null); // Remove eslint warning. Remove this line when you implement the tag data.
+    // setTagData(null); // Remove eslint warning. Remove this line when you implement the tag data.
 
     return (
         <Widget>
