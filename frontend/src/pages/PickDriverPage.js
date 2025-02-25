@@ -1,17 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, /*faFilter*/ } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import ResponsiveFullWidget from "../components/JobSearch/ResponsiveFullWidget";
+import DriverWidget from "../components/JobSearch/DriverWidget";
 import { useLocation } from "react-router-dom";
-import GenericPage from "../components/genericPage";
-import Header from "../components/header";
-import Widget from "../components/homeWidget"; import ResponsiveFullWidget from "../components/JobSearch/ResponsiveFullWidget";
-import DriverWidget from "../components/Transportation/DriverWidget";
+import GenericErrorPage from "../components/GenericErrorPage/GenericErrorPage";
+import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPage";
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
-    const [drivers, setDrivers] = useState([]);
+    const [drivers, setDrivers] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [applyVisible, setApplyVisible] = useState(false);
 
     const location = useLocation();
     const coords = location.state;
@@ -31,15 +29,27 @@ export default function PickDriverPage() {
 
     useEffect(() => {
         fetchDriverData();
-    }, [])
+    })
 
     const onDriverClick = (newIndex) => {
         setDriverIndex(newIndex);
     }
+    
+    if (!drivers) {
+        return (
+            <GenericLoadingPage/>
+        )
+    }
+
+    else if (drivers.length === 0){
+        return (
+            <GenericErrorPage>No Drivers Found</GenericErrorPage>
+        )
+    }
 
     return (
         <GenericPage>
-            <Header title="Pick a Driver" />
+            <Header title="Pick a driver"/>
             {/* Search */}
             <Widget>
                 <div className='flex px-5 justify-center'>

@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
+import { useEffect } from "react";
 
 import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser } from "@fortawesome/free-solid-svg-icons";
 
@@ -23,9 +24,31 @@ export default function Sidebar() {
         navigate(path);
     };
 
+    const [first, setFirst] = useState(false); // prevents fade away animation happening on page load
+
+    useEffect(() => {
+        if (isSidebarOpen && !first)
+            setFirst(true);
+    }, [isSidebarOpen, first])
+
+
+    const handleBackgroundClick = (event) => {
+        if (isSidebarOpen){
+            setIsSidebarOpen(false);
+        }
+        else {
+            event.stopPropagation();
+        }
+    }
+
+    const handleModalClick = (event) => {
+        event.stopPropagation();
+    }
+
     return (
         <>
-            <div className={(isSidebarOpen ? 'opened' : 'closed') + " sidebar h-screen absolute max-w-80 bg-zinc-300 space-y-4 p-4 shadow-[0_0_5vh_rgba(0,0,0,0.7)]"}>
+            <div className={"w-screen h-screen bg-slate-500 fixed left-0 top-0" + (first ? (isSidebarOpen ? " visible-animation " : " hidden-animation ") : ' opacity-0 hidden')} onClick={handleBackgroundClick}/>
+            <div className={(isSidebarOpen ? 'opened' : 'closed') + " sidebar h-screen fixed max-w-80 bg-zinc-300 space-y-4 p-4 shadow-[0_0_5vh_rgba(0,0,0,0.7)] "} onClick={handleModalClick}>
                 <img src={logo} alt="ATUHub" className="m-auto w-64 max-w-screen-md invert cursor-pointer" onClick={() => handleNav('home/')}></img>
 
                 <div className="bg-zinc-600 h-1 mt-auto rounded-full"></div>
