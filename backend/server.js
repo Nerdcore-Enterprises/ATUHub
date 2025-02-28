@@ -474,6 +474,26 @@ app.get('/api/drivers-names', async (req, res) => {
 });
 
 //
+// Driver Request
+//
+
+app.get('/api/drive-requests', async (req, res) => {
+    try {
+        const requests = await pool.request()
+            .query(`SELECT * FROM Drive`);
+
+        if (!requests.recordset || requests.recordset.length === 0) {
+            return res.json({ success: true, message: 'No Drive Requests Found', requests: [] });
+        }
+
+        res.json({ success: true, message: 'Drive Requests Fetched Successfully', requests: requests.recordset });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'Internal Server Error', requests: [] });
+    }
+});
+
+//
 // Email Notifications Route
 //
 const transporter = NodeMailer.createTransport({

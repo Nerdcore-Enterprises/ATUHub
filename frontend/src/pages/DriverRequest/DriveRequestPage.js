@@ -16,36 +16,12 @@ export default function DriveRequestPage() {
 
     const fetchRequestsData = async() => {
         try {
-            // const response = await fetch('/api/jobs');
-            // const data = await response.json();
-            // if (data){
-            //     setRequests(data.jobs);
-            // }
-            setRequests(
-                [
-                    {
-                        name: "John Doe",
-                        location: "Walmart",
-                        type: "what?",
-                        instructions: "Buy me some milk",
-                        pay: 5
-                    },
-                    {
-                        name: "Tim Timmothy",
-                        location: "Target",
-                        type: "huh?",
-                        instructions: "Buy me some eggs",
-                        pay: 7
-                    },
-                    {
-                        name: "The Destroyer of Worlds",
-                        location: "ATU",
-                        type: "idk?",
-                        instructions: "Buy me the necronomicon",
-                        pay: 500
-                    },
-                ]
-            );
+            const response = await fetch('/api/drive-requests');
+            const data = await response.json();
+            if (data){
+                setRequests(data.requests);
+                console.log(data.requests);
+            }
         } catch {
             console.error("Failed to fetch requests")
         }
