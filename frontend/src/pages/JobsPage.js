@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Header from '../components/header';
 import GenericPage from '../components/genericPage';
 import JobWidget from '../components/JobSearch/JobWidget';
-import Widget from '../components/homeWidget';
+import Widget from '../components/Widget';
 import ResponsiveFullWidget from '../components/JobSearch/ResponsiveFullWidget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -58,7 +58,7 @@ export default function JobsPage() {
 
     return (
         <GenericPage>
-            <Header title="Jobs" />
+            <Header>Jobs</Header>
             {/* SEARCH */}
             <Widget>
                 <div className='flex px-5 justify-center'>

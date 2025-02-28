@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import GenericPage from '../components/genericPage';
-import Header from '../components/weatherHeader';
+import WeatherHeader from '../components/weatherHeader';
 import WeeklyWeatherWidget from '../components/Weather/WeeklyWeather';
 import RadarWidget from '../components/Weather/radar';
 import WeatherAPI from '../scripts/weather';
@@ -62,13 +62,13 @@ export default function WeatherPage() {
         <GenericPage>
             {currentWeather && (
                 <>
-                    <Header title={
+                    <WeatherHeader>
                         <>
                             <FontAwesomeIcon icon={getWeatherIcon(currentWeather.shortForecast)} className="mr-2" />
                             <p>{currentWeather.shortForecast}</p>
                             <p>{currentWeather.temperature}°{currentWeather.temperatureUnit}</p>
                         </>
-                    } />
+                    </WeatherHeader>
                     <WeeklyWeatherWidget forecast={formatForecast(weeklyForecast)} />
                     <RadarWidget />
                 </>

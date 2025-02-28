@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from "react";
-import Widget from "../homeWidget";
+import Widget from "../Widget";
 
 export default function JobWidget({jobData, onClick}){
     const [tagData, setTagData] = useState([]);

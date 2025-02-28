@@ -1,4 +1,4 @@
-import Widget from "../../components/homeWidget";
+import Widget from "../../components/Widget";
 
 export default function DriveRequestWidget({requestData, onClick}){
 

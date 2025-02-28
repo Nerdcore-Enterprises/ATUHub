@@ -19,7 +19,7 @@ export default function DineOnCampusMenuPage() {
 
     return (
         <GenericPage>
-            <Header title="What's on the Menu" />
+            <Header>What's on the Menu</Header>
             <Alert severity={'warning'} text={'Due to connection issues, this page is down until futher notice.'} />
             {/* <div className="space-y-4">
                 <DineOnCampusMenuWidget menuPeriods={null} title="Menu" />

@@ -1,4 +1,4 @@
-import Widget from "../homeWidget";
+import Widget from "../Widget";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faStar } from "@fortawesome/free-solid-svg-icons";
 

@@ -72,7 +72,7 @@ export default function DineOnCampusPage() {
 
     return (
         <GenericPage>
-            <Header title="DineOnCampus" />
+            <Header>DineOnCampus</Header>
             <div className="space-y-4">
                 <Widget locations={chambersHours} earliestStart={chambersTimes.earliestStart} latestEnd={chambersTimes.latestEnd} title="Chamber's" />
                 <Widget locations={bazTechHours} earliestStart={bazTechTimes.earliestStart} latestEnd={bazTechTimes.latestEnd} title="BazTech" />

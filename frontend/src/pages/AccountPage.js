@@ -143,7 +143,7 @@ export default function AccountPage() {
 
     return (
         <GenericPage>
-            <Header title="Account" />
+            <Header>Account</Header>
             {alert && <Alert severity={alert.severity} text={alert.text} />}
             <form className="flex flex-col gap-4">
                 <div className="flex justify-center">

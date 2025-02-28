@@ -6,7 +6,7 @@ import MapSelect from '../components/Transportation/MapSelect';
 export default function TransportationPage() {
     return (
         <GenericPage>
-            <Header title="Pick a Location" />
+            <Header>Pick a Location</Header>
             <MapSelect nextPage='driver' />
         </GenericPage>
     );

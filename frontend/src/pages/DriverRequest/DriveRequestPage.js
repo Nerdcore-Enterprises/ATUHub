@@ -3,7 +3,7 @@ import GenericErrorPage from "../../components/GenericErrorPage/GenericErrorPage
 import GenericLoadingPage from "../../components/GenericErrorPage/GenericLoadingPage";
 import GenericPage from "../../components/genericPage";
 import Header from "../../components/header";
-import Widget from "../../components/homeWidget";
+import Widget from "../../components/Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../../components/JobSearch/ResponsiveFullWidget";

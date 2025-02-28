@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Widget from './Widget';
 
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -13,8 +14,10 @@ export default function BackButton() {
     };
 
     return (
-        <button onClick={handleBackClick} className="bg-white rounded-full text-xl px-6 py-4 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
-            <FontAwesomeIcon icon={faChevronLeft} />
+        <button onClick={handleBackClick} >
+            <Widget className='px-6 py-4 text-xl'>
+                <FontAwesomeIcon icon={faChevronLeft} />
+            </Widget>
         </button>
     );
 }

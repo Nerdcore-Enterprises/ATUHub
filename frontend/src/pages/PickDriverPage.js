@@ -8,7 +8,7 @@ import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPag
 import { useState, useEffect } from "react";
 import GenericPage from "../components/genericPage";
 import Header from '../components/header';
-import Widget from '../components/homeWidget';
+import Widget from '../components/Widget';
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
@@ -53,7 +53,7 @@ export default function PickDriverPage() {
 
     return (
         <GenericPage>
-            <Header title="Pick a driver"/>
+            <Header>Pick a driver</Header>
             {/* Search */}
             <Widget>
                 <div className='flex px-5 justify-center'>

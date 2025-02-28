@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Widget from "../homeWidget";
+import Widget from "../Widget";
 import logo from '../../assets/icons/DineOnCampus.svg';
 
 export default function DineOnCampusWidget({ earliestStart, latestEnd }) {

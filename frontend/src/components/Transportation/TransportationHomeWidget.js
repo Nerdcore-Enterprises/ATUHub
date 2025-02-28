@@ -1,4 +1,4 @@
-import Widget from "../homeWidget";
+import Widget from "../Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faCarSide, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";

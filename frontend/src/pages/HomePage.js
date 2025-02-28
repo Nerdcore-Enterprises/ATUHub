@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHours } from '../scripts/DineOnCampus';
 
-import Widget from '../components/homeWidget';
+import Widget from '../components/Widget';
 import GenericPage from '../components/genericPage';
 import DineOnCampusWidget from '../components/DineOnCampus/DineOnCampusWidget';
 import WeatherWidget from '../components/Weather/WeatherWidget';
