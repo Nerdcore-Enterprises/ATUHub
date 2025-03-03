@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Widget from './Widget';
+import Widget from './BaseWidgets/Widget';
 
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 

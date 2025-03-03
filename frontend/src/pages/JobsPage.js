@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Header from '../components/header';
 import GenericPage from '../components/genericPage';
 import JobWidget from '../components/JobSearch/JobWidget';
-import Widget from '../components/Widget';
+import Widget from '../components/BaseWidgets/Widget';
 import ResponsiveFullWidget from '../components/JobSearch/ResponsiveFullWidget';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import GenericModal from '../components/GenericModal/GenericModal';
 import GenericErrorPage from '../components/GenericErrorPage/GenericErrorPage';
 import GenericLoadingPage from '../components/GenericErrorPage/GenericLoadingPage';
+import SearchBar from '../components/SearchBar';
 
 export default function JobsPage() {
     const [jobIndex, setJobIndex] = useState(-1);
@@ -60,28 +61,10 @@ export default function JobsPage() {
         <GenericPage>
             <Header>Jobs</Header>
             {/* SEARCH */}
-            <Widget>
-                <div className='flex px-5 justify-center'>
-                    <div className='content-center cursor-pointer' onClick={() => {console.log("search code here")}}>
-                        <FontAwesomeIcon
-                            icon={faSearch}
-                            size='lg'
-                        />
-                    </div>
-                    <input
-                        className='py-2 px-4 flex-1 text-lg'
-                        type='input'
-                        placeholder='Search'
-                        onChange={(e) => {setSearchQuery(e.target.value)}}
-                    />
-                    <div className='content-center cursor-pointer' onClick={() => {console.log("filter code here")}}>
-                        <FontAwesomeIcon
-                            icon={faFilter}
-                            size='lg'
-                        />
-                    </div>
-                </div>
-            </Widget>
+            <SearchBar
+                query={searchQuery}
+                setQuery={setSearchQuery}
+            />
             {/* FILTERS */}
             <div className="flex space-x-4 rounded-b-[1rem] overflow-visible">
                 {currentFilters.map((filter, index) => (

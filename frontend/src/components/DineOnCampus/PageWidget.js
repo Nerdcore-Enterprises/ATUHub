@@ -3,11 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function DineOnCampusWidget({ locations, earliestStart, latestEnd, title }) {
-    // const navigate = useNavigate();
-
-    // const handleNav = (path) => {
-    //     navigate(path);
-    // };
 
     const isChambers = locations.some(location => location.name.includes("Chamber's"));
 

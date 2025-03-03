@@ -1,5 +1,5 @@
 import React from 'react';
-import Widget from './Widget';
+import Widget from './BaseWidgets/Widget';
 import BackButton from '../components/backButton';
 
 export default function Header({ children }) {

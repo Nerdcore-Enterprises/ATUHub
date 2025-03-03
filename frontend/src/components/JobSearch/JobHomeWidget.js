@@ -1,18 +1,12 @@
-import Widget from "../Widget";
+import Widget from "../BaseWidgets/Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import NavButton from "../Buttons/NavButton";
 
 export default function JobHomeWidget(){
     const [numNewJobs, setNumNewJobs] = useState(0);
     const consideredNewLimit = 7;
-
-    const navigate = useNavigate();
-
-    const handleNav = (path) => {
-        navigate(path);
-    };
 
     const dateDifference = (job) => {
         const currentDate = new Date();
@@ -62,9 +56,9 @@ export default function JobHomeWidget(){
                 </p>
             </div>
             <div className="flex flex-row items-center my-4 mx-6">
-                <button onClick={() => handleNav('../jobs')} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                <NavButton to={'../jobs'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                     View
-                </button>
+                </NavButton>
             </div>
         </Widget>
     );

@@ -8,7 +8,7 @@ import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPag
 import { useState, useEffect } from "react";
 import GenericPage from "../components/genericPage";
 import Header from '../components/header';
-import Widget from '../components/Widget';
+import Widget from '../components/BaseWidgets/Widget';
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);

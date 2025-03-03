@@ -1,20 +1,14 @@
-import Widget from "../Widget";
+import Widget from "../BaseWidgets/Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faCarSide, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
+import NavButton from "../Buttons/NavButton";
 
 export default function TransportationHomeWidget(){
     const [progressPercent, setProgressPercent] = useState(.5);
     const [driverName, setDriverName] = useState("I'm da driver");
     const [hasDriver, setHasDriver] = useState(true);
-
-    const navigate = useNavigate();
-
-    const handleNav = (path) => {
-        navigate(path);
-    };
 
     return (
         <Widget>
@@ -42,9 +36,9 @@ export default function TransportationHomeWidget(){
             {
                 !hasDriver &&
                 <div className="flex flex-row items-center my-4 mx-6">
-                    <button onClick={() => handleNav('../transportation')} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                    <NavButton to={'../transportation'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                         Select Destination
-                    </button>
+                    </NavButton>
                 </div>
             }
         </Widget>

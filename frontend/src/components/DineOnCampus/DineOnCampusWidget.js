@@ -1,14 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import Widget from "../Widget";
+import Widget from "../BaseWidgets/Widget";
 import logo from '../../assets/icons/DineOnCampus.svg';
+import NavButton from "../Buttons/NavButton";
 
 export default function DineOnCampusWidget({ earliestStart, latestEnd }) {
-    const navigate = useNavigate();
-
-    const handleNav = (path) => {
-        navigate(path);
-    };
-
     return (
         <Widget>
             <div className="flex flex-row items-center my-4 mx-6">
@@ -30,9 +24,9 @@ export default function DineOnCampusWidget({ earliestStart, latestEnd }) {
                         <span className="text-zinc-500 font-bold">Loading...</span>
                     )}
                 </div>
-                <button onClick={() => handleNav('../dineoncampus')} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                <NavButton to={'../dineoncampus'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                     View Full Hours
-                </button>
+                </NavButton>
             </div>
         </Widget>
     );
