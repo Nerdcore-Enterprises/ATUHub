@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHours } from '../../scripts/DineOnCampus';
 
-import Header from '../../components/header';
+import HeaderWithBack from '../../components/HeaderWithBack';
 import Widget from '../../components/DineOnCampus/PageWidget';
 import GenericPage from '../../components/genericPage';
 
@@ -72,7 +72,7 @@ export default function DineOnCampusPage() {
 
     return (
         <GenericPage>
-            <Header>DineOnCampus</Header>
+            <HeaderWithBack>DineOnCampus</HeaderWithBack>
             <div className="space-y-4">
                 <Widget locations={chambersHours} earliestStart={chambersTimes.earliestStart} latestEnd={chambersTimes.latestEnd} title="Chamber's" />
                 <Widget locations={bazTechHours} earliestStart={bazTechTimes.earliestStart} latestEnd={bazTechTimes.latestEnd} title="BazTech" />

@@ -1,12 +1,12 @@
 import React from 'react';
-import Header from '../components/header';
+import HeaderWithBack from '../components/HeaderWithBack';
 import GenericPage from '../components/genericPage';
 import MapSelect from '../components/Transportation/MapSelect';
 
 export default function TransportationPage() {
     return (
         <GenericPage>
-            <Header>Pick a Location</Header>
+            <HeaderWithBack>Pick a Location</HeaderWithBack>
             <MapSelect nextPage='driver' />
         </GenericPage>
     );

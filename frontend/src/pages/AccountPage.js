@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
-import Header from '../components/header';
+import HeaderWithBack from '../components/HeaderWithBack';
 import GenericPage from '../components/genericPage';
 import Alert from '../components/Alert';
 
@@ -143,7 +143,7 @@ export default function AccountPage() {
 
     return (
         <GenericPage>
-            <Header>Account</Header>
+            <HeaderWithBack>Account</HeaderWithBack>
             {alert && <Alert severity={alert.severity} text={alert.text} />}
             <form className="flex flex-col gap-4">
                 <div className="flex justify-center">

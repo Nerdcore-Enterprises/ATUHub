@@ -1,5 +1,5 @@
 import React, {/* useEffect, useState */ } from 'react';
-import Header from '../../components/header';
+import HeaderWithBack from '../../components/HeaderWithBack';
 import GenericPage from '../../components/genericPage';
 import Alert from '../../components/Alert';
 // import DineOnCampusMenuWidget from '../../components/DineOnCampus/MenuWidget';
@@ -19,7 +19,7 @@ export default function DineOnCampusMenuPage() {
 
     return (
         <GenericPage>
-            <Header>What's on the Menu</Header>
+            <HeaderWithBack>What's on the Menu</HeaderWithBack>
             <Alert severity={'warning'} text={'Due to connection issues, this page is down until futher notice.'} />
             {/* <div className="space-y-4">
                 <DineOnCampusMenuWidget menuPeriods={null} title="Menu" />

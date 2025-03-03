@@ -4,8 +4,9 @@ import { faCloud, faCloudRain, faSun, faCloudBolt } from '@fortawesome/free-soli
 import Widget from '../BaseWidgets/Widget';
 import WeatherAPI from '../../scripts/weather';
 import NavButton from '../Buttons/NavButton';
+import HomeWidget from '../BaseWidgets/HomeWidget';
 
-export default function CurrentWeatherWidget() {
+export default function CurrentWeatherHomeWidget() {
     const [currentWeather, setCurrentWeather] = useState(null);
 
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function CurrentWeatherWidget() {
     };
 
     return (
-        <Widget>
+        <HomeWidget>
             {currentWeather ? (
                 <>
                     <div className="flex flex-row items-center my-4 mx-6">
@@ -50,6 +51,6 @@ export default function CurrentWeatherWidget() {
             ) : (
                 <p className="text-zinc-500 font-bold">Loading...</p>
             )}
-        </Widget>
+        </HomeWidget>
     );
 }

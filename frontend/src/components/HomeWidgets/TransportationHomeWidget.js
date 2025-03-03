@@ -2,8 +2,9 @@ import Widget from "../BaseWidgets/Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faCarSide, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import ProgressBar from "./ProgressBar";
+import ProgressBar from "../Transportation/ProgressBar";
 import NavButton from "../Buttons/NavButton";
+import HomeWidget from "../BaseWidgets/HomeWidget";
 
 export default function TransportationHomeWidget(){
     const [progressPercent, setProgressPercent] = useState(.5);
@@ -11,7 +12,7 @@ export default function TransportationHomeWidget(){
     const [hasDriver, setHasDriver] = useState(true);
 
     return (
-        <Widget>
+        <HomeWidget>
             <div className="flex flex-row items-center my-4 mx-6 mb-0">
                 <FontAwesomeIcon icon={faCar} className="mr-4 text-4xl" />
                 <p className="text-3xl font-semibold ml-auto text-right relative">
@@ -41,6 +42,6 @@ export default function TransportationHomeWidget(){
                     </NavButton>
                 </div>
             }
-        </Widget>
+        </HomeWidget>
     );
 }

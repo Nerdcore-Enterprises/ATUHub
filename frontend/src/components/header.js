@@ -1,16 +1,13 @@
 import React from 'react';
 import Widget from './BaseWidgets/Widget';
-import BackButton from '../components/backButton';
+import BackButton from './backButton';
 
-export default function Header({ children }) {
+export default function Header({ children, className }) {
     return (
-        <div className="flex items-center space-x-4">
-            <BackButton />
-            <Widget className='py-4'>
-                <h1 className="font-normal text-lg">
-                    {children}
-                </h1>
-            </Widget>
-        </div>
+        <Widget className='py-4'>
+            <div className={"font-normal text-lg " + className}>
+                {children}
+            </div>
+        </Widget>
     );
 }

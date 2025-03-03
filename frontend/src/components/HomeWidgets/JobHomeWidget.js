@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import NavButton from "../Buttons/NavButton";
+import HomeWidget from "../BaseWidgets/HomeWidget";
 
 export default function JobHomeWidget(){
     const [numNewJobs, setNumNewJobs] = useState(0);
@@ -41,7 +42,7 @@ export default function JobHomeWidget(){
     }, []);
 
     return (
-        <Widget>
+        <HomeWidget>
             <div className="flex flex-row items-center my-4 mx-6 mb-0">
                 <FontAwesomeIcon icon={faBriefcase} className="mr-4 text-4xl" />
                 <p className="text-3xl font-semibold ml-auto text-center">
@@ -60,6 +61,6 @@ export default function JobHomeWidget(){
                     View
                 </NavButton>
             </div>
-        </Widget>
+        </HomeWidget>
     );
 }

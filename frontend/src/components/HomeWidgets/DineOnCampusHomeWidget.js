@@ -1,10 +1,11 @@
 import Widget from "../BaseWidgets/Widget";
 import logo from '../../assets/icons/DineOnCampus.svg';
 import NavButton from "../Buttons/NavButton";
+import HomeWidget from "../BaseWidgets/HomeWidget";
 
-export default function DineOnCampusWidget({ earliestStart, latestEnd }) {
+export default function DineOnCampusHomeWidget({ earliestStart, latestEnd }) {
     return (
-        <Widget>
+        <HomeWidget>
             <div className="flex flex-row items-center my-4 mx-6">
                 <img src={logo} alt="DineOnCampus" className="w-8 h-auto" />
                 <p className="text-3xl font-semibold ml-auto text-center">
@@ -28,6 +29,6 @@ export default function DineOnCampusWidget({ earliestStart, latestEnd }) {
                     View Full Hours
                 </NavButton>
             </div>
-        </Widget>
+        </HomeWidget>
     );
 }

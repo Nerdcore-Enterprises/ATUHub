@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import GenericErrorPage from "../../components/GenericErrorPage/GenericErrorPage";
 import GenericLoadingPage from "../../components/GenericErrorPage/GenericLoadingPage";
 import GenericPage from "../../components/genericPage";
-import Header from "../../components/header";
+import Header from "../../components/Header";
 import Widget from "../../components/BaseWidgets/Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../../components/JobSearch/ResponsiveFullWidget";
 import DriveRequestWidget from "./DriveRequestWidget";
+import SearchBar from "../../components/SearchBar";
 
 export default function DriveRequestPage() {
     const [requestIndex, setRequestIndex] = useState(-1);
@@ -75,22 +76,10 @@ export default function DriveRequestPage() {
         <GenericPage>
             <Header title="Drive Requests" />
             {/* SEARCH */}
-            <Widget>
-                <div className='flex px-5 justify-center'>
-                    <div className='content-center cursor-pointer' onClick={() => {console.log("search code here")}}>
-                        <FontAwesomeIcon
-                            icon={faSearch}
-                            size='lg'
-                        />
-                    </div>
-                    <input
-                        className='py-2 px-4 flex-1 text-lg'
-                        type='input'
-                        placeholder='Search'
-                        onChange={(e) => {setSearchQuery(e.target.value)}}
-                    />
-                </div>
-            </Widget>
+            <SearchBar
+                query={searchQuery}
+                setQuery={setSearchQuery}
+            />
             {
                 requests.length > 0 &&
                 <div className='w-full flex flex-row gap-5'>

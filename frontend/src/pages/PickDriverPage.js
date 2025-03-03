@@ -7,8 +7,9 @@ import GenericErrorPage from "../components/GenericErrorPage/GenericErrorPage";
 import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPage";
 import { useState, useEffect } from "react";
 import GenericPage from "../components/genericPage";
-import Header from '../components/header';
+import Header from '../components/Header';
 import Widget from '../components/BaseWidgets/Widget';
+import SearchBar from "../components/SearchBar";
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
@@ -55,22 +56,10 @@ export default function PickDriverPage() {
         <GenericPage>
             <Header>Pick a driver</Header>
             {/* Search */}
-            <Widget>
-                <div className='flex px-5 justify-center'>
-                    <div className='content-center cursor-pointer' onClick={() => { console.log("search code here") }}>
-                        <FontAwesomeIcon
-                            icon={faSearch}
-                            size='lg'
-                        />
-                    </div>
-                    <input
-                        className='py-2 px-4 flex-1 text-lg'
-                        type='input'
-                        placeholder='Search'
-                        onChange={(e) => { setSearchQuery(e.target.value) }}
-                    />
-                </div>
-            </Widget>
+            <SearchBar
+                query={searchQuery}
+                setQuery={setSearchQuery}
+            />
             <div className='w-full flex flex-row gap-5'>
                 {/* Driver List */}
                 <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%]'>
