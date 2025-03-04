@@ -14,7 +14,7 @@ export default function NavButton({children, to, props, onClick = () => {}, clas
     return (
         <div 
             onClick={() => {handleNav(to); onClick()}}
-            className={className}
+            className={'cursor-pointer ' + className}
         >
             {children}
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useNavigate } from 'react-router-dom';
+import GreenButton from '../Buttons/GreenButton';
 
 export default function MapSelect({ nextPage }) {
     const mapContainerRef = useRef(null);
@@ -86,12 +87,12 @@ export default function MapSelect({ nextPage }) {
             <div className="flex flex-col justify-center items-center h-[82vh] gap-4 scrollbar-hide">
                 <div id="map" ref={mapContainerRef} className="w-full rounded-2xl" style={{ height: "100%" }} />
             </div>
-            <button
+            <GreenButton
+                className='w-full'
                 onClick={handleSelectLocation}
-                className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full"
             >
                 Select Location
-            </button>
+            </GreenButton>
         </>
     );
 }

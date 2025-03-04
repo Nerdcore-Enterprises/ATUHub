@@ -1,4 +1,5 @@
 import Widget from "../../components/BaseWidgets/Widget";
+import GreenButton from "../../components/Buttons/GreenButton";
 
 export default function DriveRequestWidget({requestData, onClick}){
 
@@ -10,9 +11,9 @@ export default function DriveRequestWidget({requestData, onClick}){
                 </p>
                 <br></br>
                     <div className="flex flex-row">
-                        <button onClick={() => onClick()} className="bg-[var(--ATUGreen)] ml-auto w-1/2 rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                        <GreenButton onClick={() => onClick()} className="w-1/2 ml-auto">
                             View
-                        </button>
+                        </GreenButton>
                     </div>
             </div>
         </Widget>

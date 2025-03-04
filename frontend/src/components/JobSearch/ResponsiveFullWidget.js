@@ -7,10 +7,6 @@ import StickyWidget from "../BaseWidgets/StickyWidget";
 
 export default function ResponsiveFullWidget({ children, onClose, visible, className = ""}) {
 
-    const handleModalClick = (event) => {
-        event.stopPropagation();
-    }
-
     return (
         <ResponsiveView
             mobileView={
@@ -19,7 +15,7 @@ export default function ResponsiveFullWidget({ children, onClose, visible, class
                 </GenericModal>
             }
             desktopView={
-                <StickyWidget className="h-[90vh]">
+                <StickyWidget className="min-h-[90vh]">
                     {children}
                 </StickyWidget>
             }

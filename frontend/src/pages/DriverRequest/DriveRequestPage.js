@@ -9,6 +9,8 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../../components/JobSearch/ResponsiveFullWidget";
 import DriveRequestWidget from "./DriveRequestWidget";
 import SearchBar from "../../components/SearchBar";
+import VerticalWidgetList from "../../components/WidgetContainers/VerticalWidgetList";
+import DriveRequestInfo from "./DriveRequestInfo";
 
 export default function DriveRequestPage() {
     const [requestIndex, setRequestIndex] = useState(-1);
@@ -74,7 +76,7 @@ export default function DriveRequestPage() {
 
     return (
         <GenericPage>
-            <Header title="Drive Requests" />
+            <Header>Drive Requests</Header>
             {/* SEARCH */}
             <SearchBar
                 query={searchQuery}
@@ -83,65 +85,27 @@ export default function DriveRequestPage() {
             {
                 requests.length > 0 &&
                 <div className='w-full flex flex-row gap-5'>
-                    {/* JOB LIST */}
-                        <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%] '>
-                            {
-                                requests.map((data, index) => {
-                                    if (data.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                                        return(
-                                            <DriveRequestWidget key={index} requestData={data} onClick={() => onRequestClick(index)}/>
-                                        );
-                                    return (<></>);
-                                })
-                            }
-                        </div>
+                    {/* REQUESTS LIST */}
+                    <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%]'>
+                        {
+                            requests.map((data, index) => {
+                                if (data.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    return(
+                                        <DriveRequestWidget key={index} requestData={data} onClick={() => onRequestClick(index)}/>
+                                    );
+                                return (<></>);
+                            })
+                        }
+                    </VerticalWidgetList>
                     {/* JOB INFORMATION */}
                     {/* <div className='justify-center w-0 lg:w-1/2'> */}
-                        <ResponsiveFullWidget onClose={() => setRequestIndex(-1)} visible={requestIndex >= 0} className="bg-zinc-300" desktopClass="shadow-none" mobileClass="px-16">
+                        <ResponsiveFullWidget onClose={() => setRequestIndex(-1)} visible={requestIndex >= 0}>
                             <div className="h-[100%] flex flex-col">
                                 {requestIndex >= 0 &&
                                 <>
-                                    <div className='grow overflow-visible pb-10'>
-                                        <Widget>
-                                            <p className="text-3xl font-semibold py-2 px-4">
-                                                {requests[requestIndex].name}
-                                            </p>
-                                        </Widget>
-                                        <br></br>
-                                        <Widget>
-                                            <div className="px-4 flex flex-row justify-between">
-                                                <p>Drive Location: </p>
-                                                <p>{requests[requestIndex].location}</p>
-                                            </div>
-                                        </Widget>
-                                        <Widget>
-                                            <div className="px-4 flex flex-row justify-between">
-                                                <p>Drive Type: </p>
-                                                <p>{requests[requestIndex].type}</p>
-                                            </div>
-                                        </Widget>
-                                        <Widget>
-                                            <div className="px-4">
-                                                <p>Drive Type: </p>
-                                                <p className="min-h-60">{requests[requestIndex].instructions}</p>
-                                            </div>
-                                        </Widget>
-                                        <Widget>
-                                            <div className="px-4 flex flex-row justify-between">
-                                                <p>Drive Pay: </p>
-                                                <p>${requests[requestIndex].pay}</p>
-                                            </div>
-                                        </Widget>
-                                    </div>
-                                    <hr className='mb-4'></hr>
-                                    <div className='h-fit py-2 flex flex-row gap-4'>
-                                        <button className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
-                                            Accept Drive
-                                        </button>
-                                        <button className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
-                                            Decline Drive
-                                        </button>
-                                    </div>
+                                    <DriveRequestInfo
+                                        requestInfo={requests[requestIndex]}
+                                    />
                                 </>
                                 }
                             </div>

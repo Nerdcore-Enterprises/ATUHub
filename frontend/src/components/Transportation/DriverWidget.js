@@ -1,27 +1,7 @@
 import Widget from "../BaseWidgets/Widget";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faStar } from "@fortawesome/free-solid-svg-icons";
+import GreenButton from "../Buttons/GreenButton";
 
 export default function DriverWidget({ driverData, onClick }) {
-
-    // const getStars = () => {
-    //     let output = []
-    //     let numEmptyStars = 5 - driverData.rating;
-
-    //     for (var a = 0; a < driverData.rating; a++) {
-    //         output.push(
-    //             <FontAwesomeIcon icon={faStar} color="#FFCD00" size="2x" className="mr-4" />
-    //         );
-    //     }
-
-    //     for (var b = 0; b < numEmptyStars; b++) {
-    //         output.push(
-    //             <FontAwesomeIcon icon={faStar} color="#222" size="2x" className="mr-4" />
-    //         );
-    //     }
-
-    //     return output;
-    // }
 
     return (
         <Widget>
@@ -42,9 +22,9 @@ export default function DriverWidget({ driverData, onClick }) {
                     }
                 </div>
                 <div className="flex flex-row">
-                    <button onClick={() => onClick()} className="bg-[var(--ATUGreen)] ml-auto w-1/2 rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                    <GreenButton onClick={() => onClick()} className="w-1/2 ml-auto">
                         View
-                    </button>
+                    </GreenButton>
                 </div>
             </div>
         </Widget>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import routes from "./routes";
-import Sidebar from "./components/sidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 export default function App() {
     const location = useLocation();
@@ -15,7 +15,7 @@ export default function App() {
     return (
         <div>
             {routes}
-            {location.pathname !== '/' && <Sidebar />}
+            {location.pathname !== '/' && <Sidebar/>}
         </div>
     );
 }

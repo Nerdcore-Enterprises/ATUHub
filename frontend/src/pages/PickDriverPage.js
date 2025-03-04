@@ -10,6 +10,8 @@ import GenericPage from "../components/genericPage";
 import Header from '../components/Header';
 import Widget from '../components/BaseWidgets/Widget';
 import SearchBar from "../components/SearchBar";
+import VerticalWidgetList from "../components/WidgetContainers/VerticalWidgetList";
+import DriveInfo from "../components/Transportation/DriveInfo";
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
@@ -60,10 +62,11 @@ export default function PickDriverPage() {
                 query={searchQuery}
                 setQuery={setSearchQuery}
             />
+            {drivers.length > 0 && 
             <div className='w-full flex flex-row gap-5'>
                 {/* Driver List */}
-                <div className='justify-center w-full lg:w-1/2 lg:min-w-[50%]'>
-                    {drivers.length > 0 ? (
+                <VerticalWidgetList className="lg:w-1/2 lg:min-w-[50%]">
+                {
                         drivers.map((data, index) => {
                             const firstName = data.firstName || 'Unknown';
                             const lastName = data.lastName || 'Driver';
@@ -71,40 +74,30 @@ export default function PickDriverPage() {
                             if (fullName.includes(searchQuery.toLowerCase())) {
                                 return (
                                     <DriverWidget
-                                        key={index}
-                                        driverData={data}
-                                        onClick={() => onDriverClick(index)}
+                                    key={index}
+                                    driverData={data}
+                                    onClick={() => onDriverClick(index)}
                                     />
                                 );
                             }
                             return null;
                         })
-                    ) : (
-                        <p>Loading drivers...</p>
-                    )}
-                </div>
+                    }
+                </VerticalWidgetList>
                 {/* Driver Information */}
                 <ResponsiveFullWidget onClose={() => setDriverIndex(-1)} visible={driverIndex >= 0}>
                     <div className=" mb-4 mt-2 mx-10 h-[100%] flex flex-col">
                         {driverIndex >= 0 &&
                             <>
-                                <div className='grow overflow-auto pb-10'>
-                                    <p className="text-3xl font-semibold mb-3">
-                                        {drivers[driverIndex].firstName + " " + drivers[driverIndex].lastName}
-                                    </p>
-                                    {/* <p>{drivers[driverIndex].desc}</p> */}
-                                </div>
-                                <hr className='mb-4'></hr>
-                                <div className='h-fit py-2'>
-                                    <button onClick={() => {  }} className="bg-[var(--ATUGreen)] ml-auto rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] w-full">
-                                        Select Driver
-                                    </button>
-                                </div>
+                                <DriveInfo
+                                    driverInfo={drivers[driverIndex]}
+                                />
                             </>
                         }
                     </div>
                 </ResponsiveFullWidget>
             </div>
+            }
         </GenericPage>
     );
 }

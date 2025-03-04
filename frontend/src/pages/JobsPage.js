@@ -83,22 +83,21 @@ export default function JobsPage() {
                 jobs.length > 0 &&
                 <div className='w-full flex flex-row gap-5'>
                     {/* JOB LIST */}
-                        <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%]'>
-                        {
-                                jobs.map((data, index) => {
-                                    if (data.Name.toLowerCase().includes(searchQuery.toLowerCase()))
-                                        return(
-                                            <JobWidget key={index} jobData={data} onClick={() => onJobClick(index)}/>
-                                        );
-                                    return (<></>);
-                                })
-                            }
-                        </VerticalWidgetList>
+                    <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%]'>
+                    {
+                            jobs.map((data, index) => {
+                                if (data.Name.toLowerCase().includes(searchQuery.toLowerCase()))
+                                    return(
+                                        <JobWidget key={index} jobData={data} onClick={() => onJobClick(index)}/>
+                                    );
+                                return (<></>);
+                            })
+                        }
+                    </VerticalWidgetList>
                     {/* JOB INFORMATION */}
-                    {/* <div className='justify-center w-0 lg:w-1/2'> */}
-                        <ResponsiveFullWidget onClose={() => setJobIndex(-1)} visible={jobIndex >= 0}>
-                            <div className=" mb-4 mt-2 mx-10 h-[100%] flex flex-col">
-                                {jobIndex >= 0 &&
+                    <ResponsiveFullWidget onClose={() => setJobIndex(-1)} visible={jobIndex >= 0}>
+                        <div className=" mb-4 mt-2 mx-10 h-[100%] flex flex-col">
+                            {jobIndex >= 0 &&
                                 <>
                                     <JobInfo
                                         jobInfo={jobs[jobIndex]}
@@ -114,10 +113,10 @@ export default function JobsPage() {
                                             jobInfo={jobs[jobIndex]}
                                         />
                                     </GenericModal>
-                                </>
-                                }
-                            </div>
-                        </ResponsiveFullWidget>
+                            </>
+                            }
+                        </div>
+                    </ResponsiveFullWidget>
                     {/* </div> */}
                 </div>
                 }
