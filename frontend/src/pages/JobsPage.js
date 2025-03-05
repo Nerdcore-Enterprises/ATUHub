@@ -5,17 +5,12 @@ import GenericPage from '../components/genericPage';
 import JobWidget from '../components/JobSearch/JobWidget';
 import Widget from '../components/BaseWidgets/Widget';
 import ResponsiveFullWidget from '../components/JobSearch/ResponsiveFullWidget';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import GenericModal from '../components/GenericModal/GenericModal';
 import GenericErrorPage from '../components/GenericErrorPage/GenericErrorPage';
 import GenericLoadingPage from '../components/GenericErrorPage/GenericLoadingPage';
 import SearchBar from '../components/SearchBar';
 import HorizontalWidgetList from '../components/WidgetContainers/HorizontalWidgetList';
-import GreenButton from '../components/Buttons/GreenButton';
 import JobApplyInfo from '../components/JobSearch/JobApplyInfo';
-import StickyWidget from '../components/BaseWidgets/StickyWidget';
 import JobInfo from '../components/JobSearch/JobInfo';
 import VerticalWidgetList from '../components/WidgetContainers/VerticalWidgetList';
 
@@ -45,6 +40,9 @@ export default function JobsPage() {
 
     useEffect(() => {
         fetchJobData();
+        if (window.innerWidth >= 1024){ // This sets a default job selection on desktop view
+            setJobIndex(0);
+        }
     }, []);
 
     const onJobClick = (newIndex) => {
@@ -96,26 +94,24 @@ export default function JobsPage() {
                     </VerticalWidgetList>
                     {/* JOB INFORMATION */}
                     <ResponsiveFullWidget onClose={() => setJobIndex(-1)} visible={jobIndex >= 0}>
-                        <div className=" mb-4 mt-2 mx-10 h-[100%] flex flex-col">
-                            {jobIndex >= 0 &&
-                                <>
-                                    <JobInfo
+                        {jobIndex >= 0 &&
+                            <>
+                                <JobInfo
+                                    jobInfo={jobs[jobIndex]}
+                                    setApplyVisible={setApplyVisible}
+                                />
+                                {/* Apply info modal */}
+                                <GenericModal
+                                    visible={applyVisible}
+                                    onClose={() => {setApplyVisible(false)}}
+                                    className='w-[60vw] max-w-[768px]'
+                                    >
+                                    <JobApplyInfo
                                         jobInfo={jobs[jobIndex]}
-                                        setApplyVisible={setApplyVisible}
                                     />
-                                    {/* Apply info modal */}
-                                    <GenericModal
-                                        visible={applyVisible}
-                                        onClose={() => {setApplyVisible(false)}}
-                                        className='w-[70vw]'
-                                        >
-                                        <JobApplyInfo
-                                            jobInfo={jobs[jobIndex]}
-                                        />
-                                    </GenericModal>
-                            </>
-                            }
-                        </div>
+                                </GenericModal>
+                        </>
+                        }
                     </ResponsiveFullWidget>
                     {/* </div> */}
                 </div>

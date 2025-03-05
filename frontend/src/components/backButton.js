@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Widget from './BaseWidgets/Widget';
+import WidgetFixedHeight from './BaseWidgets/WidgetFixedHeight';
 
 import { faChevronLeft } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,9 +15,9 @@ export default function BackButton() {
 
     return (
         <button onClick={handleBackClick} >
-            <Widget className='px-6 py-4 text-xl'>
-                <FontAwesomeIcon icon={faChevronLeft} />
-            </Widget>
+            <WidgetFixedHeight height={60} className="aspect-square justify-center text-xl">
+                <FontAwesomeIcon icon={faChevronLeft} className="inline-block text-center align-center"/>
+            </WidgetFixedHeight>
         </button>
     );
 }

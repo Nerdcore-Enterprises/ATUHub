@@ -1,14 +1,10 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../components/JobSearch/ResponsiveFullWidget";
 import DriverWidget from "../components/Transportation/DriverWidget";
-// import { useLocation } from "react-router-dom";
 import GenericErrorPage from "../components/GenericErrorPage/GenericErrorPage";
 import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPage";
 import { useState, useEffect } from "react";
 import GenericPage from "../components/genericPage";
 import Header from '../components/Header';
-import Widget from '../components/BaseWidgets/Widget';
 import SearchBar from "../components/SearchBar";
 import VerticalWidgetList from "../components/WidgetContainers/VerticalWidgetList";
 import DriveInfo from "../components/Transportation/DriveInfo";
@@ -36,7 +32,10 @@ export default function PickDriverPage() {
 
     useEffect(() => {
         fetchDriverData();
-    })
+        if (window.innerWidth >= 1024){ // This sets a default driver selection on desktop view
+            setDriverIndex(0);
+        }
+    }, [])
 
     const onDriverClick = (newIndex) => {
         setDriverIndex(newIndex);
@@ -86,15 +85,13 @@ export default function PickDriverPage() {
                 </VerticalWidgetList>
                 {/* Driver Information */}
                 <ResponsiveFullWidget onClose={() => setDriverIndex(-1)} visible={driverIndex >= 0}>
-                    <div className=" mb-4 mt-2 mx-10 h-[100%] flex flex-col">
-                        {driverIndex >= 0 &&
-                            <>
-                                <DriveInfo
-                                    driverInfo={drivers[driverIndex]}
-                                />
-                            </>
-                        }
-                    </div>
+                    {driverIndex >= 0 &&
+                        <>
+                            <DriveInfo
+                                driverInfo={drivers[driverIndex]}
+                            />
+                        </>
+                    }
                 </ResponsiveFullWidget>
             </div>
             }

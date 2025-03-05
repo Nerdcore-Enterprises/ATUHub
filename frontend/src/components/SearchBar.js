@@ -1,5 +1,4 @@
 import Widget from "./BaseWidgets/Widget";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
 import Input from "./Input";
 import IconButton from "./Buttons/IconButton";

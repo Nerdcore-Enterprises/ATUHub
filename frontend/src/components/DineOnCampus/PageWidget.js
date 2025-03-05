@@ -1,13 +1,15 @@
 // import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import Widget from "../BaseWidgets/Widget";
+import GreenButton from "../Buttons/GreenButton";
 
 export default function DineOnCampusWidget({ locations, earliestStart, latestEnd, title }) {
 
     const isChambers = locations.some(location => location.name.includes("Chamber's"));
 
     return (
-        <div className="flex flex-col items-left space-y-2 bg-white rounded-[2rem] px-5 py-4 w-full h-fit shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+        <Widget className="items-left space-y-2 px-5 py-4">
             <h2 className="font-bold text-2xl">{title}</h2>
             <div className="font-normal text-lg p-2">
                 {earliestStart && latestEnd ? (
@@ -48,12 +50,14 @@ export default function DineOnCampusWidget({ locations, earliestStart, latestEnd
 
             {isChambers && (
                 <div className="flex justify-end w-full">
-                    <a href="https://dineoncampus.com/arkansastech/whats-on-the-menu" target="_blank" rel="noopener noreferrer" className="flex items-center bg-[var(--ATUGreen)] text-white text-xl rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] px-6 py-3">
-                        <p>View Menu</p>
-                        <FontAwesomeIcon icon={faUpRightFromSquare} className="ml-3" />
+                    <a href="https://dineoncampus.com/arkansastech/whats-on-the-menu" target="_blank" rel="noopener noreferrer" className="flex items-center text-xl">
+                        <GreenButton>
+                            View Menu
+                            <FontAwesomeIcon icon={faUpRightFromSquare} className="ml-3" />
+                        </GreenButton>
                     </a>
                 </div>
             )}
-        </div>
+        </Widget>
     );
 }

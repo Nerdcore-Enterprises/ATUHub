@@ -3,9 +3,6 @@ import GenericErrorPage from "../../components/GenericErrorPage/GenericErrorPage
 import GenericLoadingPage from "../../components/GenericErrorPage/GenericLoadingPage";
 import GenericPage from "../../components/genericPage";
 import Header from "../../components/Header";
-import Widget from "../../components/BaseWidgets/Widget";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveFullWidget from "../../components/JobSearch/ResponsiveFullWidget";
 import DriveRequestWidget from "./DriveRequestWidget";
 import SearchBar from "../../components/SearchBar";
@@ -56,6 +53,9 @@ export default function DriveRequestPage() {
 
     useEffect(() => {
         fetchRequestsData();
+        if (window.innerWidth >= 1024){ // This sets a default request selection on desktop view
+            setRequestIndex(0);
+        }
     }, []);
 
     const onRequestClick = (newIndex) => {
@@ -100,15 +100,13 @@ export default function DriveRequestPage() {
                     {/* JOB INFORMATION */}
                     {/* <div className='justify-center w-0 lg:w-1/2'> */}
                         <ResponsiveFullWidget onClose={() => setRequestIndex(-1)} visible={requestIndex >= 0}>
-                            <div className="h-[100%] flex flex-col">
-                                {requestIndex >= 0 &&
-                                <>
-                                    <DriveRequestInfo
-                                        requestInfo={requests[requestIndex]}
-                                    />
-                                </>
-                                }
-                            </div>
+                            {requestIndex >= 0 &&
+                            <>
+                                <DriveRequestInfo
+                                    requestInfo={requests[requestIndex]}
+                                />
+                            </>
+                            }
                         </ResponsiveFullWidget>
                     {/* </div> */}
                 </div>

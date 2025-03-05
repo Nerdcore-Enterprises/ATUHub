@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchHours } from '../../scripts/DineOnCampus';
 
 import HeaderWithBack from '../../components/HeaderWithBack';
-import Widget from '../../components/DineOnCampus/PageWidget';
+import DineOnCampusWidget from '../../components/DineOnCampus/PageWidget';
 import GenericPage from '../../components/genericPage';
 
 export default function DineOnCampusPage() {
@@ -74,9 +74,9 @@ export default function DineOnCampusPage() {
         <GenericPage>
             <HeaderWithBack>DineOnCampus</HeaderWithBack>
             <div className="space-y-4">
-                <Widget locations={chambersHours} earliestStart={chambersTimes.earliestStart} latestEnd={chambersTimes.latestEnd} title="Chamber's" />
-                <Widget locations={bazTechHours} earliestStart={bazTechTimes.earliestStart} latestEnd={bazTechTimes.latestEnd} title="BazTech" />
-                <Widget locations={hullHours} earliestStart={hullTimes.earliestStart} latestEnd={hullTimes.latestEnd} title="Hull" />
+                <DineOnCampusWidget locations={chambersHours} earliestStart={chambersTimes.earliestStart} latestEnd={chambersTimes.latestEnd} title="Chamber's" />
+                <DineOnCampusWidget locations={bazTechHours} earliestStart={bazTechTimes.earliestStart} latestEnd={bazTechTimes.latestEnd} title="BazTech" />
+                <DineOnCampusWidget locations={hullHours} earliestStart={hullTimes.earliestStart} latestEnd={hullTimes.latestEnd} title="Hull" />
             </div>
         </GenericPage>
     );

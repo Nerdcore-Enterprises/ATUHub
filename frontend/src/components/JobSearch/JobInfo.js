@@ -1,33 +1,30 @@
-import StickyWidget from "../BaseWidgets/StickyWidget";
 import GreenButton from "../Buttons/GreenButton";
+import InfoActions from "../InfoActions";
+import InfoDisplay from "../InfoDisplay";
 
 export default function JobInfo({jobInfo, setApplyVisible}){
     return (
         <>
-            <div className='grow overflow-auto pb-10'>
+            <InfoDisplay>
                 <p className="text-3xl font-semibold mb-3">
                     {jobInfo.Name}
                 </p>
-                <p>{jobInfo.Description}</p>
-            </div>
-            <StickyWidget className='bottom-5 shadow-none'>
-            <hr className='mb-4'></hr>
-
-                <div className='h-fit py-2'>
-                    {jobInfo.applyExternally &&
-                        <a href={jobInfo.ContactInfo}>
-                            <GreenButton onClick={() => {setApplyVisible(true)}} className='w-full'>
-                                Apply Externally
-                            </GreenButton>
-                        </a>
-                    }
-                    {!jobInfo.applyExternally &&
+                <p className="min-h-60">{jobInfo.Description}</p>
+            </InfoDisplay>
+            <InfoActions>
+                {jobInfo.applyExternally &&
+                    <a href={jobInfo.ContactInfo} className="w-full">
                         <GreenButton onClick={() => {setApplyVisible(true)}} className='w-full'>
-                            Apply Information
+                            Apply Externally
                         </GreenButton>
-                    }
-                </div>
-            </StickyWidget>
+                    </a>
+                }
+                {!jobInfo.applyExternally &&
+                    <GreenButton onClick={() => {setApplyVisible(true)}} className='w-full'>
+                        Apply Information
+                    </GreenButton>
+                }
+            </InfoActions>
         </>
     );   
 }

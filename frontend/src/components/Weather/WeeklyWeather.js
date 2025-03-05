@@ -1,8 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faCloudRain, faSun, faCloudBolt } from "@fortawesome/free-solid-svg-icons";
-
 import '../../styles/weather.css';
+import Widget from '../BaseWidgets/Widget';
+import FadedText from '../FadedText';
+import WidgetDark from '../BaseWidgets/WidgetDark';
 
 export default function WeeklyWeatherWidget({ forecast }) {
     const getWeatherIcon = (shortForecast) => {
@@ -13,19 +15,19 @@ export default function WeeklyWeatherWidget({ forecast }) {
     };
 
     return (
-        <div className="bg-white rounded-[2rem] px-5 py-4 w-full h-fit shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+        <Widget className='px-5 py-4'>
             <h2 className="font-bold text-2xl mb-4">This Week's Forecast</h2>
             <div className="flex space-x-4 rounded-b-[1rem] overflow-x-auto weather-scroll">
                 {forecast.map((day, index) => (
-                    <div key={index} className="bg-zinc-300 rounded-[2rem] flex flex-col items-center min-w-32">
-                        <p className="font-bold">{day.name}</p>
+                    <WidgetDark className='flex flex-col items-center min-w-32 px-4 shadow-none'>
+                        <p className="font-bold whitespace-nowrap">{day.name}</p>
                         <FontAwesomeIcon icon={getWeatherIcon(day.shortForecast)} className="mb-2" />
-                        <p className="text-lg">
-                            {day.high}° / <span className="text-gray-500">{day.low}°</span>
+                        <p className="text-lg whitespace-nowrap">
+                            {day.high}° / <FadedText>{day.low}°</FadedText>
                         </p>
-                    </div>
+                    </WidgetDark>
                 ))}
             </div>
-        </div>
+        </Widget>
     );
 }

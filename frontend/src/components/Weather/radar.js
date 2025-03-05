@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Widget from '../BaseWidgets/Widget';
 
 export default function RadarWidget() {
     const [radarUrl, setRadarUrl] = useState('');
@@ -17,12 +18,12 @@ export default function RadarWidget() {
     }, []);
 
     return (
-        <div className="bg-white rounded-[2rem] px-5 py-4 w-full h-fit shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+        <Widget className='px-5 py-4 '>
             {radarUrl ? (
                 <img src={radarUrl} alt="Weather Radar" className="w-full h-auto" />
             ) : (
                 <p>Loading radar image...</p>
             )}
-        </div>
+        </Widget>
     );
 };

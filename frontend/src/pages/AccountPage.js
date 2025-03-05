@@ -6,6 +6,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import HeaderWithBack from '../components/HeaderWithBack';
 import GenericPage from '../components/genericPage';
 import Alert from '../components/Alert';
+import Input from '../components/Input';
+import Textarea from '../components/Textarea';
 
 export default function AccountPage() {
     const navigate = useNavigate();
@@ -170,7 +172,7 @@ export default function AccountPage() {
                 </div>
                 <div className="flex flex-col gap-2 w-64">
                     <label htmlFor="firstName" className="font-semibold">First Name:</label>
-                    <input
+                    <Input
                         type="text"
                         id="firstName"
                         name="firstName"
@@ -181,7 +183,7 @@ export default function AccountPage() {
                 </div>
                 <div className="flex flex-col gap-2 w-64">
                     <label htmlFor="lastName" className="font-semibold">Last Name:</label>
-                    <input
+                    <Input
                         type="text"
                         id="lastName"
                         name="lastName"
@@ -192,7 +194,7 @@ export default function AccountPage() {
                 </div>
                 <div className="flex flex-col gap-2 ">
                     <label htmlFor="aboutMe" className="font-semibold">About Me:</label>
-                    <textarea
+                    <Textarea
                         id="aboutMe"
                         name="aboutMe"
                         value={userData.aboutMe}

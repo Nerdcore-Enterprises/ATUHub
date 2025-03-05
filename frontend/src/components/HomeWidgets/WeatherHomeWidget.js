@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faCloudRain, faSun, faCloudBolt } from '@fortawesome/free-solid-svg-icons';
-import Widget from '../BaseWidgets/Widget';
 import WeatherAPI from '../../scripts/weather';
 import NavButton from '../Buttons/NavButton';
 import HomeWidget from '../BaseWidgets/HomeWidget';
+import LoadingIcon from '../GenericErrorPage/LoadingIcon'
 
 export default function CurrentWeatherHomeWidget() {
     const [currentWeather, setCurrentWeather] = useState(null);
@@ -49,7 +49,7 @@ export default function CurrentWeatherHomeWidget() {
                 </div>
                 </>
             ) : (
-                <p className="text-zinc-500 font-bold">Loading...</p>
+                <LoadingIcon/>
             )}
         </HomeWidget>
     );
