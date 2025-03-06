@@ -12,6 +12,7 @@ import DineOnCampusMenuPage from "./pages/DineOnCampus/menu";
 import NotFoundPage from "./pages/not-found";
 import PickDriverPage from "./pages/PickDriverPage";
 import DriveRequestPage from "./pages/DriverRequest/DriveRequestPage";
+import DriveSubmit from "./pages/DriveSubmit/DriveSubmit";
 
 const routes = (
     <Routes>
@@ -25,6 +26,7 @@ const routes = (
         <Route path="/dineoncampus" element={<DineOnCampusPage />} />
         <Route path="/dineoncampus/menu" element={<DineOnCampusMenuPage />} />
         <Route path="/transportation/drive-request" element={<DriveRequestPage />} />
+        <Route path="/transportation/drive-submit" element={<DriveSubmit />} />
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
 );

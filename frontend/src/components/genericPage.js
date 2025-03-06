@@ -1,6 +1,4 @@
 import logo from '../assets/logos/ATUHub-Vertical-1024.png';
-import AppColors from '../constants/AppColors';
-import UserPreferences from '../scripts/UserPreferences';
 import NavButton from './Buttons/NavButton';
 import ContentDiv from './WidgetContainers/ContentDiv';
 
