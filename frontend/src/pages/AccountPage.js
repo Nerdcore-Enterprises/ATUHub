@@ -54,10 +54,22 @@ export default function AccountPage() {
         fetchUserData();
     }, []);
 
-    const handleLogout = () => {
-        localStorage.removeItem('username');
-        localStorage.removeItem('token');
-        navigate('/');
+    const handleLogout = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            await fetch('/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+        } catch (error) {
+            console.error('Error during logout:', error);
+        } finally {
+            localStorage.removeItem('username');
+            localStorage.removeItem('token');
+            navigate('/');
+        }
     };
 
     const handleInputChange = (e) => {

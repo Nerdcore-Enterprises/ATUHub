@@ -1,5 +1,5 @@
 class UserPreferences {
-    static darkMode = true;
+    static darkMode = false;
 
     static setDarkMode(newDarkMode) {
         this.darkMode = newDarkMode;

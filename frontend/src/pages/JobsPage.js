@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Header from '../components/Header';
 import GenericPage from '../components/genericPage';
 import JobWidget from '../components/JobSearch/JobWidget';
 import Widget from '../components/BaseWidgets/Widget';
@@ -13,6 +12,7 @@ import HorizontalWidgetList from '../components/WidgetContainers/HorizontalWidge
 import JobApplyInfo from '../components/JobSearch/JobApplyInfo';
 import JobInfo from '../components/JobSearch/JobInfo';
 import VerticalWidgetList from '../components/WidgetContainers/VerticalWidgetList';
+import HeaderWithBack from '../components/HeaderWithBack';
 
 export default function JobsPage() {
     const [jobIndex, setJobIndex] = useState(-1);
@@ -26,11 +26,11 @@ export default function JobsPage() {
         'here'
     ]
 
-    const fetchJobData = async() => {
+    const fetchJobData = async () => {
         try {
             const response = await fetch('/api/jobs');
             const data = await response.json();
-            if (data){
+            if (data) {
                 setJobs(data.jobs);
             }
         } catch {
@@ -40,7 +40,7 @@ export default function JobsPage() {
 
     useEffect(() => {
         fetchJobData();
-        if (window.innerWidth >= 1024){ // This sets a default job selection on desktop view
+        if (window.innerWidth >= 1024) { // This sets a default job selection on desktop view
             setJobIndex(0);
         }
     }, []);
@@ -51,11 +51,11 @@ export default function JobsPage() {
 
     if (!jobs) {
         return (
-            <GenericLoadingPage/>
+            <GenericLoadingPage />
         )
     }
 
-    else if (jobs.length === 0){
+    else if (jobs.length === 0) {
         return (
             <GenericErrorPage>No Jobs Found</GenericErrorPage>
         )
@@ -63,30 +63,30 @@ export default function JobsPage() {
 
     return (
         <GenericPage>
-            <Header>Jobs</Header>
+            <HeaderWithBack>Jobs</HeaderWithBack>
             {/* SEARCH */}
             <SearchBar
                 query={searchQuery}
                 setQuery={setSearchQuery}
             />
             {/* FILTERS */}
-            <HorizontalWidgetList>
+            {/* <HorizontalWidgetList>
                 {currentFilters.map((filter, index) => (
                     <div key={index} className="flex flex-col items-center">
                         <Widget>{filter}</Widget>
                     </div>
                 ))}
-            </HorizontalWidgetList>
+            </HorizontalWidgetList> */}
             {
                 jobs.length > 0 &&
                 <div className='w-full flex flex-row gap-5'>
                     {/* JOB LIST */}
                     <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%]'>
-                    {
+                        {
                             jobs.map((data, index) => {
                                 if (data.Name.toLowerCase().includes(searchQuery.toLowerCase()))
-                                    return(
-                                        <JobWidget key={index} jobData={data} onClick={() => onJobClick(index)}/>
+                                    return (
+                                        <JobWidget key={index} jobData={data} onClick={() => onJobClick(index)} />
                                     );
                                 return (<></>);
                             })
@@ -103,19 +103,19 @@ export default function JobsPage() {
                                 {/* Apply info modal */}
                                 <GenericModal
                                     visible={applyVisible}
-                                    onClose={() => {setApplyVisible(false)}}
+                                    onClose={() => { setApplyVisible(false) }}
                                     className='w-[60vw] max-w-[768px]'
-                                    >
+                                >
                                     <JobApplyInfo
                                         jobInfo={jobs[jobIndex]}
                                     />
                                 </GenericModal>
-                        </>
+                            </>
                         }
                     </ResponsiveFullWidget>
                     {/* </div> */}
                 </div>
-                }
+            }
         </GenericPage>
     );
 }
