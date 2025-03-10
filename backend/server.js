@@ -1,14 +1,17 @@
 import bcrypt from 'bcrypt';
 import cors from 'cors';
+import cron from 'node-cron';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import express from 'express';
+import NodeMailer from 'nodemailer';
 import sql from 'mssql';
 import fetch from 'node-fetch';
-import NodeMailer from 'nodemailer';
-import crypto from 'crypto';
+import { exec } from 'child_process';
 
 dotenv.config();
 
+const currentBranch = 'dylan-3-10';
 const app = express();
 const PORT = 5000;
 
@@ -42,12 +45,27 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
 
+cron.schedule('*/5 * * * *', () => {
+    exec(`git pull origin ${currentBranch}`, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Git pull error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`Git pull stderr: ${stderr}`);
+            return;
+        }
+        console.log(`Git pull stdout:\n${stdout}`);
+    });
+});
+
 //
 // Signup Route
 //
 app.post('/api/signup', async (req, res) => {
     try {
         console.log('Signup Called');
+
         const { firstName, lastName, username, password } = req.body;
 
         const existingUser = await pool.request()
@@ -129,6 +147,7 @@ app.post('/api/login', async (req, res) => {
 app.post('/api/logout', async (req, res) => {
     try {
         console.log('Logout Called');
+
         const sessionToken = req.headers.authorization?.split(' ')[1];
         if (!sessionToken) {
             return res.status(400).json({ success: false, message: 'No session token provided' });
@@ -137,7 +156,9 @@ app.post('/api/logout', async (req, res) => {
         await pool.request()
             .input('sessionId', sql.VarChar, sessionToken)
             .query('DELETE FROM Session WHERE sessionId = @sessionId');
+
         console.log("Session deleted successfully for token:", sessionToken);
+
         res.json({ success: true, message: 'Logout successful' });
     } catch (error) {
         console.error('Error during logout:', error);
@@ -150,17 +171,19 @@ app.post('/api/logout', async (req, res) => {
 //
 app.get('/api/user/profile', async (req, res) => {
     try {
-        console.log('Fetching user profile');
         const sessionToken = req.headers.authorization?.split(' ')[1];
         if (!sessionToken) {
             return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
         }
+
         const sessionResult = await pool.request()
             .input('sessionId', sql.VarChar, sessionToken)
             .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+
         if (sessionResult.recordset.length === 0) {
             return res.status(401).json({ success: false, message: 'Session expired or invalid' });
         }
+
         const userId = sessionResult.recordset[0].userId;
 
         const user = await pool.request()
