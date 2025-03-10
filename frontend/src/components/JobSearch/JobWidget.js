@@ -2,7 +2,7 @@ import { useCallback, useState, useEffect } from "react";
 import Widget from "../BaseWidgets/Widget";
 import GreenButton from "../Buttons/GreenButton";
 
-export default function JobWidget({jobData, onClick}){
+export default function JobWidget({ jobData, onClick }) {
     const [tagData, setTagData] = useState([]);
 
     const dateDifference = () => {
@@ -16,7 +16,13 @@ export default function JobWidget({jobData, onClick}){
 
     const fetchTags = useCallback(() => {
         let output = [];
-        output.push("$" + jobData.Salary + " per hour");
+        if (jobData.SalaryType === 'Hourly') {
+            output.push(`$${jobData.Salary} per hour`);
+        } else if (jobData.SalaryType === 'Contract') {
+            output.push(`$${jobData.Salary}`);
+        } else {
+            output.push(`$${jobData.Salary}`);
+        }
         output.push(jobData.Type);
         return output;
     }, [jobData]);
@@ -25,7 +31,7 @@ export default function JobWidget({jobData, onClick}){
         setTagData(fetchTags());
     }, [fetchTags]);
 
-    return(
+    return (
         <Widget>
             <div className="my-4 mx-6">
                 <p className="text-3xl font-semibold mb-3">
@@ -40,12 +46,12 @@ export default function JobWidget({jobData, onClick}){
                     ))}
                 </div>
                 <br></br>
-                    <div className="flex flex-row">
-                        <p className="align-middle w-1/2 mt-auto mb-auto">Posted {dateDifference()} days ago</p>
-                        <GreenButton onClick={() => onClick()} className="w-1/2 ml-auto">
-                            View
-                        </GreenButton>
-                    </div>
+                <div className="flex flex-row">
+                    <p className="align-middle w-1/2 mt-auto mb-auto">Posted {dateDifference()} days ago</p>
+                    <GreenButton onClick={() => onClick()} className="w-1/2 ml-auto">
+                        View
+                    </GreenButton>
+                </div>
             </div>
         </Widget>
     );

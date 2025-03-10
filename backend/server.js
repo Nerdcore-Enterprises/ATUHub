@@ -45,19 +45,6 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
 
-cron.schedule('*/5 * * * *', () => {
-    exec(`git pull origin ${currentBranch}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Git pull error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`Git pull stderr: ${stderr}`);
-            return;
-        }
-        console.log(`Git pull stdout:\n${stdout}`);
-    });
-});
 
 //
 // Signup Route
@@ -99,6 +86,7 @@ app.post('/api/signup', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         console.log('Login Called');
+
         const { username, password } = req.body;
 
         if (!username || !password) {
@@ -207,34 +195,37 @@ app.get('/api/user/profile', async (req, res) => {
 app.put('/api/user/profile', async (req, res) => {
     try {
         console.log('Updating user profile');
+
         const sessionToken = req.headers.authorization?.split(' ')[1];
         if (!sessionToken) {
             return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
         }
+
         const sessionResult = await pool.request()
             .input('sessionId', sql.VarChar, sessionToken)
             .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
         if (sessionResult.recordset.length === 0) {
             return res.status(401).json({ success: false, message: 'Session expired or invalid' });
         }
+
         const userId = sessionResult.recordset[0].userId;
-        const { firstName, lastName, aboutMe, avatar } = req.body;
+        const { firstName, lastName, aboutme, avatar } = req.body;
         const avatarBuffer = avatar ? Buffer.from(avatar, 'base64') : null;
 
         const request = pool.request()
             .input('userId', sql.Int, userId)
             .input('firstName', sql.VarChar, firstName)
             .input('lastName', sql.VarChar, lastName)
-            .input('aboutMe', sql.VarChar, aboutMe);
+            .input('aboutme', sql.VarChar, aboutme);
 
         if (avatarBuffer) {
             request.input('avatar', sql.VarBinary, avatarBuffer);
             await request.query(
-                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutMe = @aboutMe, avatar = @avatar WHERE id = @userId'
+                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutme = @aboutme, avatar = @avatar WHERE id = @userId'
             );
         } else {
             await request.query(
-                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutMe = @aboutMe WHERE id = @userId'
+                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutme = @aboutme WHERE id = @userId'
             );
         }
 
@@ -242,6 +233,88 @@ app.put('/api/user/profile', async (req, res) => {
         res.json({ success: true, message: 'Profile updated' });
     } catch (error) {
         console.error('Error updating profile:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Update User Preferences Route
+//
+app.put('/api/user/preferences', async (req, res) => {
+    try {
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
+        }
+
+        const sessionResult = await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+
+        if (sessionResult.recordset.length === 0) {
+            return res.status(401).json({ success: false, message: 'Session expired or invalid' });
+        }
+
+        const userId = sessionResult.recordset[0].userId;
+        const { darkMode } = req.body;
+        const prefArray = [{ darkMode }];
+
+        await pool.request()
+            .input('preferences', sql.NVarChar, JSON.stringify(prefArray))
+            .input('userId', sql.Int, userId)
+            .query('UPDATE [User] SET preferences = @preferences WHERE id = @userId');
+
+        console.log("User preferences updated successfully");
+        res.json({ success: true, message: 'Preferences updated' });
+    } catch (error) {
+        console.error('Error updating preferences:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Get User Preferences Route
+//
+app.get('/api/user/preferences', async (req, res) => {
+    try {
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
+        }
+
+        const sessionResult = await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+
+        if (sessionResult.recordset.length === 0) {
+            return res.status(401).json({ success: false, message: 'Session expired or invalid' });
+        }
+
+        const userId = sessionResult.recordset[0].userId;
+        const userResult = await pool.request()
+            .input('userId', sql.Int, userId)
+            .query('SELECT preferences FROM [User] WHERE id = @userId');
+
+        if (userResult.recordset.length === 0) {
+            return res.status(400).json({ success: false, message: 'User not found' });
+        }
+
+        const preferences = userResult.recordset[0].preferences;
+        let darkMode = false;
+        if (preferences) {
+            try {
+                const prefArray = JSON.parse(preferences);
+                if (Array.isArray(prefArray) && prefArray[0] && typeof prefArray[0].darkMode !== 'undefined') {
+                    darkMode = prefArray[0].darkMode;
+                }
+            } catch (e) {
+                console.error("Error parsing preferences:", e);
+            }
+        }
+
+        res.json({ darkMode });
+    } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

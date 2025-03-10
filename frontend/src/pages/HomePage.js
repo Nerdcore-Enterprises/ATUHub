@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHours } from '../scripts/DineOnCampus';
 
-import Widget from '../components/BaseWidgets/Widget';
 import GenericPage from '../components/genericPage';
 import DineOnCampusHomeWidget from '../components/HomeWidgets/DineOnCampusHomeWidget';
 import WeatherHomeWidget from '../components/HomeWidgets/WeatherHomeWidget';
@@ -30,7 +29,7 @@ export default function HomePage() {
             <div className='w-full grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
                 <DineOnCampusHomeWidget earliestStart={earliestStart} latestEnd={latestEnd} />
                 <WeatherHomeWidget />
-                <JobHomeWidget/>
+                <JobHomeWidget />
                 <TransportationHomeWidget />
             </div>
         </GenericPage>

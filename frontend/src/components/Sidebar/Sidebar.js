@@ -1,20 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useNavigate } from "react-router-dom";
 import React, { useState } from 'react';
-import { useEffect } from "react";
 
-import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser, faG } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import './Sidebar.css';
-import NavWidget from "./SidebarNavButton";
 import logo from '../.././assets/logos/ATUHub_Horizontal.png'
 import NavButton from "../Buttons/NavButton";
 import BackgroundFade from "../BackgroundFade/BackgroundFade";
 import ContentDiv from "../WidgetContainers/ContentDiv";
 import InvertableImage from "../InvertableImage";
 import SidebarNavButton from "./SidebarNavButton";
-import IconButton from "../Buttons/IconButton";
-import WidgetFullHeight from "../BaseWidgets/WidgetFullHeight";
 import WidgetFixedHeight from "../BaseWidgets/WidgetFixedHeight";
 
 export default function Sidebar() {
@@ -27,7 +22,7 @@ export default function Sidebar() {
     };
 
     const handleBackgroundClick = (event) => {
-        if (isSidebarOpen){
+        if (isSidebarOpen) {
             setIsSidebarOpen(false);
         }
         else {
@@ -37,7 +32,7 @@ export default function Sidebar() {
 
     return (
         <>
-            <BackgroundFade visible={isSidebarOpen} onClose={handleBackgroundClick}/>
+            <BackgroundFade visible={isSidebarOpen} onClose={handleBackgroundClick} />
             <ContentDiv className={(isSidebarOpen ? 'opened' : 'closed') + " sidebar h-screen fixed max-w-80 bg-zinc-300 space-y-4 p-4 shadow-[0_0_5vh_rgba(0,0,0,0.7)] "}>
                 <NavButton to={'home/'} onClick={() => setIsSidebarOpen(false)}>
                     <InvertableImage reverse={true} src={logo} alt="ATUHub" className="m-auto w-64 max-w-screen-md cursor-pointer"></InvertableImage>
@@ -82,9 +77,9 @@ export default function Sidebar() {
                                 />
                             </div>
                             <div className="">
-                                <NavButton>
+                                <NavButton to={'account/settings'} onClick={() => setIsSidebarOpen(false)}>
                                     <WidgetFixedHeight height={50} className="aspect-square justify-center">
-                                        <FontAwesomeIcon icon={faGear} className="inline-block text-center align-center"/>
+                                        <FontAwesomeIcon icon={faGear} className="inline-block text-center align-center" />
                                     </WidgetFixedHeight>
                                 </NavButton>
                             </div>

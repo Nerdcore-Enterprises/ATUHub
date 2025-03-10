@@ -1,11 +1,9 @@
-
-import { useState, useEffect } from "react";
 import GenericModal from "../GenericModal/GenericModal";
 import ResponsiveView from "../ResponsiveView";
 import "./ResponsiveFullWidget.css"
 import StickyWidget from "../BaseWidgets/StickyWidget";
 
-export default function ResponsiveFullWidget({ children, onClose, visible, className = ""}) {
+export default function ResponsiveFullWidget({ children, onClose, visible, className = "" }) {
 
     return (
         <ResponsiveView

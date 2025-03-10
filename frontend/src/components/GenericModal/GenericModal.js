@@ -1,10 +1,8 @@
-import { useState, useEffect } from "react";
 import BackgroundFade from "../BackgroundFade/BackgroundFade";
 import "./GenericModal.css"
-import Widget from "../BaseWidgets/Widget";
 import WidgetFullHeight from "../BaseWidgets/WidgetFullHeight";
 
-export default function GenericModal({children, visible, onClose, fitContent = false, className = ""}){
+export default function GenericModal({ children, visible, onClose, fitContent = false, className = "" }) {
 
     const handleModalClick = (event) => {
         event.stopPropagation();
