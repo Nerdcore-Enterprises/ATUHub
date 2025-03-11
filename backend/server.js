@@ -1,18 +1,19 @@
 import bcrypt from 'bcrypt';
 import cors from 'cors';
+import cron from 'node-cron';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import express from 'express';
-import jwt from 'jsonwebtoken';
+import NodeMailer from 'nodemailer';
 import sql from 'mssql';
 import fetch from 'node-fetch';
-import NodeMailer from 'nodemailer';
+import { exec } from 'child_process';
 
 dotenv.config();
 
+const currentBranch = 'dylan-3-10';
 const app = express();
 const PORT = 5000;
-
-const JWT_KEY = process.env.JWT_KEY;
 
 console.clear();
 
@@ -44,12 +45,14 @@ app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
 
+
 //
 // Signup Route
 //
 app.post('/api/signup', async (req, res) => {
     try {
         console.log('Signup Called');
+
         const { firstName, lastName, username, password } = req.body;
 
         const existingUser = await pool.request()
@@ -63,17 +66,14 @@ app.post('/api/signup', async (req, res) => {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        const result = await pool.request()
+        await pool.request()
             .input('firstName', sql.VarChar, firstName)
             .input('lastName', sql.VarChar, lastName)
             .input('username', sql.VarChar, username)
             .input('password', sql.VarChar, hashedPassword)
             .query('INSERT INTO [User] (firstName, lastName, username, password) VALUES (@firstName, @lastName, @username, @password); SELECT SCOPE_IDENTITY() AS insertId');
 
-        const insertId = result.recordset[0]?.insertId;
-        const token = jwt.sign({ userId: insertId }, JWT_KEY, { expiresIn: '1h' });
-
-        res.json({ success: true, message: 'User created successfully', token });
+        res.json({ success: true, message: 'User created successfully' });
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -86,6 +86,7 @@ app.post('/api/signup', async (req, res) => {
 app.post('/api/login', async (req, res) => {
     try {
         console.log('Login Called');
+
         const { username, password } = req.body;
 
         if (!username || !password) {
@@ -102,18 +103,53 @@ app.post('/api/login', async (req, res) => {
         }
 
         const user = result.recordset[0];
-
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
             console.warn(`Invalid username or password`);
             return res.status(401).json({ success: false, message: 'Invalid username or password' });
         }
 
+        const sessionId = crypto.randomBytes(16).toString('hex');
+        const createdAt = new Date();
+        const expiresAt = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        await pool.request()
+            .input('userId', sql.Int, user.user_id || user.id)
+            .input('sessionId', sql.VarChar, sessionId)
+            .input('createdAt', sql.DateTime, createdAt)
+            .input('expiresAt', sql.DateTime, expiresAt)
+            .query('INSERT INTO Session (userId, sessionId, createdAt, expiresAt) VALUES (@userId, @sessionId, @createdAt, @expiresAt)');
+
         console.log(`${username} logged in successfully`);
-        const token = jwt.sign({ userId: user.user_id || user.id }, JWT_KEY, { expiresIn: '1h' });
-        return res.json({ success: true, message: 'Login successful', token });
+
+        return res.json({ success: true, message: 'Login successful', token: sessionId });
     } catch (error) {
         console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Logout Route
+//
+app.post('/api/logout', async (req, res) => {
+    try {
+        console.log('Logout Called');
+
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(400).json({ success: false, message: 'No session token provided' });
+        }
+
+        await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('DELETE FROM Session WHERE sessionId = @sessionId');
+
+        console.log("Session deleted successfully for token:", sessionToken);
+
+        res.json({ success: true, message: 'Logout successful' });
+    } catch (error) {
+        console.error('Error during logout:', error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -123,12 +159,23 @@ app.post('/api/login', async (req, res) => {
 //
 app.get('/api/user/profile', async (req, res) => {
     try {
-        console.log('Fetching user profile');
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, JWT_KEY);
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
+        }
+
+        const sessionResult = await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+
+        if (sessionResult.recordset.length === 0) {
+            return res.status(401).json({ success: false, message: 'Session expired or invalid' });
+        }
+
+        const userId = sessionResult.recordset[0].userId;
 
         const user = await pool.request()
-            .input('userId', sql.Int, decodedToken.userId)
+            .input('userId', sql.Int, userId)
             .query('SELECT * FROM [User] WHERE id = @userId');
 
         if (user.recordset.length <= 0) {
@@ -148,26 +195,37 @@ app.get('/api/user/profile', async (req, res) => {
 app.put('/api/user/profile', async (req, res) => {
     try {
         console.log('Updating user profile');
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, JWT_KEY);
-        const { firstName, lastName, aboutMe, avatar } = req.body;
 
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
+        }
+
+        const sessionResult = await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+        if (sessionResult.recordset.length === 0) {
+            return res.status(401).json({ success: false, message: 'Session expired or invalid' });
+        }
+
+        const userId = sessionResult.recordset[0].userId;
+        const { firstName, lastName, aboutme, avatar } = req.body;
         const avatarBuffer = avatar ? Buffer.from(avatar, 'base64') : null;
 
         const request = pool.request()
-            .input('userId', sql.Int, decodedToken.userId)
+            .input('userId', sql.Int, userId)
             .input('firstName', sql.VarChar, firstName)
             .input('lastName', sql.VarChar, lastName)
-            .input('aboutMe', sql.VarChar, aboutMe);
+            .input('aboutme', sql.VarChar, aboutme);
 
         if (avatarBuffer) {
             request.input('avatar', sql.VarBinary, avatarBuffer);
             await request.query(
-                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutMe = @aboutMe, avatar = @avatar WHERE id = @userId'
+                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutme = @aboutme, avatar = @avatar WHERE id = @userId'
             );
         } else {
             await request.query(
-                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutMe = @aboutMe WHERE id = @userId'
+                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutme = @aboutme WHERE id = @userId'
             );
         }
 
@@ -175,6 +233,88 @@ app.put('/api/user/profile', async (req, res) => {
         res.json({ success: true, message: 'Profile updated' });
     } catch (error) {
         console.error('Error updating profile:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Update User Preferences Route
+//
+app.put('/api/user/preferences', async (req, res) => {
+    try {
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
+        }
+
+        const sessionResult = await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+
+        if (sessionResult.recordset.length === 0) {
+            return res.status(401).json({ success: false, message: 'Session expired or invalid' });
+        }
+
+        const userId = sessionResult.recordset[0].userId;
+        const { darkMode } = req.body;
+        const prefArray = [{ darkMode }];
+
+        await pool.request()
+            .input('preferences', sql.NVarChar, JSON.stringify(prefArray))
+            .input('userId', sql.Int, userId)
+            .query('UPDATE [User] SET preferences = @preferences WHERE id = @userId');
+
+        console.log("User preferences updated successfully");
+        res.json({ success: true, message: 'Preferences updated' });
+    } catch (error) {
+        console.error('Error updating preferences:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Get User Preferences Route
+//
+app.get('/api/user/preferences', async (req, res) => {
+    try {
+        const sessionToken = req.headers.authorization?.split(' ')[1];
+        if (!sessionToken) {
+            return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
+        }
+
+        const sessionResult = await pool.request()
+            .input('sessionId', sql.VarChar, sessionToken)
+            .query('SELECT * FROM Session WHERE sessionId = @sessionId AND expiresAt > GETDATE()');
+
+        if (sessionResult.recordset.length === 0) {
+            return res.status(401).json({ success: false, message: 'Session expired or invalid' });
+        }
+
+        const userId = sessionResult.recordset[0].userId;
+        const userResult = await pool.request()
+            .input('userId', sql.Int, userId)
+            .query('SELECT preferences FROM [User] WHERE id = @userId');
+
+        if (userResult.recordset.length === 0) {
+            return res.status(400).json({ success: false, message: 'User not found' });
+        }
+
+        const preferences = userResult.recordset[0].preferences;
+        let darkMode = false;
+        if (preferences) {
+            try {
+                const prefArray = JSON.parse(preferences);
+                if (Array.isArray(prefArray) && prefArray[0] && typeof prefArray[0].darkMode !== 'undefined') {
+                    darkMode = prefArray[0].darkMode;
+                }
+            } catch (e) {
+                console.error("Error parsing preferences:", e);
+            }
+        }
+
+        res.json({ darkMode });
+    } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

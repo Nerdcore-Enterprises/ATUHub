@@ -22,8 +22,8 @@ export default function MapSelect({ nextPage }) {
                 map = new maplibregl.Map({
                     container: mapContainerRef.current,
                     style: '/api/maptiler?path=maps/hybrid/style.json',
-                    center: [-93.13, 35.28],
-                    zoom: 11,
+                    center: [-93.134, 35.279],
+                    zoom: 12,
                 });
 
                 mapRef.current = map;

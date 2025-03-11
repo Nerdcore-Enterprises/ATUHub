@@ -11,8 +11,8 @@ export default function GenericPage({ children }) {
                     <NavButton to={'/home'}>
                         <img src={logo} alt="ATUHub" className="mx-auto w-48 h-auto py-12 cursor-pointer" />
                     </NavButton>
-                    <ContentDiv 
-                        className="min-h-screen max-h-full rounded-t-[2rem] p-4 space-y-4 shadow-[0_0_1vh_rgba(0,0,0,0.5)] flex-1 lg:max-w-screen-xl lg:ml-auto lg:mr-auto"
+                    <ContentDiv
+                        className="flex-1 px-4 py-2 space-y-4 min-h-screen max-h-full rounded-t-[2rem] shadow-[0_0_1vh_rgba(0,0,0,0.5)] lg:max-w-screen-xl lg:ml-auto lg:mr-auto"
                     >
                         {children}
                     </ContentDiv>

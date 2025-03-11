@@ -1,11 +1,10 @@
-import Widget from "../BaseWidgets/Widget";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import NavButton from "../Buttons/NavButton";
 import HomeWidget from "../BaseWidgets/HomeWidget";
 
-export default function JobHomeWidget(){
+export default function JobHomeWidget() {
     const [numNewJobs, setNumNewJobs] = useState(0);
     const consideredNewLimit = 7;
 
@@ -18,27 +17,25 @@ export default function JobHomeWidget(){
         return Math.floor(diffInMs / msPerDay);
     }
 
-    const fetchJobData = async() => {
-        try {
-            const response = await fetch('/api/jobs');
-            const data = await response.json();
-            if (data){
-                const jobs = data.jobs;
-                let newJobs = 0;
-                for (let i = 0; i < jobs.length; i++){
-                    if (dateDifference(jobs[i]) <= consideredNewLimit){
-                        newJobs++;
-                    }
-                }
-                setNumNewJobs(newJobs);
-            }
-        } catch {
-            console.error("Failed to fetch jobs")
-        }
-    }
-
     useEffect(() => {
-        fetchJobData();
+        (async () => {
+            try {
+                const response = await fetch('/api/jobs');
+                const data = await response.json();
+                if (data) {
+                    const jobs = data.jobs;
+                    let newJobs = 0;
+                    for (let i = 0; i < jobs.length; i++) {
+                        if (dateDifference(jobs[i]) <= consideredNewLimit) {
+                            newJobs++;
+                        }
+                    }
+                    setNumNewJobs(newJobs);
+                }
+            } catch {
+                console.error("Failed to fetch jobs");
+            }
+        })();
     }, []);
 
     return (

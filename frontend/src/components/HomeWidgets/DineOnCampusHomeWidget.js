@@ -1,4 +1,3 @@
-import Widget from "../BaseWidgets/Widget";
 import logo from '../../assets/icons/DineOnCampus.svg';
 import NavButton from "../Buttons/NavButton";
 import HomeWidget from "../BaseWidgets/HomeWidget";

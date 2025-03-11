@@ -13,12 +13,14 @@ import NotFoundPage from "./pages/not-found";
 import PickDriverPage from "./pages/PickDriverPage";
 import DriveRequestPage from "./pages/DriverRequest/DriveRequestPage";
 import DriveSubmit from "./pages/DriveSubmit/DriveSubmit";
+import SettingsPage from "./pages/SettingsPage";
 
 const routes = (
     <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/account" element={<AccountPage />} />
+        <Route path="/account/settings" element={<SettingsPage />} />
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/transportation" element={<TransportationPage />} />
