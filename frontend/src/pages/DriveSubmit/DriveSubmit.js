@@ -8,14 +8,17 @@ import WidgetBullet from "../../components/Buttons/WidgetBullet";
 import GenericModal from "../../components/GenericModal/GenericModal";
 import InfoDisplay from "../../components/InfoDisplay";
 import InfoActions from "../../components/InfoActions";
+import { useLocation } from "react-router-dom";
 
 export default function DriveSubmit(){
     const [driveType, setDriveType] = useState(0);
     const [driveInstruction, setDriveInstruction] = useState("");
     const [payModalVisible, setPayModalVisible] = useState(false);
 
+    const location = useLocation();
+    const coords = location.state; 
+
     // Temp values - These would be brought in I assume?
-    const coords = {lat: 100, lng: 100}; 
     const cost = 15;
 
     return (

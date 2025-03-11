@@ -4,19 +4,19 @@ import GenericErrorPage from "../components/GenericErrorPage/GenericErrorPage";
 import GenericLoadingPage from "../components/GenericErrorPage/GenericLoadingPage";
 import { useState, useEffect } from "react";
 import GenericPage from "../components/genericPage";
-import Header from '../components/Header';
 import SearchBar from "../components/SearchBar";
 import VerticalWidgetList from "../components/WidgetContainers/VerticalWidgetList";
 import DriveInfo from "../components/Transportation/DriveInfo";
+import { useLocation } from "react-router-dom";
+import HeaderWithBack from "../components/HeaderWithBack";
 
 export default function PickDriverPage() {
     const [driverIndex, setDriverIndex] = useState(-1);
     const [drivers, setDrivers] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
-    // commented to remove eslint. This is how we get the coordinates from previous page. also uncomment import
-    // const location = useLocation();
-    // const coords = location.state; 
+    const location = useLocation();
+    const coords = location.state; 
 
     const fetchDriverData = async () => {
         try {
@@ -55,7 +55,7 @@ export default function PickDriverPage() {
 
     return (
         <GenericPage>
-            <Header>Pick a driver</Header>
+            <HeaderWithBack>Pick a driver</HeaderWithBack>
             {/* Search */}
             <SearchBar
                 query={searchQuery}
@@ -89,6 +89,7 @@ export default function PickDriverPage() {
                         <>
                             <DriveInfo
                                 driverInfo={drivers[driverIndex]}
+                                coords={coords}
                             />
                         </>
                     }

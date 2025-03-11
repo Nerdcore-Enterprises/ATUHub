@@ -1,8 +1,15 @@
 import GreenButton from "../Buttons/GreenButton";
 import InfoActions from "../InfoActions";
 import InfoDisplay from "../InfoDisplay";
+import { useNavigate } from "react-router-dom";
 
-export default function DriveInfo({driverInfo}) {
+export default function DriveInfo({driverInfo, coords}) {
+    const navigate = useNavigate();
+
+    const handleNav = (path, props) => {
+        navigate(path, props);
+    };
+
     return (
         <>
             <InfoDisplay>
@@ -11,7 +18,8 @@ export default function DriveInfo({driverInfo}) {
                 </p>
             </InfoDisplay>
             <InfoActions>
-                <GreenButton onClick={() => {}} className='w-full'>
+                <GreenButton onClick={() => handleNav('/transportation/drive-submit', { state: { lng: coords.lng, lat: coords.lat } })} className='w-full'>
+                    
                     Select Driver
                 </GreenButton>
             </InfoActions>
