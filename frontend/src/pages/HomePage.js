@@ -7,7 +7,7 @@ import WeatherHomeWidget from '../components/HomeWidgets/WeatherHomeWidget';
 import JobHomeWidget from '../components/HomeWidgets/JobHomeWidget';
 import TransportationHomeWidget from '../components/HomeWidgets/TransportationHomeWidget';
 import Header from '../components/Header';
-
+import GenericSidebar from '../components/Sidebar/GenericSidebar';
 export default function HomePage() {
     const [earliestStart, setEarliestStart] = useState(null);
     const [latestEnd, setLatestEnd] = useState(null);
@@ -23,15 +23,20 @@ export default function HomePage() {
     }, []);
 
     return (
-        <GenericPage>
-            <Header className="text-center">🎉 Welcome to ATUHub 🎉</Header>
-            {/* If we decide we want more widgets. Switch lg:grid-cols-2 to lg:grid-cols-3 */}
-            <div className='w-full grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
-                <DineOnCampusHomeWidget earliestStart={earliestStart} latestEnd={latestEnd} />
-                <WeatherHomeWidget />
-                <JobHomeWidget />
-                <TransportationHomeWidget />
-            </div>
-        </GenericPage>
+        <>
+            <GenericPage>
+                <Header className="text-center">🎉 Welcome to ATUHub 🎉</Header>
+                {/* If we decide we want more widgets. Switch lg:grid-cols-2 to lg:grid-cols-3 */}
+                <div className='w-full grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
+                    <DineOnCampusHomeWidget earliestStart={earliestStart} latestEnd={latestEnd} />
+                    <WeatherHomeWidget />
+                    <JobHomeWidget />
+                    <TransportationHomeWidget />
+                </div>
+            </GenericPage>
+            <GenericSidebar side='right'>
+                hi there
+            </GenericSidebar>
+        </>
     );
 }

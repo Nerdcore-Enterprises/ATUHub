@@ -1,21 +1,36 @@
-.opened {
-    left: 0px;
-    transition: left 300ms ease-out;
+.left {
+    top: 0;
+    right: unset;
+    bottom: unset;
+    height: 100vh;
 }
 
-.closed {
+.left-closed {
     left: -100vw;
     transition: left 300ms ease-in;
 }
 
-.sidebar{
-    top: 0px;
-    z-index: 10000;
+.left-open {
+    left: 0vw;
+    transition: left 300ms ease-in;
 }
 
-h1{
-    font-size: 20pt;
-    font-weight: bold;
+
+.right {
+    top: 0;
+    right: 0;
+    bottom: unset;
+    height: 100vh;
+}
+
+.right-closed {
+    right: -100vw;
+    transition: right 300ms ease-in;
+}
+
+.right-open {
+    right: 0vw;
+    transition: right 300ms ease-in;
 }
 
 @keyframes show-modal {

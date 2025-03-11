@@ -3,7 +3,7 @@ import { faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
 import Input from "./Input";
 import IconButton from "./Buttons/IconButton";
 
-export default function SearchBar({query, setQuery}){
+export default function SearchBar({query, setQuery, onFilterClick}){
     return (
         <Widget>
             <div className='flex px-5 justify-center'>
@@ -16,10 +16,12 @@ export default function SearchBar({query, setQuery}){
                     placeholder='Search'
                     onChange={(e) => {setQuery(e.target.value)}}
                 />
-                <IconButton
-                    icon={faFilter}
-                    onClick={() => {console.log("filter code here")}}  
-                />
+                {onFilterClick &&
+                    <IconButton
+                        icon={faFilter}
+                        onClick={onFilterClick}  
+                    />
+                }
             </div>
         </Widget>
     );
