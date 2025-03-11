@@ -3,13 +3,32 @@ import InfoActions from "../InfoActions";
 import InfoDisplay from "../InfoDisplay";
 
 export default function JobInfo({jobInfo, setApplyVisible}){
+    const responsibilities = JSON.parse(jobInfo.Responsibilities);
+    const requirements = JSON.parse(jobInfo.Requirements);
+
     return (
         <>
             <InfoDisplay>
-                <p className="text-3xl font-semibold mb-3">
-                    {jobInfo.Name}
-                </p>
-                <p className="min-h-60">{jobInfo.Description}</p>
+                <p className="text-3xl font-semibold mb-3">{jobInfo.Name}</p>
+                <p>{jobInfo.Description}</p>
+                <br></br>
+                <p className="text-3xl font-semibold mb-3">Responsibilities</p>
+                <ul>
+                    {
+                        responsibilities.map((data, index) => (
+                            <li key={index}>&bull; {data}</li>
+                        ))
+                    }
+                </ul>
+                <br></br>
+                <p className="text-3xl font-semibold mb-3">Requirements</p>
+                <ul>
+                    {
+                        requirements.map((data, index) => (
+                            <li key={index}>&bull; {data}</li>
+                        ))
+                    }
+                </ul>
             </InfoDisplay>
             <InfoActions>
                 {jobInfo.applyExternally &&
@@ -28,3 +47,5 @@ export default function JobInfo({jobInfo, setApplyVisible}){
         </>
     );   
 }
+
+

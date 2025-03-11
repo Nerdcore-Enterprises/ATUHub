@@ -106,8 +106,8 @@ export default function JobsPage() {
                                 jobs.map((data, index) => {
                                     // Filters
                                     if (!data.Name.toLowerCase().includes(searchQuery.toLowerCase())) return (<></>);
-                                    if (typeFilter[data.Type] == false) return (<></>);
-                                    if (salaryTypeFilter[data.SalaryType] == false) return (<></>);
+                                    if (typeFilter[data.Type] === false) return (<></>);
+                                    if (salaryTypeFilter[data.SalaryType] === false) return (<></>);
                                     if (Number(data.Salary) < minMoneyFilter) return (<></>);
 
                                     return (
@@ -154,6 +154,7 @@ export default function JobsPage() {
                         return (
                             <>
                                 <WidgetBullet
+                                    key={key}
                                     className='text-center rounded-none'
                                     selected={typeFilter[key]}
                                     onClick={() => {handleFilterChange(key, setTypeFilter)}}
@@ -171,6 +172,7 @@ export default function JobsPage() {
                         return (
                             <>
                                 <WidgetBullet
+                                    key={key}
                                     className='text-center rounded-none'
                                     selected={salaryTypeFilter[key]}
                                     onClick={() => {handleFilterChange(key, setSalaryTypeFilter)}}
