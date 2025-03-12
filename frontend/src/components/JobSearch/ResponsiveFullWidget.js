@@ -13,7 +13,7 @@ export default function ResponsiveFullWidget({ children, onClose, visible, class
                 </GenericModal>
             }
             desktopView={
-                <StickyWidget className="min-h-[90vh]">
+                <StickyWidget className="min-h-[90vh] py-4 ">
                     {children}
                 </StickyWidget>
             }

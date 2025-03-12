@@ -126,7 +126,7 @@ export default function JobsPage() {
                                     <GenericModal
                                         visible={applyVisible}
                                         onClose={() => { setApplyVisible(false) }}
-                                        className='w-[60vw] max-w-[768px]'
+                                        fitContent={true}
                                     >
                                         <JobApplyInfo
                                             jobInfo={jobs[jobIndex]}

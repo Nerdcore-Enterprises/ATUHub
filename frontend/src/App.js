@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import routes from "./routes";
 import Sidebar from "./components/Sidebar/Sidebar";
+import UserPreferences from "./scripts/UserPreferences";
 
 export default function App() {
     const location = useLocation();
@@ -23,6 +24,26 @@ export default function App() {
             .catch(() => {
                 setValidSession(false);
             });
+        
+        // Init Dark Mode
+        const fetchPreferences = async () => {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/user/preferences', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (response.ok) {
+                    const result = await response.json();
+                    UserPreferences.setDarkMode(result.darkMode);
+                }
+            } catch (error) {
+                console.error('Error fetching user preferences', error);
+            }
+        };
+        fetchPreferences();
     }, [location.pathname]);
 
     if (validSession === null) return null;

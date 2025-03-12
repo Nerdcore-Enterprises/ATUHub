@@ -30,7 +30,9 @@ export default function JobInfo({jobInfo, setApplyVisible}){
                     }
                 </ul>
             </InfoDisplay>
-            <InfoActions>
+            <InfoActions
+                extraInfo={<p className="text-xl font-bold">${jobInfo.Salary}{jobInfo.SalaryType === 'Hourly' ? ' per hour': ''}</p>}
+            >
                 {jobInfo.applyExternally &&
                     <a href={jobInfo.ContactInfo} className="w-full">
                         <GreenButton onClick={() => {setApplyVisible(true)}} className='w-full'>
