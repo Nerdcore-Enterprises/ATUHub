@@ -1,9 +1,16 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import "./LoadingIcon.css"
+import "./spinner.css"
 
-export default function LoadingIcon(){
+export default function LoadingIcon() {
     return (
-        <FontAwesomeIcon icon={faSpinner} className="text-7xl mt-4 spinner"/>
+        <div className="flex items-center justify-center w-full h-full">
+            <div id="loader" className="flex w-12 h-12">
+                <span id="pip-0" />
+                <span id="pip-1" />
+                <span id="pip-2" />
+                <span id="pip-3" />
+                <span id="pip-4" />
+                <span id="pip-5" />
+            </div>
+        </div>
     );
 }

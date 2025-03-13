@@ -225,13 +225,13 @@ export default function AccountPage() {
                         type="button"
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="px-4 py-2 bg-green-600 text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="transition-colors duration-150 px-4 py-2 bg-green-900 hover:bg-green-600 text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                     >
                         {isSaving ? 'Saving...' : 'Save'}
                     </button>
                     <button
                         onClick={handleLogout}
-                        className="px-4 py-2 bg-red-600 text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="transition-colors duration-150 px-4 py-2 bg-red-900 hover:bg-red-600 text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                     >
                         Logout
                     </button>

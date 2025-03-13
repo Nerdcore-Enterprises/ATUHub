@@ -190,6 +190,23 @@ app.get('/api/user/profile', async (req, res) => {
 });
 
 //
+// Users Route - List all users in the database
+//
+app.get('/api/users', async (req, res) => {
+    try {
+        const result = await pool.request()
+            .query('SELECT * FROM [User]');
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ success: false, message: 'No users found' });
+        }
+        res.json({ success: true, users: result.recordset });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
 // Profile Put Route
 //
 app.put('/api/user/profile', async (req, res) => {

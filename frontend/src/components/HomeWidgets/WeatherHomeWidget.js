@@ -18,7 +18,7 @@ export default function CurrentWeatherHomeWidget() {
 
         fetchCurrentWeather();
     }, []);
-    
+
     const getWeatherIcon = (shortForecast) => {
         if (shortForecast.includes("Rain")) return faCloudRain;
         if (shortForecast.includes("Sunny")) return faSun;
@@ -37,19 +37,19 @@ export default function CurrentWeatherHomeWidget() {
                         </p>
                     </div>
                     <div className="flex flex-row items-center mb-4 mx-6">
-                    <div className="flex flex-col text-left">
-                        <div className="flex flex-col">
-                            <p className="text-xl font-bold">{currentWeather.temperature}°{currentWeather.temperatureUnit}</p>
-                            <p className="max-w-48 text-sm">{currentWeather.shortForecast}</p>
+                        <div className="flex flex-col text-left">
+                            <div className="flex flex-col">
+                                <p className="text-xl font-bold">{currentWeather.temperature}°{currentWeather.temperatureUnit}</p>
+                                <p className="max-w-48 text-sm">{currentWeather.shortForecast}</p>
+                            </div>
                         </div>
+                        <NavButton to={'../weather'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                            View More
+                        </NavButton>
                     </div>
-                    <NavButton to={'../weather'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
-                        View More
-                    </NavButton>
-                </div>
                 </>
             ) : (
-                <LoadingIcon/>
+                <LoadingIcon />
             )}
         </HomeWidget>
     );

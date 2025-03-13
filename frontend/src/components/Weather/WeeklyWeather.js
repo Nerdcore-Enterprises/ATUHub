@@ -19,7 +19,7 @@ export default function WeeklyWeatherWidget({ forecast }) {
             <h2 className="font-bold text-2xl mb-4">This Week's Forecast</h2>
             <div className="flex space-x-4 rounded-b-[1rem] overflow-x-auto weather-scroll">
                 {forecast.map((day, index) => (
-                    <WidgetDark className='flex flex-col items-center min-w-32 px-4 shadow-none'>
+                    <WidgetDark key={index} className='flex flex-col items-center min-w-32 px-4 shadow-none'>
                         <p className="font-bold whitespace-nowrap">{day.name}</p>
                         <FontAwesomeIcon icon={getWeatherIcon(day.shortForecast)} className="mb-2" />
                         <p className="text-lg whitespace-nowrap">

@@ -1,6 +1,8 @@
 import BackgroundFade from "../BackgroundFade/BackgroundFade";
 import "./GenericModal.css"
 import WidgetFullHeight from "../BaseWidgets/WidgetFullHeight";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 export default function GenericModal({ children, visible, onClose, fitContent = false, className = "" }) {
 
@@ -17,7 +19,7 @@ export default function GenericModal({ children, visible, onClose, fitContent = 
                 <div className={(fitContent ? 'inline' : 'w-[80vw]') + " m-auto " + className} onClick={handleModalClick}>
                     <WidgetFullHeight className="relative m-auto py-4 ">
                         <div className="relative w-full h-0">
-                            <button className="absolute right-5 top-1 text-3xl font-semibold" onClick={onClose}>X</button>
+                            <FontAwesomeIcon icon={faXmark} className="cursor-pointer absolute right-5 top-1 text-3xl font-semibold" onClick={onClose} />
                         </div>
                         {children}
                     </WidgetFullHeight>
