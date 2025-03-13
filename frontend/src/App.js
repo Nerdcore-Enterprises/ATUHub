@@ -3,13 +3,17 @@ import { useLocation, Navigate } from "react-router-dom";
 import routes from "./routes";
 import Sidebar from "./components/Sidebar/Sidebar";
 import UserPreferences from "./scripts/UserPreferences";
+import useFetchAvatar from './hooks/useFetchAvatar';
 
 export default function App() {
     const location = useLocation();
     const [validSession, setValidSession] = useState(null);
 
+    const token = localStorage.getItem("token");
+
+    useFetchAvatar(token);
+
     useEffect(() => {
-        const token = localStorage.getItem("token");
         if (!token) {
             setValidSession(false);
             return;
@@ -24,8 +28,7 @@ export default function App() {
             .catch(() => {
                 setValidSession(false);
             });
-        
-        // Init Dark Mode
+
         const fetchPreferences = async () => {
             try {
                 const token = localStorage.getItem('token');
@@ -43,8 +46,9 @@ export default function App() {
                 console.error('Error fetching user preferences', error);
             }
         };
+
         fetchPreferences();
-    }, [location.pathname]);
+    }, [location.pathname, token]);
 
     if (validSession === null) return null;
 

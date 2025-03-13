@@ -32,7 +32,7 @@ export default function WeatherPage() {
 
     const formatForecast = (forecast) => {
         const combinedForecast = {};
-        
+
         forecast.forEach(day => {
             const isNight = day.name.includes('Night');
             const isTonight = day.name.includes('Tonight');
@@ -63,7 +63,7 @@ export default function WeatherPage() {
             {currentWeather && (
                 <>
                     <HeaderWithBack>
-                        <div className='flex flex-row items-center justify-between font-normal text-lg px-10'>
+                        <div className='flex flex-row items-center justify-between font-normal text-lg'>
                             <FontAwesomeIcon icon={getWeatherIcon(currentWeather.shortForecast)} className="mr-2" />
                             <p>{currentWeather.shortForecast}</p>
                             <p>{currentWeather.temperature}°{currentWeather.temperatureUnit}</p>

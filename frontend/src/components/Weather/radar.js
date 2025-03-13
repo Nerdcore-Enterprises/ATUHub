@@ -18,9 +18,9 @@ export default function RadarWidget() {
     }, []);
 
     return (
-        <Widget className='px-5 py-4 '>
+        <Widget className="px-5 py-4">
             {radarUrl ? (
-                <img src={radarUrl} alt="Weather Radar" className="w-full h-auto" />
+                <img src={radarUrl} alt="Weather Radar" className="w-full h-auto rounded-2xl" />
             ) : (
                 <p>Loading radar image...</p>
             )}

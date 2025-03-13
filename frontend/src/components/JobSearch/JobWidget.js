@@ -33,7 +33,7 @@ export default function JobWidget({ jobData, onClick }) {
 
     return (
         <Widget>
-            <div className="my-4 mx-6">
+            <div className="my-4 mx-6 space-y-4">
                 <p className="text-3xl font-semibold mb-3">
                     {jobData.Name}
                 </p>
@@ -45,7 +45,6 @@ export default function JobWidget({ jobData, onClick }) {
                         </div>
                     ))}
                 </div>
-                <br></br>
                 <div className="flex flex-row">
                     <p className="align-middle w-1/2 mt-auto mb-auto">Posted {dateDifference()} days ago</p>
                     <GreenButton onClick={() => onClick()} className="w-1/2 ml-auto">
