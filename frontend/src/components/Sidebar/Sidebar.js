@@ -29,7 +29,20 @@ export default function Sidebar() {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    setUserRole(data.roles);
+                    let roles = data.roles;
+
+                    if (typeof roles === "string") {
+                        try {
+                            roles = JSON.parse(roles);
+                        } catch (e) {
+                            console.error("Error parsing roles", e);
+                            roles = [];
+                        }
+                    }
+
+                    console.log(roles);
+
+                    setUserRole(roles);
                 } else {
                     console.error("Failed to fetch user profile");
                 }
@@ -80,8 +93,7 @@ export default function Sidebar() {
                     setIsSidebarOpen={setIsSidebarOpen}
                 />
 
-
-                {userRole && userRole.includes("Admin") && (
+                {userRole && Array.isArray(userRole) && userRole.includes("Administrator") && (
                     <>
                         <div className="bg-zinc-600 h-px mt-auto rounded-full" />
 
@@ -93,7 +105,6 @@ export default function Sidebar() {
                         />
                     </>
                 )}
-
 
                 <div>
                     <div className="space-y-4 w-full p-4 left-0 absolute bottom-0">

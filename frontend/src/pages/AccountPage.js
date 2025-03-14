@@ -12,6 +12,7 @@ import Textarea from '../components/Textarea';
 export default function AccountPage() {
     const navigate = useNavigate();
     const [userData, setUserData] = useState({
+        username: '',
         avatar: '',
         firstName: '',
         lastName: '',
@@ -38,9 +39,10 @@ export default function AccountPage() {
                         avatarStr = `data:image/png;base64,${btoa(binaryStr)}`;
                     }
                     setUserData({
+                        username: result.username ? result.username.trim() : '',
                         avatar: avatarStr,
-                        firstName: result.firstName || '',
-                        lastName: result.lastName || '',
+                        firstName: result.firstName ? result.firstName.trim() : '',
+                        lastName: result.lastName ? result.lastName.trim() : '',
                         aboutme: result.aboutme || '',
                     });
                 } else {
@@ -121,6 +123,7 @@ export default function AccountPage() {
             if (userData.avatar instanceof File) {
                 avatarBase64 = await resizeImage(userData.avatar);
             }
+
             const token = localStorage.getItem('token');
             const response = await fetch('/api/user/profile', {
                 method: 'PUT',
@@ -188,6 +191,10 @@ export default function AccountPage() {
                     />
                 </div>
                 <div className="flex flex-col gap-2 w-64">
+                    <label htmlFor="username" className="font-semibold">Username:</label>
+                    <p className="bg-[#00000033] px-2 py-1 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.3)]">{userData.username}</p>
+                </div>
+                <div className="flex flex-col gap-2 w-64">
                     <label htmlFor="firstName" className="font-semibold">First Name:</label>
                     <Input
                         type="text"
@@ -195,7 +202,7 @@ export default function AccountPage() {
                         name="firstName"
                         value={userData.firstName}
                         onChange={handleInputChange}
-                        className="border px-2 py-1 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="px-2 py-1 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                     />
                 </div>
                 <div className="flex flex-col gap-2 w-64">
@@ -206,17 +213,17 @@ export default function AccountPage() {
                         name="lastName"
                         value={userData.lastName}
                         onChange={handleInputChange}
-                        className="border px-2 py-1 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="px-2 py-1 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                     />
                 </div>
-                <div className="flex flex-col gap-2 ">
+                <div className="flex flex-col gap-2">
                     <label htmlFor="aboutme" className="font-semibold">About Me:</label>
                     <Textarea
                         id="aboutme"
                         name="aboutme"
                         value={userData.aboutme}
                         onChange={handleInputChange}
-                        className="border px-2 py-1 rounded-2xl w-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="px-2 py-1 rounded-2xl w-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                         rows={4}
                     />
                 </div>
@@ -225,13 +232,13 @@ export default function AccountPage() {
                         type="button"
                         onClick={handleSave}
                         disabled={isSaving}
-                        className="transition-colors duration-150 px-4 py-2 bg-green-900 hover:bg-green-600 text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="transition-colors duration-150 px-4 py-2 bg-[#337700AA] hover:bg-[#337700] text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                     >
                         {isSaving ? 'Saving...' : 'Save'}
                     </button>
                     <button
                         onClick={handleLogout}
-                        className="transition-colors duration-150 px-4 py-2 bg-red-900 hover:bg-red-600 text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        className="transition-colors duration-150 px-4 py-2 bg-[#AA0000AA] hover:bg-[#AA0000] text-white rounded-full w-32 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                     >
                         Logout
                     </button>

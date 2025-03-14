@@ -21,6 +21,7 @@ export default function UsersPage() {
                 const response = await fetch('http://localhost:5000/api/user/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
+
                 if (response.ok) {
                     const profile = await response.json();
 
@@ -39,7 +40,7 @@ export default function UsersPage() {
                         rolesArray = profile.roles;
                     }
 
-                    if (rolesArray.includes('Admin')) {
+                    if (rolesArray.includes('Administrator')) {
                         setIsAdmin(true);
                     }
                 } else {

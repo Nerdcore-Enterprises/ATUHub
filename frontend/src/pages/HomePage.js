@@ -27,16 +27,13 @@ export default function HomePage() {
             <GenericPage>
                 <Header className="text-center">🎉 Welcome to ATUHub 🎉</Header>
                 {/* If we decide we want more widgets. Switch lg:grid-cols-2 to lg:grid-cols-3 */}
-                <div className='w-full grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-2'>
+                <div className='w-full grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-4'>
                     <DineOnCampusHomeWidget earliestStart={earliestStart} latestEnd={latestEnd} />
                     <WeatherHomeWidget />
                     <JobHomeWidget />
                     <TransportationHomeWidget />
                 </div>
             </GenericPage>
-            <GenericSidebar side='right'>
-                hi there
-            </GenericSidebar>
         </>
     );
 }

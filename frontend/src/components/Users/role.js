@@ -1,7 +1,8 @@
 export default function Role({ role }) {
     const roleColors = {
-        Admin: "bg-red-400",
-        Designer: "bg-purple-600",
+        Administrator: "bg-gradient-to-r from-red-500 to-red-800",
+        Designer: "bg-gradient-to-r from-purple-500 to-purple-800",
+        Developer: "bg-gradient-to-r from-blue-500 to-blue-800 font-mono",
         default: "bg-[#FFFFFF33]"
     };
 

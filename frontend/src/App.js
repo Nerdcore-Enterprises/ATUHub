@@ -14,6 +14,14 @@ export default function App() {
     useFetchAvatar(token);
 
     useEffect(() => {
+        const storedDarkMode = localStorage.getItem('darkMode');
+
+        if (storedDarkMode !== null) {
+            const isDark = storedDarkMode === 'true';
+            UserPreferences.setDarkMode(isDark);
+            document.documentElement.classList.toggle('dark', isDark);
+        }
+
         if (!token) {
             setValidSession(false);
             return;
@@ -32,15 +40,20 @@ export default function App() {
         const fetchPreferences = async () => {
             try {
                 const token = localStorage.getItem('token');
+
                 const response = await fetch('/api/user/preferences', {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     }
                 });
+
                 if (response.ok) {
                     const result = await response.json();
+
+                    localStorage.setItem('darkMode', result.darkMode);
                     UserPreferences.setDarkMode(result.darkMode);
+                    document.documentElement.classList.toggle('dark', result.darkMode);
                 }
             } catch (error) {
                 console.error('Error fetching user preferences', error);

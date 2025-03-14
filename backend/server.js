@@ -176,7 +176,7 @@ app.get('/api/user/profile', async (req, res) => {
 
         const user = await pool.request()
             .input('userId', sql.Int, userId)
-            .query('SELECT * FROM [User] WHERE id = @userId');
+            .query('SELECT id, firstName, lastName, username, aboutme, avatar, preferences, roles FROM [User] WHERE id = @userId');
 
         if (user.recordset.length <= 0) {
             return res.status(400).json({ success: false, message: 'User not found' });
@@ -250,6 +250,26 @@ app.put('/api/user/profile', async (req, res) => {
         res.json({ success: true, message: 'Profile updated' });
     } catch (error) {
         console.error('Error updating profile:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// User Slug Route - Fetch a single user by username (slug)
+//
+app.get('/api/users/:username', async (req, res) => {
+    try {
+        const username = req.params.username;
+        const result = await pool.request()
+            .input('username', sql.VarChar, username)
+            .query('SELECT * FROM [User] WHERE username = @username');
+
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+        res.json({ success: true, user: result.recordset[0] });
+    } catch (error) {
+        console.error('Error fetching user by slug:', error);
         res.status(500).send('Internal Server Error');
     }
 });
