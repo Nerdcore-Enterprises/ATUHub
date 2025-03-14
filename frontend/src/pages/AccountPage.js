@@ -169,11 +169,11 @@ export default function AccountPage() {
                             {avatarPreview ? (
                                 <img
                                     src={avatarPreview}
-                                    className="w-36 h-36 mt-2 border-2 border-zinc-700 rounded-full object-cover shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                                    className="w-42 h-42 mt-2 border-2 border-zinc-700 rounded-full object-cover shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                                     alt="avatar"
                                 />
                             ) : (
-                                <div className="w-36 h-36 mt-2 rounded-full bg-gray-300 flex items-center justify-center">
+                                <div className="w-42 h-42 mt-2 rounded-full bg-gray-300 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faUser} className="text-white" size="2x" />
                                 </div>
                             )}
