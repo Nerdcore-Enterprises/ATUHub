@@ -15,6 +15,7 @@ import DriveRequestPage from "./pages/DriverRequest/DriveRequestPage";
 import DriveSubmit from "./pages/DriveSubmit/DriveSubmit";
 import SettingsPage from "./pages/SettingsPage";
 import UsersPage from "./pages/UsersPage";
+import UserSlugPage from './pages/UserSlugPage';
 
 const routes = (
     <Routes>
@@ -31,6 +32,7 @@ const routes = (
         <Route path="/transportation/drive-request" element={<DriveRequestPage />} />
         <Route path="/transportation/drive-submit" element={<DriveSubmit />} />
         <Route path="/users" element={<UsersPage />} />
+        <Route path="/user/:username" element={<UserSlugPage />} />
         <Route path="*" element={<NotFoundPage />} />
     </Routes>
 );
