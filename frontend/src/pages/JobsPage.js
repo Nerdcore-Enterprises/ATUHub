@@ -59,7 +59,7 @@ export default function JobsPage() {
         if (window.innerWidth >= 1024) {
             setJobIndex(0);
         }
-    }, []); // Empty dependency array
+    }, []);
 
     const handleFilterChange = (key, setter) => {
         setter(prevState => ({ ...prevState, [key]: !prevState[key] }));

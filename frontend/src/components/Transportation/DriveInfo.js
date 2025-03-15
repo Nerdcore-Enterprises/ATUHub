@@ -3,7 +3,7 @@ import InfoActions from "../InfoActions";
 import InfoDisplay from "../InfoDisplay";
 import { useNavigate } from "react-router-dom";
 
-export default function DriveInfo({driverInfo, coords}) {
+export default function DriveInfo({ driverInfo, coords }) {
     const navigate = useNavigate();
 
     const handleNav = (path, props) => {
@@ -19,7 +19,6 @@ export default function DriveInfo({driverInfo, coords}) {
             </InfoDisplay>
             <InfoActions>
                 <GreenButton onClick={() => handleNav('/transportation/drive-submit', { state: { lng: coords.lng, lat: coords.lat } })} className='w-full'>
-                    
                     Select Driver
                 </GreenButton>
             </InfoActions>

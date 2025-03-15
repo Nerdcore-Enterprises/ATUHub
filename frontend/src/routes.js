@@ -16,6 +16,7 @@ import DriveSubmit from "./pages/DriveSubmit/DriveSubmit";
 import SettingsPage from "./pages/SettingsPage";
 import UsersPage from "./pages/UsersPage";
 import UserSlugPage from './pages/UserSlugPage';
+import MapSelect from "./components/Transportation/MapSelect";
 
 const routes = (
     <Routes>
@@ -26,6 +27,7 @@ const routes = (
         <Route path="/weather" element={<WeatherPage />} />
         <Route path="/jobs" element={<JobsPage />} />
         <Route path="/transportation" element={<TransportationPage />} />
+        <Route path="/transportation/map" element={<MapSelect nextPage='../transportation/driver' />} />
         <Route path="/transportation/driver" element={<PickDriverPage />} />
         <Route path="/dineoncampus" element={<DineOnCampusPage />} />
         <Route path="/dineoncampus/menu" element={<DineOnCampusMenuPage />} />

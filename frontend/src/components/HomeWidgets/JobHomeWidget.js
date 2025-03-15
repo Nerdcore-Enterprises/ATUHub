@@ -6,7 +6,7 @@ import HomeWidget from "../BaseWidgets/HomeWidget";
 
 export default function JobHomeWidget() {
     const [numNewJobs, setNumNewJobs] = useState(0);
-    const consideredNewLimit = 7;
+    const consideredNewLimit = 14;
 
     const dateDifference = (job) => {
         const currentDate = new Date();
