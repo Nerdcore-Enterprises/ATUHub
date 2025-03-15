@@ -7,9 +7,9 @@ import GenericPage from '../genericPage';
 import HeaderWithBack from '../HeaderWithBack';
 
 export default function MapSelect({ nextPage }) {
+    const [selectedCoords, setSelectedCoords] = useState(null);
     const mapContainerRef = useRef(null);
     const markerRef = useRef(null);
-    const [selectedCoords, setSelectedCoords] = useState(null);
     const mapRef = useRef(null);
     const navigate = useNavigate();
 

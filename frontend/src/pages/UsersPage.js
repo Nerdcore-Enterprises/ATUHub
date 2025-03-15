@@ -18,7 +18,7 @@ export default function UsersPage() {
         async function fetchUserProfile() {
             try {
                 const token = localStorage.getItem("token");
-                const response = await fetch('http://localhost:5000/api/user/profile', {
+                const response = await fetch('/api/user/profile', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -63,7 +63,7 @@ export default function UsersPage() {
 
         async function fetchUsers() {
             try {
-                const response = await fetch('http://localhost:5000/api/users');
+                const response = await fetch('/api/users');
                 const data = await response.json();
                 if (data.success) {
                     setUsers(data.users);

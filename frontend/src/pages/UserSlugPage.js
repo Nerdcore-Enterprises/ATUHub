@@ -16,7 +16,7 @@ export default function UserSlugPage() {
     useEffect(() => {
         async function fetchUser() {
             try {
-                const response = await fetch(`http://localhost:5000/api/users/${username}`);
+                const response = await fetch(`/api/users/${username}`);
                 const data = await response.json();
 
                 if (data.success) {

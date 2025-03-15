@@ -21,7 +21,7 @@ export default function Sidebar() {
         async function fetchUserProfile() {
             if (!token) return;
             try {
-                const response = await fetch('http://localhost:5000/api/user/profile', {
+                const response = await fetch('/api/user/profile', {
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`
