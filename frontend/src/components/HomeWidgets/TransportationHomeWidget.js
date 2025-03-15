@@ -9,7 +9,7 @@ export default function TransportationHomeWidget() {
     // eslint-disable-next-line
     const [progressPercent, setProgressPercent] = useState(.5);
     // eslint-disable-next-line
-    const [driverName, setDriverName] = useState("I'm da driver");
+    const [driverName, setDriverName] = useState("Dylan Dover");
     // eslint-disable-next-line
     const [hasDriver, setHasDriver] = useState(true);
 
@@ -22,7 +22,8 @@ export default function TransportationHomeWidget() {
                     <br />
                     {
                         hasDriver &&
-                        <p className="text-lg font-semibold ml-auto text-right absolute right-0">driver: {driverName}</p>
+                        <p className="text-lg font-semibold ml-auto text-right absolute right-0">Driver:
+                            <span className="text-sm font-normal ml-1">{driverName}</span></p>
                     }
                 </p>
             </div>

@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
 import { useNavigate } from 'react-router-dom';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import maplibregl from 'maplibre-gl';
 import GreenButton from '../Buttons/GreenButton';
+import GenericPage from '../genericPage';
+import HeaderWithBack from '../HeaderWithBack';
 
 export default function MapSelect({ nextPage }) {
     const mapContainerRef = useRef(null);
@@ -76,14 +78,14 @@ export default function MapSelect({ nextPage }) {
         if (selectedCoords) {
             console.log('Selected Coordinates:', selectedCoords);
             handleNav(nextPage, { state: { lng: selectedCoords.lng, lat: selectedCoords.lat } });
-            // alert(`Selected Coordinates:\nLng: ${selectedCoords.lng}\nLat: ${selectedCoords.lat}`);
         } else {
             alert('No location selected. Click on the map to select a location.');
         }
     };
 
     return (
-        <>
+        <GenericPage>
+            <HeaderWithBack>Select a Location</HeaderWithBack>
             <div className="flex flex-col justify-center items-center h-[82vh] gap-4 scrollbar-hide">
                 <div id="map" ref={mapContainerRef} className="w-full rounded-2xl" style={{ height: "100%" }} />
             </div>
@@ -93,6 +95,6 @@ export default function MapSelect({ nextPage }) {
             >
                 Select Location
             </GreenButton>
-        </>
+        </GenericPage>
     );
 }

@@ -3,23 +3,21 @@ import { useLocation, Navigate } from "react-router-dom";
 import routes from "./routes";
 import Sidebar from "./components/Sidebar/Sidebar";
 import UserPreferences from "./scripts/UserPreferences";
-import useFetchAvatar from './hooks/useFetchAvatar';
+import useFetchAvatar from "./hooks/useFetchAvatar";
 
 export default function App() {
     const location = useLocation();
     const [validSession, setValidSession] = useState(null);
-
     const token = localStorage.getItem("token");
 
     useFetchAvatar(token);
 
     useEffect(() => {
-        const storedDarkMode = localStorage.getItem('darkMode');
-
+        const storedDarkMode = localStorage.getItem("darkMode");
         if (storedDarkMode !== null) {
-            const isDark = storedDarkMode === 'true';
+            const isDark = storedDarkMode === "true";
             UserPreferences.setDarkMode(isDark);
-            document.documentElement.classList.toggle('dark', isDark);
+            document.documentElement.classList.toggle("dark", isDark);
         }
 
         if (!token) {
@@ -27,40 +25,38 @@ export default function App() {
             return;
         }
 
-        fetch("/api/user/profile", {
-            headers: { Authorization: "Bearer " + token }
-        })
-            .then(response => {
-                setValidSession(response.ok);
-            })
-            .catch(() => {
-                setValidSession(false);
-            });
-
-        const fetchPreferences = async () => {
+        async function checkSessionAndPreferences() {
             try {
-                const token = localStorage.getItem('token');
-
-                const response = await fetch('/api/user/preferences', {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    }
+                const profileResponse = await fetch("/api/user/profile", {
+                    headers: { Authorization: "Bearer " + token }
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
+                if (profileResponse.ok) {
+                    setValidSession(true);
 
-                    localStorage.setItem('darkMode', result.darkMode);
-                    UserPreferences.setDarkMode(result.darkMode);
-                    document.documentElement.classList.toggle('dark', result.darkMode);
+                    const prefResponse = await fetch("/api/user/preferences", {
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (prefResponse.ok) {
+                        const result = await prefResponse.json();
+                        localStorage.setItem("darkMode", result.darkMode);
+                        UserPreferences.setDarkMode(result.darkMode);
+                        document.documentElement.classList.toggle("dark", result.darkMode);
+                    }
+                } else {
+                    setValidSession(false);
                 }
             } catch (error) {
-                console.error('Error fetching user preferences', error);
+                console.error("Error checking session:", error);
+                setValidSession(false);
             }
-        };
+        }
 
-        fetchPreferences();
+        checkSessionAndPreferences();
     }, [location.pathname, token]);
 
     if (validSession === null) return null;
@@ -68,7 +64,6 @@ export default function App() {
     if (!validSession && location.pathname !== "/") {
         return <Navigate to="/" replace />;
     }
-
     if (validSession && location.pathname === "/") {
         return <Navigate to="/home" replace />;
     }
@@ -76,7 +71,7 @@ export default function App() {
     return (
         <div>
             {routes}
-            {location.pathname !== '/' && <Sidebar />}
+            {location.pathname !== "/" && <Sidebar />}
         </div>
     );
 }

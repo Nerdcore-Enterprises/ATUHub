@@ -1,17 +1,14 @@
 import bcrypt from 'bcrypt';
 import cors from 'cors';
-import cron from 'node-cron';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
 import express from 'express';
 import NodeMailer from 'nodemailer';
 import sql from 'mssql';
 import fetch from 'node-fetch';
-import { exec } from 'child_process';
 
 dotenv.config();
 
-const currentBranch = 'dylan-3-10';
 const app = express();
 const PORT = 5000;
 
@@ -32,7 +29,7 @@ let pool;
 (async () => {
     try {
         pool = await sql.connect(config);
-        console.log("Connected to SQL Server!");
+        console.log("Connected to atuhub database");
     } catch (err) {
         console.error('Error connecting to SQL Server:', err);
     }
@@ -42,17 +39,15 @@ let pool;
 // Start Backend
 //
 app.listen(PORT, '0.0.0.0', () => {
+    console.clear();
     console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
-
 
 //
 // Signup Route
 //
 app.post('/api/signup', async (req, res) => {
     try {
-        console.log('Signup Called');
-
         const { firstName, lastName, username, password } = req.body;
 
         const existingUser = await pool.request()
@@ -73,6 +68,8 @@ app.post('/api/signup', async (req, res) => {
             .input('password', sql.VarChar, hashedPassword)
             .query('INSERT INTO [User] (firstName, lastName, username, password) VALUES (@firstName, @lastName, @username, @password); SELECT SCOPE_IDENTITY() AS insertId');
 
+        console.log(`User ${username} created successfully`);
+
         res.json({ success: true, message: 'User created successfully' });
     } catch (error) {
         console.error(error);
@@ -85,8 +82,6 @@ app.post('/api/signup', async (req, res) => {
 //
 app.post('/api/login', async (req, res) => {
     try {
-        console.log('Login Called');
-
         const { username, password } = req.body;
 
         if (!username || !password) {
@@ -113,18 +108,26 @@ app.post('/api/login', async (req, res) => {
         const createdAt = new Date();
         const expiresAt = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000);
 
-        await pool.request()
-            .input('userId', sql.Int, user.user_id || user.id)
+        const userId = user.user_id || user.id;
+
+        console.log(`User ${username} with id ${userId} logging in. Session token: ${sessionId}`);
+
+        const insertResult = await pool.request()
+            .input('userId', sql.Int, userId)
             .input('sessionId', sql.VarChar, sessionId)
             .input('createdAt', sql.DateTime, createdAt)
             .input('expiresAt', sql.DateTime, expiresAt)
             .query('INSERT INTO Session (userId, sessionId, createdAt, expiresAt) VALUES (@userId, @sessionId, @createdAt, @expiresAt)');
 
-        console.log(`${username} logged in successfully`);
+        if (!insertResult.rowsAffected || insertResult.rowsAffected[0] === 0) {
+            console.error('Session token insertion failed:', insertResult);
+            return res.status(500).json({ success: false, message: 'Login failed due to server error' });
+        }
 
+        console.log(`${username} logged in successfully`);
         return res.json({ success: true, message: 'Login successful', token: sessionId });
     } catch (error) {
-        console.error(error);
+        console.error('Error during login:', error);
         res.status(500).send('Internal Server Error');
     }
 });
@@ -134,8 +137,6 @@ app.post('/api/login', async (req, res) => {
 //
 app.post('/api/logout', async (req, res) => {
     try {
-        console.log('Logout Called');
-
         const sessionToken = req.headers.authorization?.split(' ')[1];
         if (!sessionToken) {
             return res.status(400).json({ success: false, message: 'No session token provided' });
@@ -145,7 +146,7 @@ app.post('/api/logout', async (req, res) => {
             .input('sessionId', sql.VarChar, sessionToken)
             .query('DELETE FROM Session WHERE sessionId = @sessionId');
 
-        console.log("Session deleted successfully for token:", sessionToken);
+        console.log(`Logout successful for session ${sessionToken}`);
 
         res.json({ success: true, message: 'Logout successful' });
     } catch (error) {
@@ -174,15 +175,28 @@ app.get('/api/user/profile', async (req, res) => {
 
         const userId = sessionResult.recordset[0].userId;
 
-        const user = await pool.request()
+        const userResult = await pool.request()
             .input('userId', sql.Int, userId)
-            .query('SELECT id, firstName, lastName, username, aboutme, avatar, preferences, roles FROM [User] WHERE id = @userId');
+            .query(`SELECT id, LTRIM(RTRIM(firstName)) AS firstName, LTRIM(RTRIM(lastName)) AS lastName, username, aboutme, avatar, preferences, roles FROM [User] WHERE id = @userId`);
 
-        if (user.recordset.length <= 0) {
+        if (userResult.recordset.length <= 0) {
             return res.status(400).json({ success: false, message: 'User not found' });
         }
 
-        res.json(user.recordset[0]);
+        const user = userResult.recordset[0];
+
+        const driverResult = await pool.request()
+            .input('userId', sql.Int, userId)
+            .query('SELECT * FROM Driver WHERE userid = @userId');
+
+        const studentResult = await pool.request()
+            .input('userId', sql.Int, userId)
+            .query('SELECT * FROM Student WHERE userid = @userId');
+
+        user.driver = driverResult.recordset.length > 0 ? driverResult.recordset[0] : null;
+        user.student = studentResult.recordset.length > 0 ? studentResult.recordset[0] : null;
+
+        res.json(user);
     } catch (error) {
         console.error(error);
         res.status(500).send('Internal Server Error');
@@ -211,8 +225,6 @@ app.get('/api/users', async (req, res) => {
 //
 app.put('/api/user/profile', async (req, res) => {
     try {
-        console.log('Updating user profile');
-
         const sessionToken = req.headers.authorization?.split(' ')[1];
         if (!sessionToken) {
             return res.status(401).json({ success: false, message: 'Unauthorized, no session token' });
@@ -246,7 +258,8 @@ app.put('/api/user/profile', async (req, res) => {
             );
         }
 
-        console.log("Profile updated successfully");
+        console.log(`${firstName}'s updated their profile`);
+
         res.json({ success: true, message: 'Profile updated' });
     } catch (error) {
         console.error('Error updating profile:', error);
@@ -301,7 +314,9 @@ app.put('/api/user/preferences', async (req, res) => {
             .input('userId', sql.Int, userId)
             .query('UPDATE [User] SET preferences = @preferences WHERE id = @userId');
 
-        console.log("User preferences updated successfully");
+
+        console.log(`Updated user ${userId}'s preferences`);
+
         res.json({ success: true, message: 'Preferences updated' });
     } catch (error) {
         console.error('Error updating preferences:', error);
@@ -480,6 +495,7 @@ app.get('/api/chambers/menu', async (req, res) => {
 
             return menuDataArray.filter(data => data !== null);
         };
+
         const fetchHoursForDate = async (date) => {
             const url = `https://api.dineoncampus.com/v1/locations/weekly_schedule?site_id=5751fd2490975b60e04891e8&date=${date}`;
             const response = await fetch(url);

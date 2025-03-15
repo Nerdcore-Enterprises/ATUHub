@@ -132,8 +132,8 @@ export default function AccountPage() {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    firstName: userData.firstName,
-                    lastName: userData.lastName,
+                    firstName: userData.firstName.trim(),
+                    lastName: userData.lastName.trim(),
                     aboutme: userData.aboutme,
                     avatar: avatarBase64
                 })
@@ -160,7 +160,7 @@ export default function AccountPage() {
 
     return (
         <GenericPage>
-            <HeaderWithBack>Account</HeaderWithBack>
+            <HeaderWithBack>Profile</HeaderWithBack>
             {alert && <Alert severity={alert.severity} text={alert.text} />}
             <form className="flex flex-col gap-4">
                 <div className="flex justify-center">
@@ -169,11 +169,11 @@ export default function AccountPage() {
                             {avatarPreview ? (
                                 <img
                                     src={avatarPreview}
-                                    className="w-42 h-42 mt-2 border-2 border-zinc-700 rounded-full object-cover shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                                    className="max-w-36 max-h-36 mt-2 border-2 border-zinc-700 rounded-full object-cover shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
                                     alt="avatar"
                                 />
                             ) : (
-                                <div className="w-42 h-42 mt-2 rounded-full bg-gray-300 flex items-center justify-center">
+                                <div className="max-w-36 max-h-36 mt-2 rounded-full bg-gray-300 flex items-center justify-center">
                                     <FontAwesomeIcon icon={faUser} className="text-white" size="2x" />
                                 </div>
                             )}

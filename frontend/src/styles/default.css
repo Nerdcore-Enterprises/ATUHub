@@ -9,9 +9,12 @@
     --shadow-primary: "0_0_0.5vh_rgba(0,0,0,0.5)";
 }
 
-progress::-webkit-progress-value { background: var(--ATUGold); }
+progress::-webkit-progress-value {
+    background: var(--ATUGold);
+}
 
-html, body {
+html,
+body {
     background-color: var(--ATUGreen);
     height: 100%;
     margin: 0;
@@ -21,7 +24,7 @@ html, body {
     -ms-user-select: none;
     user-select: none;
     scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    -webkit-overflow-scrolling: touch;
 }
 
 ::-webkit-scrollbar {

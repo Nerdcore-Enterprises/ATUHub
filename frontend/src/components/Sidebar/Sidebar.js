@@ -40,8 +40,6 @@ export default function Sidebar() {
                         }
                     }
 
-                    console.log(roles);
-
                     setUserRole(roles);
                 } else {
                     console.error("Failed to fetch user profile");

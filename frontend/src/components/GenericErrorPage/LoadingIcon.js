@@ -2,8 +2,8 @@ import "./spinner.css"
 
 export default function LoadingIcon() {
     return (
-        <div className="flex items-center justify-center w-full h-full">
-            <div id="loader" className="flex w-12 h-12">
+        <div className="flex items-center justify-center">
+            <div id="loader" className="flex w-32 h-32">
                 <span id="pip-0" />
                 <span id="pip-1" />
                 <span id="pip-2" />

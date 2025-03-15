@@ -79,8 +79,18 @@ export default function UsersPage() {
         fetchUsers();
     }, [isAdmin]);
 
-    if (checkingPermission || loadingUsers) return <LoadingIcon />;
-    if (error) return <GenericPage><p>{error}</p></GenericPage>;
+    if (checkingPermission || loadingUsers) return (
+        <div className="flex justify-center h-screen">
+            <LoadingIcon />
+        </div>
+    );
+
+    if (error) return (
+        <GenericPage>
+            <Alert severity={'danger'} text={error} />
+        </GenericPage>
+    );
+
     if (!isAdmin) {
         return (
             <GenericPage>
@@ -91,10 +101,11 @@ export default function UsersPage() {
 
     const filteredUsers = users.filter(user => {
         const query = searchQuery.toLowerCase();
-        const firstName = user.firstName?.toLowerCase() || "";
+        const id = user.id.toString();
+        const firstName = user.firstName.toLowerCase();
         const lastName = user.lastName?.toLowerCase() || "";
-        const username = user.username?.toLowerCase() || "";
-        return firstName.includes(query) || lastName.includes(query) || username.includes(query);
+        const username = user.username.toLowerCase();
+        return id.includes(query) || firstName.includes(query) || lastName.includes(query) || username.includes(query);
     });
 
     return (
