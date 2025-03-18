@@ -1,6 +1,7 @@
 import GreenButton from "../../components/Buttons/GreenButton";
 import InfoActions from "../../components/InfoActions";
 import InfoDisplay from "../../components/InfoDisplay";
+import JustifyBetweenDiv from "../../components/JustifyBetweenDiv";
 
 export default function DriveRequestInfo({requestInfo}){
     return (
@@ -12,14 +13,14 @@ export default function DriveRequestInfo({requestInfo}){
                 </p>
                 <br></br>
                 <hr></hr>
-                <div className="flex flex-row justify-between text-xl">
+                <JustifyBetweenDiv>
                     <p>Drive Location: </p>
                     <p>{requestInfo.location}</p>
-                </div>
-                <div className="flex flex-row justify-between text-xl">
+                </JustifyBetweenDiv>
+                <JustifyBetweenDiv>
                     <p>Drive Type: </p>
                     <p>{requestInfo.type}</p>
-                </div>
+                </JustifyBetweenDiv>
                 <br></br>
                 <hr></hr>
                 <div className="text-xl">

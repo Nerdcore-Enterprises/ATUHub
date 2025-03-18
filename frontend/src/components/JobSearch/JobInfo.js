@@ -1,6 +1,7 @@
 import GreenButton from "../Buttons/GreenButton";
 import InfoActions from "../InfoActions";
 import InfoDisplay from "../InfoDisplay";
+import InfoUnorderedList from "../InfoUnorderedList";
 
 export default function JobInfo({ jobInfo, setApplyVisible }) {
     const responsibilities = JSON.parse(jobInfo.Responsibilities);
@@ -12,23 +13,15 @@ export default function JobInfo({ jobInfo, setApplyVisible }) {
                 <p className="text-3xl font-semibold mb-3">{jobInfo.Name}</p>
                 <p>{jobInfo.Description}</p>
                 <br></br>
-                <p className="text-3xl font-semibold mb-3">Responsibilities</p>
-                <ul>
-                    {
-                        responsibilities.map((data, index) => (
-                            <li key={index}>&bull; {data}</li>
-                        ))
-                    }
-                </ul>
+                <InfoUnorderedList
+                    title="Responsibilities"
+                    data={responsibilities}
+                />
                 <br></br>
-                <p className="text-3xl font-semibold mb-3">Requirements</p>
-                <ul>
-                    {
-                        requirements.map((data, index) => (
-                            <li key={index}>&bull; {data}</li>
-                        ))
-                    }
-                </ul>
+                <InfoUnorderedList
+                    title="Requirements"
+                    data={requirements}
+                />
             </InfoDisplay>
             <InfoActions
                 extraInfo={<p className="text-xl font-bold">${jobInfo.Salary}{jobInfo.SalaryType === 'Hourly' ? ' per hour' : ''}</p>}

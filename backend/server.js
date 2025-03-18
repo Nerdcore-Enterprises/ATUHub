@@ -651,7 +651,7 @@ app.get('/api/drivers', async (req, res) => {
 app.get('/api/drivers-names', async (req, res) => {
     try {
         const drivers = await pool.request()
-            .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.rating 
+            .query(`SELECT "User".firstName, "User".lastName, Driver.atuemail, Driver.vehicle_make, Driver.vehicle_model, Driver.vehicle_color, Driver.cashtag, Driver.status, Driver.tags 
                    FROM Driver 
                    LEFT JOIN "User" ON "User".id = Driver.userid`);
 
