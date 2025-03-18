@@ -31,11 +31,11 @@ export default function DriveSubmit() {
                         <p className="text-right flex-grow">{coords.lat.toFixed(2)} {coords.lng.toFixed(2)}</p>
                     </div>
                 </Widget>
-                <div className="flex flex-row justify-between gap-20 px-20">
-                    <WidgetBullet className="text-center" selected={driveType === 0} onClick={() => { setDriveType(0) }}>
+                <div className="flex flex-row justify-center gap-10 px-10">
+                    <WidgetBullet className="text-center max-w-64" selected={driveType === 0} onClick={() => { setDriveType(0) }}>
                         Delivery
                     </WidgetBullet>
-                    <WidgetBullet className="text-center" selected={driveType === 1} onClick={() => { setDriveType(1) }}>
+                    <WidgetBullet className="text-center max-w-64" selected={driveType === 1} onClick={() => { setDriveType(1) }}>
                         Pick up/drop off
                     </WidgetBullet>
                 </div>

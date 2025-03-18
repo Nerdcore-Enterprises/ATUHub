@@ -39,20 +39,10 @@ export default function JobHomeWidget() {
     }, []);
 
     return (
-        <HomeWidget>
-            <div className="flex flex-row items-center my-4 mx-6 mb-0">
-                <FontAwesomeIcon icon={faBriefcase} className="mr-4 text-4xl" />
-                <p className="text-3xl font-semibold ml-auto text-center">
-                    {
-                        numNewJobs > 0 &&
-                        <>{numNewJobs} New Jobs Hiring</>
-                    }
-                    {
-                        numNewJobs <= 0 &&
-                        <>Check Out Jobs</>
-                    }
-                </p>
-            </div>
+        <HomeWidget
+            title={numNewJobs > 0 ? ({numNewJobs} + " New Jobs Hiring") : ("Check Out Jobs")}
+            icon={faBriefcase}
+        >
             <div className="flex flex-row items-center my-4 mx-6">
                 <NavButton to={'../jobs'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                     View

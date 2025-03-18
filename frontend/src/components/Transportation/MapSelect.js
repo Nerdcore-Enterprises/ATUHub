@@ -5,6 +5,8 @@ import maplibregl from 'maplibre-gl';
 import GreenButton from '../Buttons/GreenButton';
 import GenericPage from '../genericPage';
 import HeaderWithBack from '../HeaderWithBack';
+import StickyWidget from '../BaseWidgets/StickyWidget';
+import ContentDiv from '../WidgetContainers/ContentDiv';
 
 export default function MapSelect({ nextPage }) {
     const [selectedCoords, setSelectedCoords] = useState(null);
@@ -89,12 +91,14 @@ export default function MapSelect({ nextPage }) {
             <div className="flex flex-col justify-center items-center h-[82vh] gap-4 scrollbar-hide">
                 <div id="map" ref={mapContainerRef} className="w-full rounded-2xl" style={{ height: "100%" }} />
             </div>
-            <GreenButton
-                className='w-full'
-                onClick={handleSelectLocation}
-            >
-                Select Location
-            </GreenButton>
+            <ContentDiv className='sticky bottom-0 py-5 z-10'>
+                <GreenButton
+                    className='w-full'
+                    onClick={handleSelectLocation}
+                >
+                    Select Location
+                </GreenButton>
+            </ContentDiv>
         </GenericPage>
     );
 }

@@ -5,13 +5,11 @@ import InvertableImage from "../InvertableImage";
 
 export default function DineOnCampusHomeWidget({ earliestStart, latestEnd }) {
     return (
-        <HomeWidget>
-            <div className="flex flex-row items-center my-4 mx-6">
-                <InvertableImage src={logo} alt="DineOnCampus" className="w-8 h-auto" />
-                <p className="text-3xl font-semibold ml-auto text-center">
-                    Dine on Campus
-                </p>
-            </div>
+        <HomeWidget
+            title='Dine on Campus'
+            image={logo}
+        >
+            <br></br>
             <div className="flex flex-row items-center mb-4 mx-6">
                 <div className="flex flex-col text-left">
                     <p className="text-left font-semibold">

@@ -124,7 +124,7 @@ export default function JobsPage() {
                     </div>
                 }
             </GenericPage>
-            <GenericSidebar open={filtersOpen} setOpen={setFiltersOpen} side='right' minSize='40vw'>
+            <GenericSidebar open={filtersOpen} setOpen={setFiltersOpen} side='right'>
                 <div className='w-full flex flex-row'>
                     <h1 className='text-3xl font-semibold'>Filters</h1>
                     <div className='w-full'>

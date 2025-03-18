@@ -4,11 +4,12 @@ import InfoDisplay from "../InfoDisplay";
 import JustifyBetweenDiv from "../JustifyBetweenDiv";
 import InfoUnorderedList from "../InfoUnorderedList";
 import { useNavigate } from "react-router-dom";
+import HorizontalWidgetList from "../WidgetContainers/HorizontalWidgetList";
+import VerticalWidgetList from "../WidgetContainers/VerticalWidgetList";
 
 export default function DriveInfo({ driverInfo, coords }) {
     const navigate = useNavigate();
     
-    console.log(driverInfo)
     const handleNav = (path, props) => {
         navigate(path, props);
     };
@@ -21,40 +22,38 @@ export default function DriveInfo({ driverInfo, coords }) {
                 </p>
                 <br></br>
                 <hr></hr>
-                <JustifyBetweenDiv>
-                    <p>Vehicle Make: </p>
-                    <p>{driverInfo.vehicle_make}</p>
-                </JustifyBetweenDiv>
-                <JustifyBetweenDiv>
-                    <p>Vehicle Model: </p>
-                    <p>{driverInfo.vehicle_model}</p>
-                </JustifyBetweenDiv>
-                <JustifyBetweenDiv>
-                    <p>Vehicle Color: </p>
-                    <p>{driverInfo.vehicle_color}</p>
-                </JustifyBetweenDiv>
+                <br></br>
+                <p className="text-3xl font-semibold mb-3">Vehicle Information</p>
+                <HorizontalWidgetList className="text-xl text-center">
+                    <VerticalWidgetList>
+                        <p className="underline">Make</p>
+                        <p>{driverInfo.vehicle_make}</p>
+                    </VerticalWidgetList>
+                    <VerticalWidgetList>
+                        <p className="underline">Model</p>
+                        <p>{driverInfo.vehicle_model}</p>
+                    </VerticalWidgetList>
+                    <VerticalWidgetList>
+                        <p className="underline">Color</p>
+                        <p>{driverInfo.vehicle_color}</p>
+                    </VerticalWidgetList>
+                </HorizontalWidgetList>
+
                 <br></br>
                 {driverInfo.tags && 
                     <InfoUnorderedList
+                        className="text-xl"
                         title="Tags"
-                        data={driverInfo.tags}
+                        data={JSON.parse(driverInfo.tags)}
                     />
                 }
                 {!driverInfo.tags &&
                     <div>This driver hasn't been given any tags</div>
                 }
-                <br></br>
-                {driverInfo.status && 
-                    <JustifyBetweenDiv>
-                        <p>Driver Status: </p>
-                        <p>{driverInfo.status}</p>
-                    </JustifyBetweenDiv>
-                }
-                {!driverInfo.tags &&
-                    <div>This driver's status is unavailable</div>
-                }
             </InfoDisplay>
-            <InfoActions>
+            <InfoActions
+                extraInfo={<p className="text-xl font-bold">Driver Status: {driverInfo.status}</p>}
+            >
                 <GreenButton onClick={() => handleNav('/transportation/drive-submit', { state: { lng: coords.lng, lat: coords.lat } })} className='w-full'>
                     Select Driver
                 </GreenButton>

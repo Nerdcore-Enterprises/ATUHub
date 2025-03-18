@@ -5,7 +5,7 @@ export default function WidgetBullet({ children, className = "", lightModeBg = A
     return (
         <>
             <WidgetButton
-                className={'cursor-pointer ' + className}
+                className={'cursor-pointer whitespace-nowrap ' + className}
                 lightModeBg={selected ? selectedBgColor : lightModeBg}
                 darkModeBg={selected ? selectedBgColor : darkModeBg}
                 onClick={onClick}
