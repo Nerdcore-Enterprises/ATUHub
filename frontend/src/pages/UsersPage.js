@@ -4,6 +4,7 @@ import SearchBar from '../components/SearchBar';
 import User from '../components/Users/user';
 import LoadingIcon from '../components/GenericErrorPage/LoadingIcon';
 import Alert from '../components/Alert';
+import HeaderWithBack from '../components/HeaderWithBack';
 
 export default function UsersPage() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -110,6 +111,7 @@ export default function UsersPage() {
 
     return (
         <GenericPage>
+            <HeaderWithBack>Users</HeaderWithBack>
             <SearchBar query={searchQuery} setQuery={setSearchQuery} />
             <div className="grid grid-cols-1 gap-4">
                 {filteredUsers.map(user => (

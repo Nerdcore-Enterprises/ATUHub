@@ -6,9 +6,8 @@ export default function JobApplyInfo({ jobInfo }) {
             <h1 className='text-center text-3xl font-semibold'>Contact to Apply</h1>
             <br />
             <div className='px-4 py-2 flex flex-col w-full justify-evenly gap-10'>
-                <div className="text-xl">
+                <div className="text-xl space-y-2">
                     <p className='text-xl font-semibold'>Requirements:</p>
-                    <br />
                     <ul>
                         {
                             requirements.map((data, index) => (

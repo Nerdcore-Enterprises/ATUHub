@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBriefcase } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
 import NavButton from "../Buttons/NavButton";
@@ -40,11 +39,11 @@ export default function JobHomeWidget() {
 
     return (
         <HomeWidget
-            title={numNewJobs > 0 ? ({numNewJobs} + " New Jobs Hiring") : ("Check Out Jobs")}
+            title={numNewJobs > 0 ? ({ numNewJobs } + " New Jobs Hiring") : ("Check Out Jobs")}
             icon={faBriefcase}
         >
             <div className="flex flex-row items-center my-4 mx-6">
-                <NavButton to={'../jobs'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
+                <NavButton to={'../jobs/list'} className="bg-[var(--ATUGreen)] ml-auto w-fit rounded-[1.5rem] text-white font-semibold py-3 px-6 shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]">
                     View
                 </NavButton>
             </div>

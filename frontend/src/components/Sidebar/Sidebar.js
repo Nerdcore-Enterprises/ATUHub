@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser, faUserCircle, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faGear, faCloud, faUtensils, faCar, faBriefcase, faUser, faUserCircle, faUsers, faToolbox } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from 'react';
 
 import logo from '../.././assets/logos/ATUHub_Horizontal.png'
@@ -85,7 +85,7 @@ export default function Sidebar() {
                     setIsSidebarOpen={setIsSidebarOpen}
                 />
                 <SidebarNavButton
-                    to='jobs'
+                    to='jobs/list'
                     name='Jobs'
                     icon={faBriefcase}
                     setIsSidebarOpen={setIsSidebarOpen}
@@ -99,6 +99,17 @@ export default function Sidebar() {
                             to='users'
                             name='Users'
                             icon={faUsers}
+                            setIsSidebarOpen={setIsSidebarOpen}
+                        />
+                    </>
+                )}
+
+                {userRole && Array.isArray(userRole) && userRole.includes("Administrator") && (
+                    <>
+                        <SidebarNavButton
+                            to='jobs/manage'
+                            name='Job Management'
+                            icon={faToolbox}
                             setIsSidebarOpen={setIsSidebarOpen}
                         />
                     </>
@@ -127,15 +138,19 @@ export default function Sidebar() {
                                     />
                                 )}
                             </div>
-                            <div>
-                                <NavButton to={'account/settings'} onClick={() => setIsSidebarOpen(false)}>
-                                    <WidgetFixedHeight height={50} className="aspect-square justify-center">
-                                        <span className="flex items-center justify-center">
-                                            <FontAwesomeIcon icon={faGear} className="text-center" />
-                                        </span>
-                                    </WidgetFixedHeight>
-                                </NavButton>
-                            </div>
+                            {username === 'guest' ? (
+                                <></>
+                            ) : (
+                                <div>
+                                    <NavButton to={'account/settings'} onClick={() => setIsSidebarOpen(false)}>
+                                        <WidgetFixedHeight height={50} className="aspect-square justify-center">
+                                            <span className="flex items-center justify-center">
+                                                <FontAwesomeIcon icon={faGear} className="text-center" />
+                                            </span>
+                                        </WidgetFixedHeight>
+                                    </NavButton>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

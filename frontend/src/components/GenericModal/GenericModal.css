@@ -1,16 +1,14 @@
 @keyframes show-modal {
-    0% {
-        
-    }
+    0% {}
+
     100% {
         opacity: 1;
     }
 }
 
 @keyframes hide-modal {
-    0% {
-        
-    }
+    0% {}
+
     100% {
         opacity: 0;
         display: none;
@@ -18,14 +16,14 @@
 }
 
 .visible-animation {
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0, 0, 0, .5);
     animation-name: show-modal;
     animation-fill-mode: forwards;
     animation-duration: 250ms;
 }
 
-.hidden-animation {   
-    background-color: rgba(0,0,0,.5);
+.hidden-animation {
+    background-color: rgba(0, 0, 0, .5);
     animation-name: hide-modal;
     animation-fill-mode: forwards;
     animation-duration: 250ms;

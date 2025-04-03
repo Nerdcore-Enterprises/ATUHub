@@ -42,13 +42,6 @@ export default function JobWidget({ jobData, onClick }) {
                 <TagDisplay
                     tags={tagData}
                 />
-                {/* <div className="flex space-x-4 rounded-b-[1rem] overflow-x-auto weather-scroll">
-                    {tagData.map((tag, index) => (
-                        <div key={index} className="bg-[#333333] text-white rounded-[2rem] flex flex-col items-center2 pr-4 pl-4 pt-2 pb-2">
-                            <p>{tag}</p>
-                        </div>
-                    ))}
-                </div> */}
                 <div className="flex flex-row">
                     <p className="align-middle w-1/2 mt-auto mb-auto">Posted {dateDifference()} days ago</p>
                     <GreenButton onClick={() => onClick()} className="w-1/2 ml-auto">

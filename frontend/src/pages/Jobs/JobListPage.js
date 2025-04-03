@@ -1,24 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import GenericPage from '../components/genericPage';
-import JobWidget from '../components/JobSearch/JobWidget';
-import ResponsiveFullWidget from '../components/JobSearch/ResponsiveFullWidget';
-import GenericModal from '../components/GenericModal/GenericModal';
-import GenericErrorPage from '../components/GenericErrorPage/GenericErrorPage';
-import GenericLoadingPage from '../components/GenericErrorPage/GenericLoadingPage';
-import SearchBar from '../components/SearchBar';
-import JobApplyInfo from '../components/JobSearch/JobApplyInfo';
-import JobInfo from '../components/JobSearch/JobInfo';
-import VerticalWidgetList from '../components/WidgetContainers/VerticalWidgetList';
-import HeaderWithBack from '../components/HeaderWithBack';
-import GenericSidebar from '../components/Sidebar/GenericSidebar';
-import Input from '../components/Input';
-import HorizontalWidgetList from '../components/WidgetContainers/HorizontalWidgetList';
-import WidgetBullet from '../components/Buttons/WidgetBullet';
-import ContentHeader from '../components/ContentHeader';
+import GenericPage from '../../components/genericPage';
+import JobWidget from '../../components/JobSearch/JobWidget';
+import ResponsiveFullWidget from '../../components/JobSearch/ResponsiveFullWidget';
+import GenericModal from '../../components/GenericModal/GenericModal';
+import GenericErrorPage from '../../components/GenericErrorPage/GenericErrorPage';
+import GenericLoadingPage from '../../components/GenericErrorPage/GenericLoadingPage';
+import SearchBar from '../../components/SearchBar';
+import JobApplyInfo from '../../components/JobSearch/JobApplyInfo';
+import JobInfo from '../../components/JobSearch/JobInfo';
+import VerticalWidgetList from '../../components/WidgetContainers/VerticalWidgetList';
+import HeaderWithBack from '../../components/HeaderWithBack';
+import GenericSidebar from '../../components/Sidebar/GenericSidebar';
+import Input from '../../components/Input';
+import HorizontalWidgetList from '../../components/WidgetContainers/HorizontalWidgetList';
+import WidgetBullet from '../../components/Buttons/WidgetBullet';
+import ContentHeader from '../../components/ContentHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-export default function JobsPage() {
+export default function JobListPage() {
     const [jobIndex, setJobIndex] = useState(-1);
     const [jobs, setJobs] = useState();
     const [applyVisible, setApplyVisible] = useState(false);
