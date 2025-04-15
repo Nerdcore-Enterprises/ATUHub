@@ -15,7 +15,7 @@ export default function GenericModal({ children, visible, onClose, fitContent = 
             visible={visible}
             onClose={onClose}
         >
-            <div className="w-[100vw] flex justify-center" onClick={onClose}>
+            <div className="w-screen flex justify-center" onClick={onClose}>
                 <div className={(fitContent ? 'inline' : window.innerWidth < 1024 ? 'w-[95vw]' : 'w-[80vw]') + " m-auto " + className} onClick={handleModalClick}>
                     <WidgetFullHeight className="relative m-auto py-4 ">
                         <div className="relative w-full h-0">

@@ -1,8 +1,7 @@
 import UserPreferences from "../scripts/UserPreferences";
 import AppColors from "../constants/AppColors";
 
-export default function Input({id, name, value, className = "", type = "", placeholder = "", onChange = () => {},}){
-    
+export default function Input({id, name, value, className = "", type = "", placeholder = "", onChange = () => {},}) {
     return (
         <input
             style={{

@@ -608,7 +608,7 @@ app.get('/api/chambers/menu', async (req, res) => {
 // });
 
 //
-// Jobs Route
+// Jobs Route - Fetch
 //
 app.get('/api/jobs', async (req, res) => {
     try {
@@ -622,6 +622,84 @@ app.get('/api/jobs', async (req, res) => {
         res.json({ success: true, message: 'Jobs Fetched Successfully', jobs: jobs.recordset });
     } catch (error) {
         console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+//
+// Jobs Route - Create
+//
+app.post('/api/jobs', async (req, res) => {
+    try {
+        const { Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities } = req.body;
+
+        const result = await pool.request()
+            .input('Name', sql.VarChar, Name)
+            .input('Description', sql.VarChar, Description)
+            .input('Address', sql.VarChar, Address)
+            .input('SalaryType', sql.VarChar, SalaryType)
+            .input('Salary', sql.VarChar, Salary)
+            .input('ContactType', sql.VarChar, ContactType)
+            .input('ContactInfo', sql.VarChar, ContactInfo)
+            .input('applyExternally', sql.Bit, applyExternally)
+            .input('Requirements', sql.VarChar, JSON.stringify(Requirements))
+            .input('Responsibilities', sql.VarChar, JSON.stringify(Responsibilities))
+            .query(`
+                INSERT INTO Job (Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities)
+                VALUES (@Name, @Description, @Address, @SalaryType, @Salary, @ContactType, @ContactInfo, @applyExternally, @Requirements, @Responsibilities);
+                SELECT SCOPE_IDENTITY() AS id;
+            `);
+
+        const newJobId = result.recordset[0].id;
+        const newJob = { id: newJobId, Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities };
+
+        res.json({ success: true, job: newJob });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Jobs Route - Update
+//
+app.put('/api/jobs/:id', async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        const { Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities } = req.body;
+
+        await pool.request()
+            .input('id', sql.Int, jobId)
+            .input('Name', sql.VarChar, Name)
+            .input('Description', sql.VarChar, Description)
+            .input('Address', sql.VarChar, Address)
+            .input('SalaryType', sql.VarChar, SalaryType)
+            .input('Salary', sql.VarChar, Salary)
+            .input('ContactType', sql.VarChar, ContactType)
+            .input('ContactInfo', sql.VarChar, ContactInfo)
+            .input('applyExternally', sql.Bit, applyExternally)
+            .input('Requirements', sql.VarChar, JSON.stringify(Requirements))
+            .input('Responsibilities', sql.VarChar, JSON.stringify(Responsibilities))
+            .query(`
+                UPDATE Job
+                SET Name = @Name,
+                    Description = @Description,
+                    Address = @Address,
+                    SalaryType = @SalaryType,
+                    Salary = @Salary,
+                    ContactType = @ContactType,
+                    ContactInfo = @ContactInfo,
+                    applyExternally = @applyExternally,
+                    Requirements = @Requirements,
+                    Responsibilities = @Responsibilities
+                WHERE id = @id
+            `);
+
+        const updatedJob = { id: Number(jobId), Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities };
+        res.json({ success: true, job: updatedJob });
+    } catch (err) {
+        console.error(err);
         res.status(500).send('Internal Server Error');
     }
 });

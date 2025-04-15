@@ -86,8 +86,8 @@ export default function JobListPage() {
                 />
                 {
                     jobs.length > 0 &&
-                    <div className='w-full flex flex-row gap-5'>
-                        <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%]'>
+                    <div className='flex flex-row w-full gap-4'>
+                        <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%] gap-4'>
                             {
                                 jobs.map((data, index) => {
                                     // Filters

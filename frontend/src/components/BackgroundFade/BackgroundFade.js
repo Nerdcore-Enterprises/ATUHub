@@ -13,7 +13,7 @@ export default function BackgroundFade({children, visible, onClose = () => {}}){
     }
 
     return (
-        <div className={"content-center modal-default z-10 fixed top-0 left-0 w-[100vw] h-[100vh]"+ (first ? (visible ? " visible-animation " : " hidden-animation ") : ' opacity-0 hidden ')} onClick={onClose}>
+        <div className={"content-center z-10 fixed top-0 left-0 w-screen h-screen" + (first ? (visible ? " visible-animation " : " hidden-animation ") : ' opacity-0 hidden ')} onClick={onClose}>
             <div onClick={handleModalClick} className="inline-block">
                 {children}
             </div>

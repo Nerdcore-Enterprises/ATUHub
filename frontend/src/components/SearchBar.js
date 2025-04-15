@@ -11,7 +11,7 @@ export default function SearchBar({query, setQuery, onFilterClick}){
                     icon={faSearch}
                 />
                 <Input
-                    className='py-2 px-4 flex-1 text-lg'
+                    className='py-2 px-4 flex-1 text-lg active:*:outline-none focus:outline-none'
                     type='input'
                     placeholder='Search'
                     onChange={(e) => {setQuery(e.target.value)}}
