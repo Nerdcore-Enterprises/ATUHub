@@ -267,7 +267,7 @@ export default function JobAdminPage() {
                                     className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
                                     type='text'
                                     name="Name"
-                                    placeholder="Name"
+                                    placeholder="Name of the job"
                                     value={selectedJob.Name}
                                     onChange={handleModalInputChange}
                                 />
@@ -286,7 +286,7 @@ export default function JobAdminPage() {
                                     className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
                                     type='text'
                                     name="Address"
-                                    placeholder="Location"
+                                    placeholder="215 W O St, Russellville, AR 72801"
                                     value={selectedJob.Address}
                                     onChange={handleModalInputChange}
                                 />
@@ -296,7 +296,7 @@ export default function JobAdminPage() {
                                     className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
                                     type='text'
                                     name="SalaryType"
-                                    placeholder="Hourly"
+                                    placeholder="Hourly / Contract / Salary"
                                     value={selectedJob.SalaryType}
                                     onChange={handleModalInputChange}
                                 />
@@ -311,26 +311,6 @@ export default function JobAdminPage() {
                                     onChange={handleModalInputChange}
                                 />
 
-                                <label className="mt-4">Contact Method:</label>
-                                <Input
-                                    className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
-                                    type='text'
-                                    name="ContactType"
-                                    placeholder="Email"
-                                    value={selectedJob.ContactType}
-                                    onChange={handleModalInputChange}
-                                />
-
-                                <label className="mt-4">Contact Info:</label>
-                                <Input
-                                    className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
-                                    type='text'
-                                    name="ContactInfo"
-                                    placeholder="ddover1@atu.edu"
-                                    value={selectedJob.ContactInfo}
-                                    onChange={handleModalInputChange}
-                                />
-
                                 <label className="mt-4 inline-flex items-center">
                                     <Input 
                                         type="checkbox"
@@ -340,6 +320,26 @@ export default function JobAdminPage() {
                                     />
                                     <span className="ml-2">Apply Externally</span>
                                 </label>
+
+                                <label className="mt-4">Contact Method:</label>
+                                <Input
+                                    className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
+                                    type='text'
+                                    name="ContactType"
+                                    placeholder="Email / Link"
+                                    value={selectedJob.ContactType}
+                                    onChange={handleModalInputChange}
+                                />
+
+                                <label className="mt-4">Contact Info:</label>
+                                <Input
+                                    className='py-1 px-2 text-sm overflow-y-scroll rounded-lg border-2 border-[#00000033] active:*:outline-none focus:outline-none'
+                                    type='text'
+                                    name="ContactInfo"
+                                    placeholder="ddover1@atu.edu / https://atu.edu"
+                                    value={selectedJob.ContactInfo}
+                                    onChange={handleModalInputChange}
+                                />
 
                                 <div className="mt-4">
                                     <label>Requirements:</label>

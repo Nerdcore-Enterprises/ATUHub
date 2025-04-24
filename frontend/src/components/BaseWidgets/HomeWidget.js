@@ -1,8 +1,7 @@
-import WidgetFixedHeight from "./WidgetFixedHeight";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AppColors from "../../constants/AppColors";
 import InvertableImage from "../InvertableImage";
 import Widget from "./Widget";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function HomeWidget({ children, className = "", lightModeBg = AppColors.WidgetBgLight, darkModeBg = AppColors.WidgetBgDark, title = "", icon, image }) {
     return (

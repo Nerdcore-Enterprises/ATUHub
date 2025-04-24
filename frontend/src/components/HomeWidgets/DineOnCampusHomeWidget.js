@@ -1,7 +1,6 @@
 import logo from '../../assets/icons/DineOnCampus.svg';
 import NavButton from "../Buttons/NavButton";
 import HomeWidget from "../BaseWidgets/HomeWidget";
-import InvertableImage from "../InvertableImage";
 
 export default function DineOnCampusHomeWidget({ earliestStart, latestEnd }) {
     return (

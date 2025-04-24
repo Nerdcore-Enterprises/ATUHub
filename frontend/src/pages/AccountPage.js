@@ -17,6 +17,7 @@ export default function AccountPage() {
         firstName: '',
         lastName: '',
         aboutme: '',
+        password: '',
     });
     const [isSaving, setIsSaving] = useState(false);
     const [alert, setAlert] = useState(null);
@@ -44,6 +45,7 @@ export default function AccountPage() {
                         firstName: result.firstName ? result.firstName.trim() : '',
                         lastName: result.lastName ? result.lastName.trim() : '',
                         aboutme: result.aboutme || '',
+                        password: '',
                     });
                 } else {
                     console.error('Failed to fetch user data');
@@ -125,18 +127,22 @@ export default function AccountPage() {
             }
 
             const token = localStorage.getItem('token');
+            const requestData = {
+                firstName: userData.firstName.trim(),
+                lastName: userData.lastName.trim(),
+                aboutme: userData.aboutme,
+                avatar: avatarBase64
+            };
+            if (userData.password.trim() !== '') {
+                requestData.password = userData.password;
+            }
             const response = await fetch('/api/user/profile', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    firstName: userData.firstName.trim(),
-                    lastName: userData.lastName.trim(),
-                    aboutme: userData.aboutme,
-                    avatar: avatarBase64
-                })
+                body: JSON.stringify(requestData)
             });
             if (response.ok) {
                 const result = await response.json();
@@ -226,6 +232,24 @@ export default function AccountPage() {
                             value={userData.lastName}
                             onChange={handleInputChange}
                             className="px-2 py-1 min-h-8 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                        />
+                    )}
+                </div>
+                <div className="flex flex-col gap-2 w-64">
+                    <label htmlFor="password" className="font-semibold">
+                        {userData.username === 'guest' ? 'Password:' : 'New Password:'}
+                    </label>
+                    {userData.username === 'guest' ? (
+                        <p className="bg-[#00000033] px-2 py-1 min-h-8 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.3)]">password</p>
+                    ) : (
+                        <Input
+                            type="password"
+                            id="password"
+                            name="password"
+                            value={userData.password}
+                            onChange={handleInputChange}
+                            className="px-2 py-1 min-h-8 rounded-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)]"
+                            autoComplete="new-password"
                         />
                     )}
                 </div>

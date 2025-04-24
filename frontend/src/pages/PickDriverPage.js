@@ -32,7 +32,7 @@ export default function PickDriverPage() {
 
     useEffect(() => {
         fetchDriverData();
-        if (window.innerWidth >= 1024) { // This sets a default driver selection on desktop view
+        if (window.innerWidth >= 1024) {
             setDriverIndex(0);
         }
     }, [])
@@ -64,7 +64,7 @@ export default function PickDriverPage() {
             {drivers.length > 0 && 
             <div className='w-full flex flex-row gap-5'>
                 {/* Driver List */}
-                <VerticalWidgetList className="lg:w-1/2 lg:min-w-[50%]">
+                <VerticalWidgetList className="lg:w-1/2 lg:min-w-[50%] gap-4">
                 {
                         drivers.map((data, index) => {
                             const firstName = data.firstName || 'Unknown';

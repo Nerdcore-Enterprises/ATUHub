@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCloud, faCloudRain, faSun, faCloudBolt } from '@fortawesome/free-solid-svg-icons';
 import WeatherAPI from '../../scripts/weather';
 import NavButton from '../Buttons/NavButton';

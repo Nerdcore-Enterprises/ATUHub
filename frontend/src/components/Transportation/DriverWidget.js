@@ -1,6 +1,5 @@
 import Widget from "../BaseWidgets/Widget";
 import GreenButton from "../Buttons/GreenButton";
-import WidgetDark from "../BaseWidgets/WidgetDark";
 import TagDisplay from "../TagDisplay";
 
 export default function DriverWidget({ driverData, onClick }) {

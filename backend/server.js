@@ -94,14 +94,14 @@ app.post('/api/login', async (req, res) => {
 
         if (result.recordset.length === 0) {
             console.warn(`Invalid username or password`);
-            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+            return res.status(401).json({ success: false, message: 'Invalid username or password. If you forgot your password, please reach out to atuhub@dylandover.dev to reset it.' });
         }
 
         const user = result.recordset[0];
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            console.warn(`Invalid username or password`);
-            return res.status(401).json({ success: false, message: 'Invalid username or password' });
+            console.warn(`Invalid username or password.`);
+            return res.status(401).json({ success: false, message: 'Invalid username or password. If you forgot your password, please reach out to atuhub@dylandover.dev to reset it.' });
         }
 
         const sessionId = crypto.randomBytes(16).toString('hex');
@@ -238,7 +238,7 @@ app.put('/api/user/profile', async (req, res) => {
         }
 
         const userId = sessionResult.recordset[0].userId;
-        const { firstName, lastName, aboutme, avatar } = req.body;
+        const { firstName, lastName, aboutme, avatar, password } = req.body;
         const avatarBuffer = avatar ? Buffer.from(avatar, 'base64') : null;
 
         const request = pool.request()
@@ -247,19 +247,24 @@ app.put('/api/user/profile', async (req, res) => {
             .input('lastName', sql.VarChar, lastName)
             .input('aboutme', sql.VarChar, aboutme);
 
+        // Build the update fields dynamically
+        let updateFields = 'firstName = @firstName, lastName = @lastName, aboutme = @aboutme';
+
         if (avatarBuffer) {
             request.input('avatar', sql.VarBinary, avatarBuffer);
-            await request.query(
-                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutme = @aboutme, avatar = @avatar WHERE id = @userId'
-            );
-        } else {
-            await request.query(
-                'UPDATE [User] SET firstName = @firstName, lastName = @lastName, aboutme = @aboutme WHERE id = @userId'
-            );
+            updateFields += ', avatar = @avatar';
         }
 
-        console.log(`${firstName}'s updated their profile`);
+        if (password) {
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            request.input('password', sql.VarChar, hashedPassword);
+            updateFields += ', password = @password';
+        }
 
+        await request.query(`UPDATE [User] SET ${updateFields} WHERE id = @userId`);
+
+        console.log(`${firstName} ${lastName} updated their profile`);
         res.json({ success: true, message: 'Profile updated' });
     } catch (error) {
         console.error('Error updating profile:', error);

@@ -30,7 +30,7 @@ export default function DineOnCampusWidget({ locations, earliestStart, latestEnd
                     const minutesToOpen = location.openingTimeInMinutes - currentTimeInMinutes;
 
                     if (minutesToOpen > 0 && minutesToOpen < 60) {
-                        statusMessage = `Opening in ${minutesToOpen} minutes`;
+                        statusMessage = `Opens in ${minutesToOpen} minutes`;
                     }
                 }
 
@@ -39,7 +39,7 @@ export default function DineOnCampusWidget({ locations, earliestStart, latestEnd
                         <p className="font-normal text-white text-xl ml-4 mr-auto">
                             {location.name}
                         </p>
-                        <div className={`flex flex-row items-center h-10 rounded-r-full bg-gradient-to-r from-5% from-transparent to-10% ${location.isOpen ? 'to-green-500' : (statusMessage.includes('Opening') ? 'to-yellow-300' : 'to-red-500')}`}>
+                        <div className={`flex flex-row items-center h-10 rounded-r-full bg-gradient-to-r from-5% from-transparent to-10% ${location.isOpen ? 'to-green-500' : (statusMessage.includes('Opens') ? 'to-yellow-300' : 'to-red-500')}`}>
                             <p className="font-normal text-black text-md mx-8 text-right">
                                 {statusMessage}
                             </p>

@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import NavButton from "../Buttons/NavButton";
 import HomeWidget from "../BaseWidgets/HomeWidget";

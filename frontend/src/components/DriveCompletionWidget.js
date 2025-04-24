@@ -1,11 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faCarSide, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import ProgressBar from "./Transportation/ProgressBar";
 import HomeWidget from "./BaseWidgets/HomeWidget";
-import NavButton from "./Buttons/NavButton";
 
-export default function DriveCompletionWidget({}){
+export default function DriveCompletionWidget(){
     // eslint-disable-next-line
     const [progressPercent, setProgressPercent] = useState(.5);
     // eslint-disable-next-line
