@@ -22,8 +22,8 @@ export default function PickDriverPage() {
         try {
             const response = await fetch('/api/drivers-names');
             const data = await response.json();
-
-            setDrivers(data.drivers || []);
+            const availableDrivers = (data.drivers || []).filter(driver => driver.status !== "Busy");
+            setDrivers(availableDrivers);
         } catch {
             console.error("Failed to fetch drivers");
             setDrivers([]);
@@ -73,9 +73,9 @@ export default function PickDriverPage() {
                             if (fullName.includes(searchQuery.toLowerCase())) {
                                 return (
                                     <DriverWidget
-                                    key={index}
-                                    driverData={data}
-                                    onClick={() => onDriverClick(index)}
+                                        key={index}
+                                        driverData={data}
+                                        onClick={() => onDriverClick(index)}
                                     />
                                 );
                             }

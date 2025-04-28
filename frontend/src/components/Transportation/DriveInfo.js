@@ -25,15 +25,15 @@ export default function DriveInfo({ driverInfo, coords }) {
                 <p className="text-3xl font-semibold mb-3">Vehicle Information</p>
                 <HorizontalWidgetList className="text-xl text-center">
                     <VerticalWidgetList>
-                        <p className="underline">Make</p>
+                        <p className="flex justify-center w-20 mx-auto font-semibold border-b-2 border-b-current">Make</p>
                         <p>{driverInfo.vehicle_make}</p>
                     </VerticalWidgetList>
                     <VerticalWidgetList>
-                        <p className="underline">Model</p>
+                        <p className="flex justify-center w-20 mx-auto font-semibold border-b-2 border-b-current">Model</p>
                         <p>{driverInfo.vehicle_model}</p>
                     </VerticalWidgetList>
                     <VerticalWidgetList>
-                        <p className="underline">Color</p>
+                        <p className="flex justify-center w-20 mx-auto font-semibold border-b-2 border-b-current">Color</p>
                         <p>{driverInfo.vehicle_color}</p>
                     </VerticalWidgetList>
                 </HorizontalWidgetList>

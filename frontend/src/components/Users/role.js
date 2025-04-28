@@ -1,10 +1,11 @@
 export default function Role({ role }) {
     const roleColors = {
-        Administrator: "bg-gradient-to-br from-red-500 to-red-900 font-semibold text-white",
-        Designer: "bg-gradient-to-br from-purple-500 to-purple-950 font-semibold text-white",
-        Developer: "bg-gradient-to-br from-blue-500 to-blue-950 font-mono font-semibold text-white",
-        Guest: "bg-gradient-to-br from-zinc-500 to-zinc-950 font-semibold text-white",
-        default: "bg-[#FFFFFF33]"
+        Administrator: "bg-gradient-to-br from-red-600 to-red-900 font-semibold text-white",
+        Designer: "bg-gradient-to-br from-purple-600 to-purple-950 font-semibold text-white",
+        Developer: "bg-gradient-to-br from-blue-700 to-blue-950 font-mono font-normal text-white",
+        Driver: "bg-gradient-to-br from-green-600 to-green-950 font-semibold text-white",
+        Guest: "bg-zinc-800 font-semibold text-white",
+        default: "bg-zinc-800 font-semibold text-white"
     };
 
     const bgColor = roleColors[role] || roleColors.default;

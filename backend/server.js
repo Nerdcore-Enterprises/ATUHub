@@ -583,35 +583,6 @@ app.get('/api/chambers/menu', async (req, res) => {
     }
 });
 
-// app.get('/api/jobs', async (req, res) => {
-//     try {
-//         console.log('Jobs Fetched');
-
-//         const db = await mysql.createConnection({
-//             host: 'localhost',
-//             user: 'root',
-//             password: '',
-//             database: 'atuhub',
-//             port: 3306
-//         });
-
-//         const [rows] = await db.execute(
-//             'SELECT * FROM Job',[]
-//         );
-
-//         if (rows.length > 0) {
-//             console.log(`Jobs fetched Successfully`);
-//             return res.json({ success: true, message: "Jobs fetched Successfully", jobs: jobs });
-//         } else {
-//             console.warn(`Jobs failed to fetch`);
-//             return res.json(401).json({ success: false, message: 'Jobs failed to fetch' });
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
-
 //
 // Jobs Route - Fetch
 //
@@ -631,18 +602,18 @@ app.get('/api/jobs', async (req, res) => {
     }
 });
 
-
 //
 // Jobs Route - Create
 //
 app.post('/api/jobs', async (req, res) => {
     try {
-        const { Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities } = req.body;
+        const { Name, Description, Address, Type, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities } = req.body;
 
         const result = await pool.request()
             .input('Name', sql.VarChar, Name)
             .input('Description', sql.VarChar, Description)
             .input('Address', sql.VarChar, Address)
+            .input('Type', sql.VarChar, Type)
             .input('SalaryType', sql.VarChar, SalaryType)
             .input('Salary', sql.VarChar, Salary)
             .input('ContactType', sql.VarChar, ContactType)
@@ -651,13 +622,13 @@ app.post('/api/jobs', async (req, res) => {
             .input('Requirements', sql.VarChar, JSON.stringify(Requirements))
             .input('Responsibilities', sql.VarChar, JSON.stringify(Responsibilities))
             .query(`
-                INSERT INTO Job (Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities)
-                VALUES (@Name, @Description, @Address, @SalaryType, @Salary, @ContactType, @ContactInfo, @applyExternally, @Requirements, @Responsibilities);
+                INSERT INTO Job (Name, Description, Address, Type, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities)
+                VALUES (@Name, @Description, @Address, @Type, @SalaryType, @Salary, @ContactType, @ContactInfo, @applyExternally, @Requirements, @Responsibilities);
                 SELECT SCOPE_IDENTITY() AS id;
             `);
 
         const newJobId = result.recordset[0].id;
-        const newJob = { id: newJobId, Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities };
+        const newJob = { id: newJobId, Name, Description, Address, Type, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities };
 
         res.json({ success: true, job: newJob });
     } catch (err) {
@@ -672,13 +643,14 @@ app.post('/api/jobs', async (req, res) => {
 app.put('/api/jobs/:id', async (req, res) => {
     try {
         const jobId = req.params.id;
-        const { Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities } = req.body;
+        const { Name, Description, Address, Type, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities } = req.body;
 
         await pool.request()
             .input('id', sql.Int, jobId)
             .input('Name', sql.VarChar, Name)
             .input('Description', sql.VarChar, Description)
             .input('Address', sql.VarChar, Address)
+            .input('Type', sql.VarChar, Type)
             .input('SalaryType', sql.VarChar, SalaryType)
             .input('Salary', sql.VarChar, Salary)
             .input('ContactType', sql.VarChar, ContactType)
@@ -691,6 +663,7 @@ app.put('/api/jobs/:id', async (req, res) => {
                 SET Name = @Name,
                     Description = @Description,
                     Address = @Address,
+                    Type = @Type,
                     SalaryType = @SalaryType,
                     Salary = @Salary,
                     ContactType = @ContactType,
@@ -701,10 +674,27 @@ app.put('/api/jobs/:id', async (req, res) => {
                 WHERE id = @id
             `);
 
-        const updatedJob = { id: Number(jobId), Name, Description, Address, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities };
+        const updatedJob = { id: Number(jobId), Name, Description, Address, Type, SalaryType, Salary, ContactType, ContactInfo, applyExternally, Requirements, Responsibilities };
         res.json({ success: true, job: updatedJob });
     } catch (err) {
         console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//
+// Jobs Route - Delete
+//
+
+app.delete('/api/jobs/:id', async (req, res) => {
+    try {
+        const jobId = req.params.id;
+        await pool.request()
+            .input('id', sql.Int, jobId)
+            .query('DELETE FROM Job WHERE id = @id');
+        res.json({ success: true, message: 'Job deleted successfully' });
+    } catch (error) {
+        console.error(error);
         res.status(500).send('Internal Server Error');
     }
 });

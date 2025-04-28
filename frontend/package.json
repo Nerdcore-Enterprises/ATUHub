@@ -1,6 +1,6 @@
 {
     "name": "atuhub",
-    "version": "4.24.2025.1",
+    "version": "4.27.25.1",
     "private": true,
     "proxy": "http://0.0.0.0:5000",
     "dependencies": {

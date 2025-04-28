@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import GenericErrorPage from "../../components/GenericErrorPage/GenericErrorPage";
 import GenericLoadingPage from "../../components/GenericErrorPage/GenericLoadingPage";
 import GenericPage from "../../components/genericPage";
-import Header from "../../components/Header";
 import ResponsiveFullWidget from "../../components/JobSearch/ResponsiveFullWidget";
 import DriveRequestWidget from "./DriveRequestWidget";
 import SearchBar from "../../components/SearchBar";
 import VerticalWidgetList from "../../components/WidgetContainers/VerticalWidgetList";
 import DriveRequestInfo from "./DriveRequestInfo";
+import HeaderWithBack from "../../components/HeaderWithBack";
 
 export default function DriveRequestPage() {
     const [requestIndex, setRequestIndex] = useState(-1);
@@ -26,21 +26,21 @@ export default function DriveRequestPage() {
                     {
                         name: "John Doe",
                         location: "Walmart",
-                        type: "what?",
+                        type: "Delivery",
                         instructions: "Buy me some milk",
                         pay: 5
                     },
                     {
                         name: "Tim Timmothy",
                         location: "Target",
-                        type: "huh?",
+                        type: "Pick up / Drop off",
                         instructions: "Buy me some eggs",
                         pay: 7
                     },
                     {
                         name: "The Destroyer of Worlds",
                         location: "ATU",
-                        type: "idk?",
+                        type: "Delivery",
                         instructions: "Buy me the necronomicon",
                         pay: 500
                     },
@@ -76,7 +76,7 @@ export default function DriveRequestPage() {
 
     return (
         <GenericPage>
-            <Header>Drive Requests</Header>
+            <HeaderWithBack>Drive Requests</HeaderWithBack>
             {/* SEARCH */}
             <SearchBar
                 query={searchQuery}
@@ -84,9 +84,9 @@ export default function DriveRequestPage() {
             />
             {
                 requests.length > 0 &&
-                <div className='w-full flex flex-row gap-5'>
+                <div className='w-full flex flex-row gap-4'>
                     {/* REQUESTS LIST */}
-                    <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%]'>
+                    <VerticalWidgetList className='lg:w-1/2 lg:min-w-[50%] gap-4'>
                         {
                             requests.map((data, index) => {
                                 if (data.name.toLowerCase().includes(searchQuery.toLowerCase()))
