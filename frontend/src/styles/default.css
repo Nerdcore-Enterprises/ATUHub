@@ -5,15 +5,30 @@
     --font-color-primary: #333;
 
     --form-text-color: var(--font-color-primary);
+
+    --shadow-primary: "0_0_0.5vh_rgba(0,0,0,0.5)";
 }
 
-html, body {
+progress::-webkit-progress-value {
+    background: var(--ATUGold);
+}
+
+html,
+body {
     background-color: var(--ATUGreen);
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
-    position: fixed;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 #root {

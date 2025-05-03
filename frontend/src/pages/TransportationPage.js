@@ -1,15 +1,26 @@
-import React from 'react';
-import Widget from '../components/homeWidget';
+import React, { useState } from 'react';
+import GenericModal from '../components/GenericModal/GenericModal';
+import HeaderWithBack from '../components/HeaderWithBack';
 import GenericPage from '../components/genericPage';
+import Menu from '../components/Transportation/Menu';
+import DriverApplyInfo from '../components/Transportation/DriverApplyInfo';
 
 export default function TransportationPage() {
+    const [infoVisible, setInfoVisible] = useState(false);
+
     return (
         <>
-            {new GenericPage(
-                <>
-                    {new Widget(<p className="text-xl rounded-full w-full h-full shadow-[0_0_0.5vh_rgba(0,0,0,0.5)] p-4">Transportation</p>)}
-                </>
-            )}
+            <GenericPage>
+                <HeaderWithBack>Transportation</HeaderWithBack>
+                <Menu setInfoVisible={setInfoVisible} />
+            </GenericPage>
+            <GenericModal
+                visible={infoVisible}
+                onClose={() => setInfoVisible(false)}
+                fitContent={true}
+            >
+                <DriverApplyInfo />
+            </GenericModal>
         </>
     );
 }

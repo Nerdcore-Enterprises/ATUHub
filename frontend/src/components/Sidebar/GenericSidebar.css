@@ -1,0 +1,67 @@
+.left {
+    top: 0;
+    right: unset;
+    bottom: unset;
+    height: 100vh;
+}
+
+.left-closed {
+    left: -100vw;
+    transition: left 300ms ease-in;
+}
+
+.left-open {
+    left: 0vw;
+    transition: left 300ms ease-in;
+}
+
+
+.right {
+    top: 0;
+    right: 0;
+    bottom: unset;
+    height: 100vh;
+}
+
+.right-closed {
+    right: -100vw;
+    transition: right 300ms ease-in;
+}
+
+.right-open {
+    right: 0vw;
+    transition: right 300ms ease-in;
+}
+
+@keyframes show-modal {
+    0% {
+        opacity: 0;
+        display: static;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hide-modal {
+    0% {
+    }
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
+
+.visible-animation {
+    background-color: rgba(0,0,0,.5);
+    animation-name: show-modal;
+    animation-fill-mode: forwards;
+    animation-duration: 250ms;
+}
+
+.hidden-animation {   
+    background-color: rgba(0,0,0,.5);
+    animation-name: hide-modal;
+    animation-fill-mode: forwards;
+    animation-duration: 250ms;
+}

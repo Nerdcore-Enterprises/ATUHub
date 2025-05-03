@@ -1,0 +1,33 @@
+:root {
+    --default: #333;
+}
+
+.weather-scroll {
+    scroll-behavior: smooth;
+    scroll-margin: 0.5rem;
+    scrollbar-color: var(--default) transparent;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    margin-top: 1rem; /* Moves the element down slightly */
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+}
+
+/* Hide scrollbar arrows for WebKit browsers (Chrome, Safari) */
+.weather-scroll::-webkit-scrollbar {
+    height: 8px; /* Height for horizontal scrollbar */
+    width: 8px; /* Width for vertical scrollbar */
+}
+
+.weather-scroll::-webkit-scrollbar-thumb {
+    background: var(--default); /* Customize scrollbar thumb */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.weather-scroll::-webkit-scrollbar-track {
+    background: transparent; /* Track background */
+}
+
+/* Hiding scrollbar in Firefox */
+.weather-scroll {
+    scrollbar-width: thin; /* Makes scrollbar thin */
+    scrollbar-color: var(--default) transparent; /* Colors for the scrollbar */
+}
